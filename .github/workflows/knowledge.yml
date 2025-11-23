@@ -1,0 +1,33 @@
+name: Generate Knowledge JSON V3
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install cheerio
+
+      - name: Run knowledge generator
+        run: node generate-knowledge-v3.js
+
+      - name: Commit knowledge file
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add knowledge.v3.json
+          git commit -m "Auto-update V3 knowledge JSON" || echo "No changes"
+          git push
