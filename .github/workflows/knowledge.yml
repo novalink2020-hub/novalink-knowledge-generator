@@ -1,0 +1,33 @@
+name: Generate Knowledge JSON
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"    # كل 12 ساعة
+  workflow_dispatch: {}        # تشغيل يدوي عند الحاجة
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run generator
+        run: npm run generate
+
+      - name: Commit Knowledge File
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add knowledge.v2.json
+          git commit -m "Auto-update knowledge JSON" || echo "No changes"
+          git push
