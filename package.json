@@ -1,15 +1,18 @@
 {
   "name": "novalink-knowledge-generator",
   "version": "1.0.0",
-  "description": "Generator for NOVALINK knowledge.v2.json used by NovaBot",
-  "main": "generate-knowledge.js",
+  "description": "Knowledge JSON generator for NOVALINK Ai (V2.2 + V3 with Gemini summaries)",
+  "main": "generate-knowledge-v2.js",
   "scripts": {
-    "generate": "node generate-knowledge.js"
+    "generate:v2": "node generate-knowledge-v2.js",
+    "generate:v3": "node generate-knowledge-v3.js",
+    "generate": "node generate-knowledge-v2.js && node generate-knowledge-v3.js"
   },
   "keywords": [
     "novalink",
+    "novabot",
     "knowledge",
-    "novabot"
+    "gemini"
   ],
   "author": "",
   "license": "MIT",
