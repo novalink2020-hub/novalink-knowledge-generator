@@ -1,0 +1,20 @@
+{
+  "name": "novalink-knowledge-generator",
+  "version": "1.0.0",
+  "description": "Generator for NOVALINK knowledge.v2.json used by NovaBot",
+  "main": "generate-knowledge.js",
+  "scripts": {
+    "generate": "node generate-knowledge.js"
+  },
+  "keywords": [
+    "novalink",
+    "knowledge",
+    "novabot"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
