@@ -1,4 +1,4 @@
-name: Generate Knowledge JSON V3
+name: Generate Knowledge JSON V4
 
 on:
   schedule:
@@ -19,15 +19,17 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: npm install cheerio
+        run: npm install
 
-      - name: Run knowledge generator
-        run: node generate-knowledge-v3.js
+      - name: Run knowledge generator V4
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node generate-knowledge-v4.js
 
-      - name: Commit knowledge file
+      - name: Commit Knowledge File
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add knowledge.v3.json
-          git commit -m "Auto-update V3 knowledge JSON" || echo "No changes"
+          git add knowledge.v4.json
+          git commit -m "Auto-update V4 knowledge JSON" || echo "No changes"
           git push
