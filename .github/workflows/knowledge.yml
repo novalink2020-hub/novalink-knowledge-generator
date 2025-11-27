@@ -1,4 +1,4 @@
-name: Generate Knowledge JSON V4
+name: Generate Knowledge JSON V5
 
 on:
   schedule:
@@ -21,15 +21,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run knowledge generator V4
+      - name: Run knowledge generator V5
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node generate-knowledge-v4.js
+        run: node generate-knowledge-v5.js
 
-      - name: Commit Knowledge File
+      - name: Commit Knowledge File (V5)
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add knowledge.v4.json
-          git commit -m "Auto-update V4 knowledge JSON" || echo "No changes"
+          git add knowledge.v5.json
+          git commit -m "Auto-update V5 knowledge JSON" || echo "No changes"
           git push
