@@ -1,9 +1,9 @@
 /**************************************************************
- * NovaLink Knowledge Generator V5.1
+ * NovaLink Knowledge Generator V5.2
  * توليد knowledge.v5.json لمشروع NOVABOT / NOVALINK
  * - يعتمد على Sitemap + Scraper + (اختياري) Gemini
  * - مخصص لمحتوى الأعمال + الصفحات التعريفية + الخدمات فقط
- * - تنظيف الكلمات المفتاحية + تقليل التكرار بين الصفحات
+ * - تنظيف الكلمات المفتاحية + تقليل التكرار + تمييز التدوينات
  **************************************************************/
 
 import fs from "fs/promises";
@@ -18,36 +18,31 @@ const __dirname = path.dirname(__filename);
 
 // يمكن ضبطها من متغيرات البيئة في Render / محليًا
 const SITEMAP_URL =
-  process.env.SITEMAP_URL ||
-  "https://novalink-ai.com/sitemap.xml";
+  process.env.SITEMAP_URL || "https://novalink-ai.com/sitemap.xml";
 
 const OUTPUT_PATH =
-  process.env.OUTPUT_PATH ||
-  path.join(__dirname, "knowledge.v5.json");
+  process.env.OUTPUT_PATH || path.join(__dirname, "knowledge.v5.json");
 
 const GOOGLE_API_KEY =
-  process.env.GOOGLE_API_KEY ||
-  process.env.NOVALINK_GEMINI_KEY ||
-  "";
+  process.env.GOOGLE_API_KEY || process.env.NOVALINK_GEMINI_KEY || "";
 
-const GEMINI_MODEL =
-  process.env.GEMINI_MODEL ||
-  "gemini-2.0-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
 
 /**
- * حد التكرار العالي للكلمات المفتاحية:
- * أي كلمة تتكرر في أكثر من هذا العدد تُعتبر "ضجيج عام"
+ * حد التكرار العالي للكلمات المفتاحية (يُستخدم الآن فقط للكلمات العامة لو احتجناه لاحقاً)
  */
 const COMMON_KEYWORD_THRESHOLD = 3;
-
-// أقل عدد كلمات مفتاحية نحاول الحفاظ عليه لكل عنصر
-const MIN_KEYWORDS_PER_ITEM = 4;
 
 /* ============ أدوات مساعدة للنص والكلمات ============ */
 
 const ARABIC_DIACRITICS_RE = /[\u064B-\u0652\u0640]/g; // تشكيل + تطويل
 const PUNCT_RE = /[.,!?؟،"“”()\-_:;«»[\]{}\\/]/g;
 const MULTISPACE_RE = /\s+/g;
+
+// أنماط نصوص مزعجة متكررة (قائمة التنقل في الهيدر إلخ)
+const NAV_TRASH_PATTERNS = [
+  /الرئيسيةالمدوناتخدماتنامن نحنإشترك الآن/g
+];
 
 function stripArabicDiacritics(str = "") {
   return str.replace(ARABIC_DIACRITICS_RE, "");
@@ -80,7 +75,7 @@ const STOP_KEYWORDS = new Set(
   [
     // عام عربي
     "الذكاء الاصطناعي",
-    "الذكاء الاصطناعي للأعمال",
+    "الذكاء الاصطناعي للاعمال",
     "ذكاء اصطناعي",
     "ذكاء صناعي",
     "ذكاء صنعي",
@@ -91,6 +86,7 @@ const STOP_KEYWORDS = new Set(
     "محتوى",
     "مقال",
     "تدوينة",
+    "تدوينات",
     "مدونة",
     "موقع",
     "منصة",
@@ -102,6 +98,7 @@ const STOP_KEYWORDS = new Set(
     "novalink ai",
     "نوفا لينك",
     "nova link",
+    "nova-link",
 
     // اشتراك ونشرة
     "نشرة بريدية",
@@ -143,7 +140,7 @@ async function callGeminiForPage({ title, text }) {
   const prompt = `
 أنت مساعد لتحليل صفحة من موقع نوفا لينك حول الذكاء الاصطناعي للأعمال.
 
-المطلوب منك أن تُعيد لي JSON فقط بالشكل التالي بدون أي نص خارجه:
+أعد لي JSON فقط بالشكل التالي بدون أي نص خارجه:
 {
   "summary": "ملخص فقرة واحدة بالعربية عن محتوى الصفحة (3-4 جمل).",
   "summary_short": "ملخص قصير جداً (سطر واحد).",
@@ -191,10 +188,8 @@ ${text.slice(0, 1800)}
     }
 
     const json = await res.json();
-    const textPart =
-      json?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const textPart = json?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
-    // نحاول قراءة JSON من النص
     const start = textPart.indexOf("{");
     const end = textPart.lastIndexOf("}");
     if (start === -1 || end === -1 || end <= start) {
@@ -288,8 +283,7 @@ function classifyPage(url, title) {
     };
   }
 
-  // أي شيء آخر نعدّه تدوينة / محتوى معرفي
-  // مع تفريع بسيط حسب الكلمات
+  // مقالات متعلقة بالتعليق الصوتي
   if (
     lowerTitle.includes("murf") ||
     lowerTitle.includes("elevenlabs") ||
@@ -304,6 +298,7 @@ function classifyPage(url, title) {
     };
   }
 
+  // وظائف / مهن
   if (
     lowerTitle.includes("وظيفتك") ||
     lowerTitle.includes("مهن") ||
@@ -317,6 +312,7 @@ function classifyPage(url, title) {
     };
   }
 
+  // Copy.ai / كتابة محتوى
   if (
     lowerTitle.includes("copy.ai") ||
     lowerTitle.includes("copyai") ||
@@ -329,6 +325,7 @@ function classifyPage(url, title) {
     };
   }
 
+  // أي شيء آخر نعدّه تدوينة / محتوى معرفي عام
   return {
     category: "blog",
     subcategory: "ai_business_article",
@@ -358,17 +355,19 @@ function shouldIncludeUrl(url) {
     return true;
   }
 
-  // privacy / terms / newsletter / blog index → نستبعد
+  // صفحات يجب استبعادها من ملف المعرفة
   if (
     lowerUrl.includes("syash-alkhswsyh") || // سياسة الخصوصية
     lowerUrl.includes("shrwt-alastkhdam") || // شروط الاستخدام
-    lowerUrl.includes("ashtrk-alan") ||      // اشترك الآن
-    lowerUrl.includes("blog-adwat-althkaa-alastnaay-llaamal") // صفحة "مدونة"
+    lowerUrl.includes("ashtrk-alan") || // اشترك الآن
+    lowerUrl.includes("blog-adwat-althkaa-alastnaay-llaamal") || // صفحة "مدونة"
+    lowerUrl.endsWith("/tag/") ||
+    lowerUrl.includes("/tag/")
   ) {
     return false;
   }
 
-  // مقالات مدونة حقيقية (نسمح بأي شيء آخر ضمن نفس الدومين)
+  // أي صفحة مقالة حقيقية تحت نفس الدومين
   if (lowerUrl.startsWith("https://novalink-ai.com/")) {
     return true;
   }
@@ -381,12 +380,11 @@ function shouldIncludeUrl(url) {
 function extractPageContent(html, url) {
   const $ = cheerio.load(html);
 
-  // العنوان
+  // العنوان من الميتا أو <title>
   let title =
     $('meta[property="og:title"]').attr("content") ||
     $("title").text() ||
     "";
-
   title = title.trim();
 
   // الوصف من الميتا إن وجد
@@ -394,33 +392,38 @@ function extractPageContent(html, url) {
     $('meta[name="description"]').attr("content") ||
     $('meta[property="og:description"]').attr("content") ||
     "";
-
   metaDesc = metaDesc.trim();
 
-  // نحاول استخراج النص الأساسي من main / article
+  // إزالة العناصر المزعجة قبل استخراج النص
+  $("script, style, nav, footer, header, noscript").remove();
+  $(".site-header, .site-footer, .menu, .breadcrumbs, .footer, .header, .nav, .sidebar").remove();
+
   let mainText = "";
 
-  const main = $("main");
-  if (main.length) {
-    mainText = main.text();
+  const mainEl = $("main");
+  if (mainEl.length) {
+    mainText = mainEl.text();
   } else if ($("article").length) {
     mainText = $("article").text();
   } else {
-    // fallback: body بدون سكربت وستايل
-    $("script, style, nav, footer, header").remove();
     mainText = $("body").text();
   }
 
-  mainText = mainText
-    .replace(/\s+/g, " ")
-    .replace(/\u00a0/g, " ")
-    .trim();
+  mainText = mainText.replace(/\u00a0/g, " ");
+
+  // إزالة النصوص المكررة المزعجة (مثل شريط القائمة)
+  for (const re of NAV_TRASH_PATTERNS) {
+    mainText = mainText.replace(re, " ");
+  }
+
+  mainText = mainText.replace(MULTISPACE_RE, " ").trim();
 
   const excerpt = mainText.slice(0, 260);
 
-  // إذا لم يوجد meta description نعتمد على جزء من النص
-  const description =
+  const descriptionRaw =
     metaDesc || (excerpt.length ? excerpt : mainText.slice(0, 260));
+
+  const description = descriptionRaw.slice(0, 400).trim();
 
   return {
     title,
@@ -436,16 +439,10 @@ async function buildKnowledgeItem(url) {
   console.log(`📝 Processing: ${url}`);
 
   const html = await fetchText(url);
-  const { title, description, excerpt, rawText } = extractPageContent(
-    html,
-    url
-  );
+  const { title, description, excerpt, rawText } = extractPageContent(html, url);
 
   const title_clean = cleanTitle(title);
-  const { category, subcategory, intent_hint } = classifyPage(
-    url,
-    title
-  );
+  const { category, subcategory, intent_hint } = classifyPage(url, title);
 
   // استدعاء Gemini لاشتقاق ملخص وكلمات مفتاحية (إن أمكن)
   let llmSummary = null;
@@ -473,7 +470,6 @@ async function buildKnowledgeItem(url) {
   if (llmSummary?.keywords?.length) {
     initialKeywords = llmSummary.keywords;
   } else {
-    // fallback بسيط: نستخدم أجزاء من العنوان + الوصف
     const base = `${title_clean} ${description}`.split(/[،,.]/);
     initialKeywords = base
       .map((p) => p.trim())
@@ -510,7 +506,6 @@ async function buildKnowledgeItem(url) {
     summary_short,
     summary_long,
     facts: [],
-    // keywords / keywords_extended / topic_keywords سيتم ضبطهم في مرحلة postProcess
     keywords: initialKeywords,
     keywords_extended: initialKeywords,
     topic_keywords,
@@ -521,25 +516,30 @@ async function buildKnowledgeItem(url) {
     weight_semantic: 1,
     weight_final: 1,
     updated_at: nowISO(),
-    source: "sitemap+scraper+gemini-v5.1"
+    source: "sitemap+scraper+gemini-v5.2"
   };
 
   return item;
 }
 
 /* ============ تنظيف وتوحيد الكلمات المفتاحية لجميع العناصر ============ */
+/**
+ * المنهج هنا:
+ * - نطبّع الكلمات ونحذف الضجيج و STOP_KEYWORDS.
+ * - نحسب عدد ظهور كل كلمة عبر جميع العناصر.
+ * - للتدوينات (category = "blog"): نحتفظ فقط بالكلمات التي تظهر في تدوينة واحدة فقط (unique).
+ * - لو تدوينة أصبحت بلا أي كلمة مميزة → نحذفها بالكامل من ملف المعرفة.
+ * - للصفحات التعريفية (home / about / story / services): نسمح ببعض التكرار المعقول.
+ */
 
 function postProcessKeywords(items) {
-  // 1) تطبيع الكلمات وإزالة التكرار داخل كل عنصر
+  // 1) تطبيع الكلمات لكل عنصر + بناء عدّاد عالمي
   const normalizedKeywordsPerItem = [];
   const globalCounts = new Map();
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-
-    const rawList = Array.isArray(item.keywords)
-      ? item.keywords
-      : [];
+    const rawList = Array.isArray(item.keywords) ? item.keywords : [];
 
     const normSet = new Set();
 
@@ -551,7 +551,6 @@ function postProcessKeywords(items) {
     }
 
     const normList = Array.from(normSet);
-
     normalizedKeywordsPerItem[i] = normList;
 
     for (const kw of normList) {
@@ -559,79 +558,41 @@ function postProcessKeywords(items) {
     }
   }
 
-  // 2) إزالة الكلمات شديدة التكرار (ضجيج) من الجميع
+  const finalItems = [];
+
+  // 2) تطبيق منطق "التميّز" خاصة للتدوينات
   for (let i = 0; i < items.length; i++) {
-    let normList = normalizedKeywordsPerItem[i];
     const item = items[i];
+    let normList = normalizedKeywordsPerItem[i] || [];
 
-    const titleNorm = normalizeKeywordRaw(item.title_clean || "");
+    if (item.category === "blog") {
+      // نحتفظ فقط بالكلمات التي تظهر في تدوينة واحدة (unique)
+      normList = normList.filter((kw) => (globalCounts.get(kw) || 0) === 1);
 
-    normList = normList.filter((kw) => {
-      const count = globalCounts.get(kw) || 0;
-
-      // إذا كانت كلمة ضجيج شديد التكرار (أكثر من threshold)
-      // نزيلها إلا إذا كانت مذكورة بوضوح داخل العنوان (تميّز)
-      if (count > COMMON_KEYWORD_THRESHOLD) {
-        if (!titleNorm.includes(kw)) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-
-    normalizedKeywordsPerItem[i] = normList;
-  }
-
-  // 3) ضمان حد أدنى من الكلمات لكل عنصر
-  for (let i = 0; i < items.length; i++) {
-    let normList = normalizedKeywordsPerItem[i];
-    const item = items[i];
-
-    if (normList.length < MIN_KEYWORDS_PER_ITEM) {
-      // نضيف كلمات من العنوان نفسه كتعويض
-      const titleWords = (item.title_clean || "")
-        .split(" ")
-        .map((w) => normalizeKeywordRaw(w))
-        .filter(
-          (w) =>
-            w &&
-            !STOP_KEYWORDS.has(w) &&
-            !normList.includes(w)
-        );
-
-      for (const w of titleWords) {
-        normList.push(w);
-        if (normList.length >= MIN_KEYWORDS_PER_ITEM) break;
+      if (normList.length === 0) {
+        console.warn("⚠️ Dropping blog item with no unique keywords:", item.url);
+        continue; // حذف التدوينة بالكامل
       }
     }
 
-    // كآخر حل، إذا كان ما زال قليل جدًا، نتركه كما هو بدون إضافة ضجيج
-    normalizedKeywordsPerItem[i] = normList;
-  }
-
-  // 4) حفظ النتائج في العناصر
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const normList = normalizedKeywordsPerItem[i];
-
-    // keywords النهائية (نفس القيم المطَبَّعة)
     item.keywords = normList;
-
-    // keywords_extended يمكن توسيعها لاحقاً، الآن نجعلها مساوية
     item.keywords_extended = [...normList];
-
-    // topic_keywords نأخذ أول 8 كحد أقصى
     item.topic_keywords = normList.slice(0, 8);
+
+    finalItems.push(item);
   }
 
-  return items;
+  console.log(
+    `✅ postProcessKeywords: kept ${finalItems.length} / ${items.length} items after uniqueness filtering`
+  );
+
+  return finalItems;
 }
 
 /* ============ نقطة التشغيل الرئيسية ============ */
 
 async function main() {
-  console.log("🚀 NovaLink Knowledge Generator V5.1 – Start");
+  console.log("🚀 NovaLink Knowledge Generator V5.2 – Start");
   console.log("SITEMAP_URL:", SITEMAP_URL);
   console.log("OUTPUT_PATH:", OUTPUT_PATH);
 
@@ -653,7 +614,7 @@ async function main() {
     }
   }
 
-  // تنظيف وتوحيد الكلمات المفتاحية
+  // تنظيف وتوحيد الكلمات المفتاحية + حذف التدوينات غير المميزة
   const finalItems = postProcessKeywords(items);
 
   // كتابة الملف
