@@ -1,78 +1,226 @@
-// generate-knowledge-v5.js
-// NOVALINK Ai – Knowledge Generator V5 (Enterprise Metadata)
-// يبني ملف knowledge.v5.json بمستوى Enterprise لاستخدامه مع NovaBrainSystem PRO
+/**************************************************************
+ * NovaLink Knowledge Generator V5.1
+ * توليد knowledge.v5.json لمشروع NOVABOT / NOVALINK
+ * - يعتمد على Sitemap + Scraper + (اختياري) Gemini
+ * - مخصص لمحتوى الأعمال + الصفحات التعريفية + الخدمات فقط
+ * - تنظيف الكلمات المفتاحية + تقليل التكرار بين الصفحات
+ **************************************************************/
 
-import fs from "fs";
+import fs from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
 import * as cheerio from "cheerio";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 
-/* =========================
-   الإعدادات الأساسية
-   ========================= */
+/* =================== إعدادات عامة =================== */
 
-const DOMAIN = "https://novalink-ai.com";
-const SITEMAP_URL = `${DOMAIN}/sitemap.xml`;
-const OUTPUT_FILE = "./knowledge.v5.json";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// صفحات إضافية نضمن وجودها
-const EXTRA_PAGES = [
-  { url: DOMAIN + "/", category: "home" },
-  { url: DOMAIN + "/services-khdmat-nwfa-lynk", category: "services" }
-];
+// يمكن ضبطها من متغيرات البيئة في Render / محليًا
+const SITEMAP_URL =
+  process.env.SITEMAP_URL ||
+  "https://novalink-ai.com/sitemap.xml";
 
-/* =========================
-   إعداد Gemini
-   ========================= */
+const OUTPUT_PATH =
+  process.env.OUTPUT_PATH ||
+  path.join(__dirname, "knowledge.v5.json");
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
-let genAI = null;
-let geminiModel = null;
+const GOOGLE_API_KEY =
+  process.env.GOOGLE_API_KEY ||
+  process.env.NOVALINK_GEMINI_KEY ||
+  "";
 
-if (GEMINI_API_KEY) {
-  genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-  geminiModel = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash"
-  });
-} else {
-  console.warn(
-    "⚠️ لم يتم توفير GEMINI_API_KEY – سيتم توليد الملف بدون تحليلات متقدمة بالذكاء الاصطناعي."
+const GEMINI_MODEL =
+  process.env.GEMINI_MODEL ||
+  "gemini-2.0-flash";
+
+/**
+ * حد التكرار العالي للكلمات المفتاحية:
+ * أي كلمة تتكرر في أكثر من هذا العدد تُعتبر "ضجيج عام"
+ */
+const COMMON_KEYWORD_THRESHOLD = 3;
+
+// أقل عدد كلمات مفتاحية نحاول الحفاظ عليه لكل عنصر
+const MIN_KEYWORDS_PER_ITEM = 4;
+
+/* ============ أدوات مساعدة للنص والكلمات ============ */
+
+const ARABIC_DIACRITICS_RE = /[\u064B-\u0652\u0640]/g; // تشكيل + تطويل
+const PUNCT_RE = /[.,!?؟،"“”()\-_:;«»[\]{}\\/]/g;
+const MULTISPACE_RE = /\s+/g;
+
+function stripArabicDiacritics(str = "") {
+  return str.replace(ARABIC_DIACRITICS_RE, "");
+}
+
+function normalizeKeywordRaw(str = "") {
+  return stripArabicDiacritics(
+    str
+      .toLowerCase()
+      .replace(PUNCT_RE, " ")
+      .replace(MULTISPACE_RE, " ")
+      .trim()
   );
 }
 
-/* =========================
-   دوال مساعدة عامة
-   ========================= */
-
-function normalizeSpace(str = "") {
-  return str.replace(/\s+/g, " ").replace(/&nbsp;/g, " ").trim();
-}
-
-function cleanText(str = "") {
-  return normalizeSpace(str);
-}
-
-function titleClean(str = "") {
-  return cleanText(str)
+function cleanTitle(str = "") {
+  return str
+    .replace(/\s+/g, " ")
     .replace(/\|.*$/g, "")
-    .replace(/[\u2013\u2014\-–]+/g, " ")
     .trim();
-}
-
-function toLower(str = "") {
-  return (str || "").toLowerCase();
-}
-
-function slugify(str = "") {
-  return toLower(str)
-    .replace(/[^\p{Letter}\p{Number}]+/gu, "-")
-    .replace(/^-+|-+$/g, "");
 }
 
 function nowISO() {
   return new Date().toISOString();
 }
 
-async function safeFetchText(url) {
+/* ============ قائمة الكلمات العامة المراد حذفها ============ */
+
+const STOP_KEYWORDS = new Set(
+  [
+    // عام عربي
+    "الذكاء الاصطناعي",
+    "الذكاء الاصطناعي للأعمال",
+    "ذكاء اصطناعي",
+    "ذكاء صناعي",
+    "ذكاء صنعي",
+    "الاعمال",
+    "الأعمال",
+    "الاعمال الرقمية",
+    "التحول الرقمي",
+    "محتوى",
+    "مقال",
+    "تدوينة",
+    "مدونة",
+    "موقع",
+    "منصة",
+    "خدمات",
+    "خدمة",
+
+    // هوية العلامة
+    "novalink",
+    "novalink ai",
+    "نوفا لينك",
+    "nova link",
+
+    // اشتراك ونشرة
+    "نشرة بريدية",
+    "newsletter",
+    "اشترك الآن",
+    "اشترك الان",
+    "اشتراك نوفا لينك",
+    "email",
+    "بريد الكتروني",
+    "بريد إلكتروني",
+
+    // تسويق عام جداً
+    "ai",
+    "ai tools",
+    "ai business",
+    "ai jobs",
+    "ai content",
+
+    // بوت وخدمات عامة
+    "استشارة",
+    "خدمات نوفا لينك",
+    "بوت دردشة",
+    "chatbot",
+    "ai chatbot",
+
+    // أشياء تقنية عامة لكنها غير مميِّزة
+    "موقع نوفا لينك",
+    "novalink ai platform"
+  ].map(normalizeKeywordRaw)
+);
+
+/* ============ استدعاء Gemini (اختياري) ============ */
+
+async function callGeminiForPage({ title, text }) {
+  if (!GOOGLE_API_KEY) {
+    return null; // لا يوجد مفتاح → نعتمد على التلخيص اليدوي
+  }
+
+  const prompt = `
+أنت مساعد لتحليل صفحة من موقع نوفا لينك حول الذكاء الاصطناعي للأعمال.
+
+المطلوب منك أن تُعيد لي JSON فقط بالشكل التالي بدون أي نص خارجه:
+{
+  "summary": "ملخص فقرة واحدة بالعربية عن محتوى الصفحة (3-4 جمل).",
+  "summary_short": "ملخص قصير جداً (سطر واحد).",
+  "keywords": ["كلمة مفتاحية 1", "عبارة متخصصة 2", "..."]
+}
+
+الشروط:
+- لا تستخدم تعبيرات عامة جداً مثل: "الذكاء الاصطناعي" وحدها أو "AI" وحدها.
+- ركّز على الكلمات والعبارات التي تميز هذه الصفحة عن بقية الصفحات.
+- لا تضع تشكيل على الكلمات العربية.
+- لا تذكر "نوفا لينك" أو "NOVALINK Ai" ضمن الكلمات المفتاحية.
+- اجعل عدد الكلمات المفتاحية بين 8 و 15 كلمة/عبارة.
+
+العنوان:
+${title}
+
+محتوى مختصر للصفحة:
+${text.slice(0, 1800)}
+`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GOOGLE_API_KEY}`;
+
+  const body = {
+    contents: [
+      {
+        parts: [{ text: prompt }]
+      }
+    ],
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 512
+    }
+  };
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      console.error("❌ Gemini HTTP error:", res.status, await res.text());
+      return null;
+    }
+
+    const json = await res.json();
+    const textPart =
+      json?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+    // نحاول قراءة JSON من النص
+    const start = textPart.indexOf("{");
+    const end = textPart.lastIndexOf("}");
+    if (start === -1 || end === -1 || end <= start) {
+      console.error("❌ Gemini response not JSON-like:", textPart);
+      return null;
+    }
+
+    const jsonString = textPart.slice(start, end + 1);
+    const parsed = JSON.parse(jsonString);
+
+    const summary = (parsed.summary || "").trim();
+    const summary_short = (parsed.summary_short || "").trim();
+    const keywords = Array.isArray(parsed.keywords)
+      ? parsed.keywords.map((k) => `${k}`.trim()).filter(Boolean)
+      : [];
+
+    return { summary, summary_short, keywords };
+  } catch (err) {
+    console.error("❌ Gemini parse/error:", err);
+    return null;
+  }
+}
+
+/* ============ جلب الـ Sitemap واستخراج الروابط ============ */
+
+async function fetchText(url) {
   const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`HTTP ${res.status} for ${url}`);
@@ -80,502 +228,450 @@ async function safeFetchText(url) {
   return await res.text();
 }
 
-/* =========================
-   تحليل الفئة / النية
-   ========================= */
-
-function extractCategory(url) {
-  const u = new URL(url);
-  const path = u.pathname;
-
-  if (path === "/" || path === "") return "home";
-  if (path.includes("services")) return "services";
-  if (path.includes("about")) return "about";
-  if (path.includes("rhlh-frdyh")) return "story";
-  if (path.includes("blog")) return "blog";
-  if (path.includes("policy") || path.includes("privacy")) return "legal";
-  if (path.includes("terms") || path.includes("shrwt")) return "legal";
-
-  return "general";
-}
-
-// subcategory + intent_hint heuristics
-function classifyPage(title, url, fullText) {
-  const t = toLower(title);
-  const u = toLower(url);
-  const body = toLower(fullText);
-
-  let category = extractCategory(url);
-  let subcategory = "generic";
-  let intent_hint = "explore";
-
-  // Home
-  if (category === "home") {
-    subcategory = "landing";
-    intent_hint = "novalink_info";
-  }
-
-  // Services
-  if (category === "services") {
-    subcategory = "ai_services";
-    intent_hint = "consulting_purchase";
-  }
-
-  // About / Story
-  if (category === "about" || category === "story") {
-    subcategory = category === "about" ? "about_us" : "founder_story";
-    intent_hint = "novalink_info";
-  }
-
-  // Blog: نحاول تحديد نوع المحتوى
-  if (category === "blog" || category === "general") {
-    if (
-      t.includes("copy.ai") ||
-      t.includes("copyai") ||
-      body.includes("كوبي") ||
-      body.includes("كتابة المحتوى") ||
-      body.includes("المحتوى العربي")
-    ) {
-      subcategory = "ai_copywriting";
-      intent_hint = "ai_business";
-    } else if (
-      body.includes("تعليق صوتي") ||
-      body.includes("voice") ||
-      body.includes("murf.ai") ||
-      body.includes("elevenlabs") ||
-      body.includes("daryjat")
-    ) {
-      subcategory = "ai_voiceover";
-      intent_hint = "ai_business";
-    } else if (
-      body.includes("وظيفة") ||
-      body.includes("المستقبل") ||
-      body.includes("المهن") ||
-      body.includes("سوق العمل")
-    ) {
-      subcategory = "ai_jobs_future";
-      intent_hint = "ai_business";
-    } else if (
-      body.includes("تطوّر الذكاء الاصطناعي") ||
-      body.includes("الموظف الجديد الذي لا ينام")
-    ) {
-      subcategory = "ai_evolution";
-      intent_hint = "ai_business";
-    } else if (body.includes("نشرة") || body.includes("اشترك") || u.includes("ashtrk")) {
-      subcategory = "newsletter_landing";
-      intent_hint = "subscribe_interest";
-      category = "general";
-    } else {
-      subcategory = "ai_business_general";
-      intent_hint = "ai_business";
-    }
-  }
-
-  // Legal
-  if (category === "legal") {
-    subcategory = "legal_policy";
-    intent_hint = "novalink_info";
-  }
-
-  return { category, subcategory, intent_hint };
-}
-
-/* =========================
-   الكلمات المفتاحية
-   ========================= */
-
-function basicKeywordsFromText(text = "") {
-  return text
-    .split(/\s+/)
-    .map((w) => cleanText(w).toLowerCase())
-    .filter((w) => w.length >= 3 && !/^[0-9]+$/.test(w));
-}
-
-function extractKeywords(title, desc, category, subcategory) {
-  const base = basicKeywordsFromText(title + " " + desc).slice(0, 40);
-
-  const enrichedBase = [
-    ...base,
-    category,
-    subcategory,
-    "novalink",
-    "novalink ai",
-    "نوفا لينك",
-    "الذكاء الاصطناعي",
-    "الذكاء الاصطناعي للأعمال",
-    "ai",
-    "ai tools",
-    "ai business"
-  ];
-
-  // إزالة التكرار
-  const unique = Array.from(new Set(enrichedBase));
-
-  return unique;
-}
-
-function extendKeywords(keywords, title, fullText) {
-  const extra = [];
-
-  const t = toLower(title + " " + fullText);
-
-  // Voiceover
-  if (
-    t.includes("تعليق صوتي") ||
-    t.includes("voice over") ||
-    t.includes("voiceover") ||
-    t.includes("murf") ||
-    t.includes("elevenlabs") ||
-    t.includes("daryjat")
-  ) {
-    extra.push(
-      "تعليق صوتي",
-      "voice over",
-      "ai voiceover",
-      "murf.ai",
-      "elevenlabs",
-      "daryjat"
-    );
-  }
-
-  // Copywriting
-  if (t.includes("copy.ai") || t.includes("copyai") || t.includes("كتابة المحتوى")) {
-    extra.push(
-      "copy.ai",
-      "copy ai",
-      "كتابة المحتوى",
-      "ai copywriting",
-      "المحتوى العربي",
-      "ai content"
-    );
-  }
-
-  // Jobs & future
-  if (t.includes("وظيف") || t.includes("المستقبل") || t.includes("المهن")) {
-    extra.push("وظائف الذكاء الاصطناعي", "المهن المستقبلية", "سوق العمل", "ai jobs");
-  }
-
-  // Newsletter / subscribe
-  if (t.includes("اشترك") || t.includes("نشرة") || t.includes("newsletter")) {
-    extra.push("نشرة بريدية", "newsletter", "اشترك الآن", "اشتراك نوفا لينك");
-  }
-
-  // خدمات / بوت
-  if (t.includes("خدماتنا") || t.includes("بوت دردشة") || t.includes("خدمة")) {
-    extra.push("خدمات نوفا لينك", "استشارة", "بوت دردشة", "ai chatbot");
-  }
-
-  const all = [...keywords, ...extra];
-  return Array.from(new Set(all));
-}
-
-/* =========================
-   استدعاء Gemini لتحليل متقدم
-   ========================= */
-
-async function analyzeWithGemini(title, url, fullText, fallbackSummary) {
-  if (!geminiModel) {
-    // Fallback بدون استخدام Gemini
-    const longSummary = fallbackSummary || fullText.slice(0, 220);
-    const shortSummary = (longSummary || "").split(/[.!؟]/)[0].trim();
-    return {
-      summary_short: shortSummary,
-      summary_long: longSummary,
-      facts: [],
-      topic_keywords: [],
-      intent_hint: null
-    };
-  }
-
-  try {
-    const maxLen = 7000;
-    const snippet = fullText.length > maxLen ? fullText.slice(0, maxLen) : fullText;
-
-    const prompt = `
-أنت مساعد ذكاء اصطناعي يساعد منصة عربية اسمها "نوفا لينك" في بناء قاعدة معرفة متقدمة عن الذكاء الاصطناعي للأعمال.
-
-أريد منك أن تحلل الصفحة التالية وتعيد **حصريًا** JSON بالهيكل التالي (وباللغة العربية في الحقول النصية):
-
-{
-  "summary_short": "جملة واحدة تلخص الفائدة الأساسية للقارئ (رائد أعمال أو موظف أو صاحب مشروع).",
-  "summary_long": "ملخص من 2 إلى 4 جمل يشرح مضمون الصفحة وفائدتها العملية.",
-  "facts": [
-    "نقطة أساسية مختصرة (لا تتجاوز 20 كلمة).",
-    "نقطة أساسية ثانية...",
-    "يمكنك إضافة 3 إلى 5 نقاط كحد أقصى."
-  ],
-  "topic_keywords": [
-    "كلمات أو عبارات قصيرة تمثل الموضوعات الأساسية (ذكاء اصطناعي للأعمال، تعليق صوتي، كتابة محتوى... إلخ)."
-  ],
-  "intent_hint": "ai_business أو novalink_info أو consulting_purchase أو subscribe_interest أو explore (اختر الأنسب)."
-}
-
-قواعد مهمة:
-- أعد JSON فقط بدون أي نص خارجي.
-- لا تستخدم تعليقات أو أسطر خارج JSON.
-- اجعل جميع الحقول النصية بالعربية الفصحى المبسطة.
-- لا تضف أو تحذف أي حقل من الحقول المطلوبة.
-
-عنوان الصفحة:
-${title}
-
-الرابط:
-${url}
-
-محتوى الصفحة (مقتطف):
-${snippet}
-    `.trim();
-
-    const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    const raw = (response.text() || "").trim();
-
-    let parsed;
-    try {
-      parsed = JSON.parse(raw);
-    } catch (e) {
-      console.warn("⚠️ تعذر تحليل JSON من Gemini – سيتم استخدام fallback بسيط.");
-      const longSummary = fallbackSummary || fullText.slice(0, 220);
-      const shortSummary = (longSummary || "").split(/[.!؟]/)[0].trim();
-      return {
-        summary_short: shortSummary,
-        summary_long: longSummary,
-        facts: [],
-        topic_keywords: [],
-        intent_hint: null
-      };
-    }
-
-    // تطهير الحقول الأساسية
-    const summary_long =
-      cleanText(parsed.summary_long || parsed.summary_short || fallbackSummary || "");
-    const summary_short =
-      cleanText(parsed.summary_short || summary_long.split(/[.!؟]/)[0] || "");
-
-    const facts = Array.isArray(parsed.facts)
-      ? parsed.facts.map((f) => cleanText(f)).filter((f) => f.length > 0)
-      : [];
-
-    const topic_keywords = Array.isArray(parsed.topic_keywords)
-      ? parsed.topic_keywords.map((k) => cleanText(k)).filter((k) => k.length > 0)
-      : [];
-
-    const intent_hint = parsed.intent_hint || null;
-
-    return {
-      summary_short,
-      summary_long,
-      facts,
-      topic_keywords,
-      intent_hint
-    };
-  } catch (e) {
-    console.warn("⚠️ فشل استدعاء Gemini للتحليل المتقدم:", e.message);
-    const longSummary = fallbackSummary || fullText.slice(0, 220);
-    const shortSummary = (longSummary || "").split(/[.!؟]/)[0].trim();
-    return {
-      summary_short: shortSummary,
-      summary_long: longSummary,
-      facts: [],
-      topic_keywords: [],
-      intent_hint: null
-    };
-  }
-}
-
-/* =========================
-   قراءة الـ Sitemap
-   ========================= */
-
-async function loadSitemap() {
-  const xml = await safeFetchText(SITEMAP_URL);
-  const matches = Array.from(xml.matchAll(/<loc>(.*?)<\/loc>/g));
-  return matches.map((m) => m[1]);
-}
-
-/* =========================
-   استخراج بيانات صفحة واحدة
-   ========================= */
-
-async function scrapePage(url, forcedCategory = null) {
-  try {
-    const html = await safeFetchText(url);
-    const $ = cheerio.load(html);
-
-    // العنوان
-    const rawTitle =
-      $('meta[property="og:title"]').attr("content") ||
-      $("title").text() ||
-      $("h1").first().text();
-    const title = cleanText(rawTitle);
-
-    if (!title || title.length < 5) {
-      console.warn("⚠️ تجاهل صفحة بدون عنوان مناسب:", url);
-      return null;
-    }
-
-    // الوصف
-    let desc =
-      $('meta[name="description"]').attr("content") ||
-      $('meta[property="og:description"]').attr("content") ||
-      "";
-    desc = cleanText(desc);
-
-    // المحتوى الأساسي للملخص / التحليل
-    let mainText =
-      $("main").text() ||
-      $("article").text() ||
-      $('section[role="main"]').text() ||
-      $("body").text();
-    const fullText = cleanText(mainText || "");
-
-    // مقتطف (excerpt)
-    let excerpt = "";
-    $("main p, main h2, main h3, article p, article li").each((_, el) => {
-      if (!excerpt) {
-        const t = cleanText($(el).text());
-        if (t.length >= 60) excerpt = t;
-      }
-    });
-
-    if (!excerpt && fullText) {
-      excerpt = fullText.substring(0, 260);
-    }
-
-    const { category, subcategory, intent_hint: intentFromHeuristic } = classifyPage(
-      title,
-      url,
-      fullText
-    );
-
-    const finalCategory = forcedCategory || category;
-
-    const baseKeywords = extractKeywords(title, desc || excerpt || fullText, finalCategory, subcategory);
-    const extendedKeywords = extendKeywords(baseKeywords, title, fullText);
-
-    // تحليلات Gemini المتقدمة
-    const aiAnalysis = await analyzeWithGemini(
-      title,
-      url,
-      fullText,
-      excerpt || desc || fullText.slice(0, 260)
-    );
-
-    // intent_hint النهائي: نأخذ من Gemini إن وجد، وإلا من heuristic
-    const intent_hint = aiAnalysis.intent_hint || intentFromHeuristic || "explore";
-
-    const summary_long =
-      aiAnalysis.summary_long ||
-      aiAnalysis.summary_short ||
-      desc ||
-      excerpt ||
-      fullText.slice(0, 260);
-
-    const summary_short =
-      aiAnalysis.summary_short ||
-      summary_long.split(/[.!؟]/)[0].trim() ||
-      desc ||
-      excerpt;
-
-    const topic_keywords = Array.from(
-      new Set([...(aiAnalysis.topic_keywords || []), ...extendedKeywords.slice(0, 20)])
-    );
-
-    // embedding_text: نص مركّز لاستخدامه في NovaBrain
-    const embedding_text = cleanText(
-      [
-        title,
-        summary_long,
-        desc,
-        excerpt,
-        topic_keywords.slice(0, 10).join(" ")
-      ]
-        .filter(Boolean)
-        .join(" | ")
-    ).slice(0, 1200);
-
-    // أوزان مبدئية – يمكن تعديلها لاحقًا في NovaBrain
-    const weight_title = 1.0;
-    const weight_summary = 0.9;
-    const weight_keywords = 0.8;
-    const weight_semantic = 1.0;
-    const weight_final = 1.0;
-
-    const item = {
-      // معلومات أساسية
-      title,
-      title_clean: titleClean(title),
-      url,
-      domain: DOMAIN,
-      // تصنيفات
-      category: finalCategory,
-      subcategory,
-      intent_hint,
-      // وصف ومقتطفات
-      description: desc || summary_long || excerpt,
-      excerpt,
-      summary: summary_long, // توافقًا مع الإصدارات السابقة
-      summary_short,
-      summary_long,
-      facts: aiAnalysis.facts || [],
-      // كلمات مفتاحية
-      keywords: baseKeywords,
-      keywords_extended: extendedKeywords,
-      topic_keywords,
-      // نص مخصص للـ Embeddings
-      embedding_text,
-      // أوزان مبدئية
-      weight_title,
-      weight_summary,
-      weight_keywords,
-      weight_semantic,
-      weight_final,
-      // ميتاداتا
-      updated_at: nowISO(),
-      source: "sitemap+scraper+gemini-v5"
-      // ملاحظة: لم نخزّن embedding_vector هنا، NovaBrain سيولدها ديناميكيًا في الذاكرة
-    };
-
-    return item;
-  } catch (e) {
-    console.error("❌ خطأ أثناء قراءة الصفحة:", url, e.message);
-    return null;
-  }
-}
-
-/* =========================
-   بناء المعرفة كاملة
-   ========================= */
-
-async function build() {
-  console.log("🚀 بدء توليد knowledge.v5.json ...");
-
-  const urls = await loadSitemap();
-
-  // إضافة الصفحات الإضافية
-  EXTRA_PAGES.forEach((p) => {
-    if (!urls.includes(p.url)) urls.push(p.url);
+async function getSitemapUrls() {
+  console.log("🌐 Fetching sitemap:", SITEMAP_URL);
+  const xml = await fetchText(SITEMAP_URL);
+  const $ = cheerio.load(xml, { xmlMode: true });
+
+  const urls = [];
+  $("url > loc").each((_, el) => {
+    const loc = $(el).text().trim();
+    if (loc) urls.push(loc);
   });
 
-  const items = [];
-
-  for (const url of urls) {
-    console.log("🔍 معالجة:", url);
-    const forcedCategory = EXTRA_PAGES.find((p) => p.url === url)?.category || null;
-    const item = await scrapePage(url, forcedCategory);
-    if (item) items.push(item);
-  }
-
-  // ترتيب بالعربية/الإنجليزية
-  items.sort((a, b) => a.title.localeCompare(b.title, "ar"));
-
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(items, null, 2), "utf8");
-
-  console.log("✅ تم إنشاء الملف:", OUTPUT_FILE);
-  console.log("📦 إجمالي العناصر:", items.length);
+  console.log(`🗺️ Sitemap URLs found: ${urls.length}`);
+  return urls;
 }
 
-build().catch((err) => {
-  console.error("❌ فشل التوليد:", err);
-  process.exit(1);
-});
+/* ============ تصنيف نوع الصفحة من الرابط والعنوان ============ */
+
+function classifyPage(url, title) {
+  const lowerUrl = url.toLowerCase();
+  const lowerTitle = (title || "").toLowerCase();
+
+  // home
+  if (
+    lowerUrl === "https://novalink-ai.com" ||
+    lowerUrl === "https://novalink-ai.com/"
+  ) {
+    return {
+      category: "home",
+      subcategory: "landing",
+      intent_hint: "novalink_info"
+    };
+  }
+
+  // about us
+  if (lowerUrl.includes("about-us")) {
+    return {
+      category: "about",
+      subcategory: "about_us",
+      intent_hint: "novalink_info"
+    };
+  }
+
+  // founder story
+  if (lowerUrl.includes("rhlh-frdyh")) {
+    return {
+      category: "story",
+      subcategory: "founder_story",
+      intent_hint: "novalink_info"
+    };
+  }
+
+  // services
+  if (lowerUrl.includes("services-khdmat")) {
+    return {
+      category: "services",
+      subcategory: "ai_services",
+      intent_hint: "consulting_purchase"
+    };
+  }
+
+  // أي شيء آخر نعدّه تدوينة / محتوى معرفي
+  // مع تفريع بسيط حسب الكلمات
+  if (
+    lowerTitle.includes("murf") ||
+    lowerTitle.includes("elevenlabs") ||
+    lowerTitle.includes("daryjat") ||
+    lowerTitle.includes("تعليق صوتي") ||
+    lowerTitle.includes("التعليق الصوتي")
+  ) {
+    return {
+      category: "blog",
+      subcategory: "ai_voiceover",
+      intent_hint: "ai_business"
+    };
+  }
+
+  if (
+    lowerTitle.includes("وظيفتك") ||
+    lowerTitle.includes("مهن") ||
+    lowerTitle.includes("وظائف") ||
+    lowerTitle.includes("سوق العمل")
+  ) {
+    return {
+      category: "blog",
+      subcategory: "ai_jobs_future",
+      intent_hint: "ai_business"
+    };
+  }
+
+  if (
+    lowerTitle.includes("copy.ai") ||
+    lowerTitle.includes("copyai") ||
+    lowerTitle.includes("كوبي")
+  ) {
+    return {
+      category: "blog",
+      subcategory: "ai_copywriting",
+      intent_hint: "ai_business"
+    };
+  }
+
+  return {
+    category: "blog",
+    subcategory: "ai_business_article",
+    intent_hint: "ai_business"
+  };
+}
+
+/* ============ تحديد الصفحات المسموحة في ملف المعرفة ============ */
+
+function shouldIncludeUrl(url) {
+  const lowerUrl = url.toLowerCase();
+
+  // home root
+  if (
+    lowerUrl === "https://novalink-ai.com" ||
+    lowerUrl === "https://novalink-ai.com/"
+  ) {
+    return true;
+  }
+
+  // about, story, services
+  if (
+    lowerUrl.includes("about-us-althkaa-alastnaay") ||
+    lowerUrl.includes("rhlh-frdyh-fy-aalm-althkaa-alastnaay-hktha-bdat-nwfa-lynk") ||
+    lowerUrl.includes("services-khdmat-nwfa-lynk")
+  ) {
+    return true;
+  }
+
+  // privacy / terms / newsletter / blog index → نستبعد
+  if (
+    lowerUrl.includes("syash-alkhswsyh") || // سياسة الخصوصية
+    lowerUrl.includes("shrwt-alastkhdam") || // شروط الاستخدام
+    lowerUrl.includes("ashtrk-alan") ||      // اشترك الآن
+    lowerUrl.includes("blog-adwat-althkaa-alastnaay-llaamal") // صفحة "مدونة"
+  ) {
+    return false;
+  }
+
+  // مقالات مدونة حقيقية (نسمح بأي شيء آخر ضمن نفس الدومين)
+  if (lowerUrl.startsWith("https://novalink-ai.com/")) {
+    return true;
+  }
+
+  return false;
+}
+
+/* ============ استخراج محتوى الصفحة ============ */
+
+function extractPageContent(html, url) {
+  const $ = cheerio.load(html);
+
+  // العنوان
+  let title =
+    $('meta[property="og:title"]').attr("content") ||
+    $("title").text() ||
+    "";
+
+  title = title.trim();
+
+  // الوصف من الميتا إن وجد
+  let metaDesc =
+    $('meta[name="description"]').attr("content") ||
+    $('meta[property="og:description"]').attr("content") ||
+    "";
+
+  metaDesc = metaDesc.trim();
+
+  // نحاول استخراج النص الأساسي من main / article
+  let mainText = "";
+
+  const main = $("main");
+  if (main.length) {
+    mainText = main.text();
+  } else if ($("article").length) {
+    mainText = $("article").text();
+  } else {
+    // fallback: body بدون سكربت وستايل
+    $("script, style, nav, footer, header").remove();
+    mainText = $("body").text();
+  }
+
+  mainText = mainText
+    .replace(/\s+/g, " ")
+    .replace(/\u00a0/g, " ")
+    .trim();
+
+  const excerpt = mainText.slice(0, 260);
+
+  // إذا لم يوجد meta description نعتمد على جزء من النص
+  const description =
+    metaDesc || (excerpt.length ? excerpt : mainText.slice(0, 260));
+
+  return {
+    title,
+    description,
+    excerpt,
+    rawText: mainText
+  };
+}
+
+/* ============ توليد عنصر المعرفة لصفحة واحدة ============ */
+
+async function buildKnowledgeItem(url) {
+  console.log(`📝 Processing: ${url}`);
+
+  const html = await fetchText(url);
+  const { title, description, excerpt, rawText } = extractPageContent(
+    html,
+    url
+  );
+
+  const title_clean = cleanTitle(title);
+  const { category, subcategory, intent_hint } = classifyPage(
+    url,
+    title
+  );
+
+  // استدعاء Gemini لاشتقاق ملخص وكلمات مفتاحية (إن أمكن)
+  let llmSummary = null;
+  if (GOOGLE_API_KEY) {
+    llmSummary = await callGeminiForPage({
+      title,
+      text: rawText || description || excerpt
+    });
+  }
+
+  const summary =
+    llmSummary?.summary?.trim() ||
+    description ||
+    excerpt ||
+    rawText.slice(0, 260);
+
+  const summary_short =
+    llmSummary?.summary_short?.trim() ||
+    summary.slice(0, 140);
+
+  const summary_long = summary;
+
+  // كلمات مفتاحية أولية من Gemini إن وُجدت، وإلا من العنوان + الوصف
+  let initialKeywords = [];
+  if (llmSummary?.keywords?.length) {
+    initialKeywords = llmSummary.keywords;
+  } else {
+    // fallback بسيط: نستخدم أجزاء من العنوان + الوصف
+    const base = `${title_clean} ${description}`.split(/[،,.]/);
+    initialKeywords = base
+      .map((p) => p.trim())
+      .filter((p) => p.split(" ").length <= 6 && p.length > 2);
+  }
+
+  // topic_keywords مبدئياً نسخة من initialKeywords (سيتم تنظيفها لاحقاً)
+  const topic_keywords = [...initialKeywords];
+
+  // embedding_text: نجمع أكثر شيء يفيد في الـ semantic
+  const embedding_text = [
+    title_clean,
+    summary_short,
+    description,
+    topic_keywords.slice(0, 10).join(" "),
+    url
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
+  const domain = "https://novalink-ai.com";
+
+  const item = {
+    title,
+    title_clean,
+    url,
+    domain,
+    category,
+    subcategory,
+    intent_hint,
+    description,
+    excerpt,
+    summary,
+    summary_short,
+    summary_long,
+    facts: [],
+    // keywords / keywords_extended / topic_keywords سيتم ضبطهم في مرحلة postProcess
+    keywords: initialKeywords,
+    keywords_extended: initialKeywords,
+    topic_keywords,
+    embedding_text,
+    weight_title: 1,
+    weight_summary: 0.9,
+    weight_keywords: 0.8,
+    weight_semantic: 1,
+    weight_final: 1,
+    updated_at: nowISO(),
+    source: "sitemap+scraper+gemini-v5.1"
+  };
+
+  return item;
+}
+
+/* ============ تنظيف وتوحيد الكلمات المفتاحية لجميع العناصر ============ */
+
+function postProcessKeywords(items) {
+  // 1) تطبيع الكلمات وإزالة التكرار داخل كل عنصر
+  const normalizedKeywordsPerItem = [];
+  const globalCounts = new Map();
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+
+    const rawList = Array.isArray(item.keywords)
+      ? item.keywords
+      : [];
+
+    const normSet = new Set();
+
+    for (const kwRaw of rawList) {
+      const norm = normalizeKeywordRaw(kwRaw);
+      if (!norm) continue;
+      if (STOP_KEYWORDS.has(norm)) continue;
+      normSet.add(norm);
+    }
+
+    const normList = Array.from(normSet);
+
+    normalizedKeywordsPerItem[i] = normList;
+
+    for (const kw of normList) {
+      globalCounts.set(kw, (globalCounts.get(kw) || 0) + 1);
+    }
+  }
+
+  // 2) إزالة الكلمات شديدة التكرار (ضجيج) من الجميع
+  for (let i = 0; i < items.length; i++) {
+    let normList = normalizedKeywordsPerItem[i];
+    const item = items[i];
+
+    const titleNorm = normalizeKeywordRaw(item.title_clean || "");
+
+    normList = normList.filter((kw) => {
+      const count = globalCounts.get(kw) || 0;
+
+      // إذا كانت كلمة ضجيج شديد التكرار (أكثر من threshold)
+      // نزيلها إلا إذا كانت مذكورة بوضوح داخل العنوان (تميّز)
+      if (count > COMMON_KEYWORD_THRESHOLD) {
+        if (!titleNorm.includes(kw)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    normalizedKeywordsPerItem[i] = normList;
+  }
+
+  // 3) ضمان حد أدنى من الكلمات لكل عنصر
+  for (let i = 0; i < items.length; i++) {
+    let normList = normalizedKeywordsPerItem[i];
+    const item = items[i];
+
+    if (normList.length < MIN_KEYWORDS_PER_ITEM) {
+      // نضيف كلمات من العنوان نفسه كتعويض
+      const titleWords = (item.title_clean || "")
+        .split(" ")
+        .map((w) => normalizeKeywordRaw(w))
+        .filter(
+          (w) =>
+            w &&
+            !STOP_KEYWORDS.has(w) &&
+            !normList.includes(w)
+        );
+
+      for (const w of titleWords) {
+        normList.push(w);
+        if (normList.length >= MIN_KEYWORDS_PER_ITEM) break;
+      }
+    }
+
+    // كآخر حل، إذا كان ما زال قليل جدًا، نتركه كما هو بدون إضافة ضجيج
+    normalizedKeywordsPerItem[i] = normList;
+  }
+
+  // 4) حفظ النتائج في العناصر
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const normList = normalizedKeywordsPerItem[i];
+
+    // keywords النهائية (نفس القيم المطَبَّعة)
+    item.keywords = normList;
+
+    // keywords_extended يمكن توسيعها لاحقاً، الآن نجعلها مساوية
+    item.keywords_extended = [...normList];
+
+    // topic_keywords نأخذ أول 8 كحد أقصى
+    item.topic_keywords = normList.slice(0, 8);
+  }
+
+  return items;
+}
+
+/* ============ نقطة التشغيل الرئيسية ============ */
+
+async function main() {
+  console.log("🚀 NovaLink Knowledge Generator V5.1 – Start");
+  console.log("SITEMAP_URL:", SITEMAP_URL);
+  console.log("OUTPUT_PATH:", OUTPUT_PATH);
+
+  const urls = await getSitemapUrls();
+
+  // نختار فقط الروابط المسموحة
+  const filteredUrls = urls.filter(shouldIncludeUrl);
+  console.log(
+    `✅ Included URLs for knowledge: ${filteredUrls.length} / ${urls.length}`
+  );
+
+  const items = [];
+  for (const url of filteredUrls) {
+    try {
+      const item = await buildKnowledgeItem(url);
+      items.push(item);
+    } catch (err) {
+      console.error("❌ Failed to process URL:", url, err);
+    }
+  }
+
+  // تنظيف وتوحيد الكلمات المفتاحية
+  const finalItems = postProcessKeywords(items);
+
+  // كتابة الملف
+  await fs.writeFile(
+    OUTPUT_PATH,
+    JSON.stringify(finalItems, null, 2),
+    "utf-8"
+  );
+
+  console.log(
+    `🎉 knowledge.v5.json generated successfully with ${finalItems.length} items`
+  );
+}
+
+// تشغيل فقط إذا تم استدعاء الملف مباشرة عبر node
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error("🔥 Fatal error in generator:", err);
+    process.exit(1);
+  });
+}
