@@ -21,10 +21,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run knowledge generator V5
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node generate-knowledge-v5.js
+- name: Run knowledge generator V5
+  env:
+    GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    NOVALINK_GEMINI_KEY: ${{ secrets.GEMINI_API_KEY }}
+    SITEMAP_URL: https://novalink-ai.com/sitemap.xml
+    OUTPUT_PATH: knowledge.v5.json
+  run: node generate-knowledge-v5.js
+
 
       - name: Commit Knowledge File (V5)
         run: |
