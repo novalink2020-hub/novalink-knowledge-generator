@@ -532,6 +532,41 @@ async function buildKnowledgeItem(url) {
  * - للصفحات التعريفية (home / about / story / services): نسمح ببعض التكرار المعقول.
  */
 
+function extractFallbackKeywords(item) {
+  const candidates = [
+    item.title_clean || "",
+    item.description || "",
+    item.summary_short || ""
+  ];
+
+  const fallback = [];
+  const seen = new Set();
+
+  for (const text of candidates) {
+    const parts = `${text}`
+      .split(/[|:؛،,.!\-–—()]/)
+      .map((part) => normalizeKeywordRaw(part))
+      .filter(Boolean);
+
+    for (const part of parts) {
+      const wordCount = part.split(" ").filter(Boolean).length;
+
+      if (wordCount < 2 || wordCount > 8) continue;
+      if (STOP_KEYWORDS.has(part)) continue;
+      if (seen.has(part)) continue;
+
+      seen.add(part);
+      fallback.push(part);
+
+      if (fallback.length >= 8) {
+        return fallback;
+      }
+    }
+  }
+
+  return fallback;
+}
+
 function postProcessKeywords(items) {
   // 1) تطبيع الكلمات لكل عنصر + بناء عدّاد عالمي
   const normalizedKeywordsPerItem = [];
@@ -565,19 +600,54 @@ function postProcessKeywords(items) {
     const item = items[i];
     let normList = normalizedKeywordsPerItem[i] || [];
 
-    if (item.category === "blog") {
-      // نحتفظ فقط بالكلمات التي تظهر في تدوينة واحدة (unique)
-      normList = normList.filter((kw) => (globalCounts.get(kw) || 0) === 1);
+if (item.category === "blog") {
+  // نحتفظ أولاً بالكلمات الفريدة فعلاً
+  const uniqueKeywords = normList.filter(
+    (kw) => (globalCounts.get(kw) || 0) === 1
+  );
 
-      if (normList.length === 0) {
-        console.warn("⚠️ Dropping blog item with no unique keywords:", item.url);
-        continue; // حذف التدوينة بالكامل
-      }
+  if (uniqueKeywords.length > 0) {
+    normList = uniqueKeywords;
+  } else {
+    // fallback: لا نحذف التدوينة، بل نولد كلمات داعمة من العنوان/الوصف/الملخص القصير
+    const fallbackKeywords = extractFallbackKeywords(item);
+
+    if (fallbackKeywords.length > 0) {
+      normList = fallbackKeywords;
+      console.warn(
+        "⚠️ Blog item kept with fallback keywords instead of unique-only:",
+        item.url
+      );
+    } else {
+      // آخر خط دفاع: احتفظ بالتدوينة بعنوانها المنظف بدل حذفها
+      const safeTitle = normalizeKeywordRaw(item.title_clean || "");
+
+      normList = safeTitle && !STOP_KEYWORDS.has(safeTitle)
+        ? [safeTitle]
+        : [];
+
+      console.warn(
+        "⚠️ Blog item kept with minimal title fallback:",
+        item.url
+      );
     }
+  }
+}
 
-    item.keywords = normList;
-    item.keywords_extended = [...normList];
-    item.topic_keywords = normList.slice(0, 8);
+item.keywords = normList;
+item.keywords_extended = [...normList];
+item.topic_keywords = normList.slice(0, 8);
+
+// إعادة بناء embedding_text بعد التنظيف النهائي للكلمات
+item.embedding_text = [
+  item.title_clean,
+  item.summary_short,
+  item.description,
+  item.topic_keywords.join(" "),
+  item.url
+]
+  .filter(Boolean)
+  .join(" | ");
 
     finalItems.push(item);
   }
