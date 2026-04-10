@@ -180,7 +180,31 @@ function getBestContentBlock($) {
   return bestText;
 }
 
-function extractFirstMeaningfulSnippet(text = "", maxLength = 260) {
+function isTooSimilarToTitle(candidate = "", title = "") {
+  const a = normalizeKeywordRaw(candidate);
+  const b = normalizeKeywordRaw(title);
+
+  if (!a || !b) return false;
+  if (a === b) return true;
+  if (a.includes(b) || b.includes(a)) return true;
+
+  const aWords = new Set(a.split(" ").filter(Boolean));
+  const bWords = new Set(b.split(" ").filter(Boolean));
+
+  if (aWords.size === 0 || bWords.size === 0) return false;
+
+  let overlap = 0;
+  for (const word of aWords) {
+    if (bWords.has(word)) overlap++;
+  }
+
+  const overlapRatioA = overlap / aWords.size;
+  const overlapRatioB = overlap / bWords.size;
+
+  return overlapRatioA >= 0.7 || overlapRatioB >= 0.7;
+}
+
+function extractFirstMeaningfulSnippet(text = "", maxLength = 260, title = "", description = "") {
   const cleaned = cleanExtractedText(text);
   if (!cleaned) return "";
 
@@ -188,11 +212,29 @@ function extractFirstMeaningfulSnippet(text = "", maxLength = 260) {
     .split(/(?<=[.!؟?])\s+|[。]\s*|\n+/)
     .map((part) => part.trim())
     .filter(Boolean)
-    .filter((part) => part.length >= 40);
+    .filter((part) => part.length >= 45);
 
-  if (sentenceParts.length > 0) {
-    const joined = sentenceParts.slice(0, 2).join(" ").trim();
-    return joined.slice(0, maxLength).trim();
+  const accepted = [];
+
+  for (const part of sentenceParts) {
+    if (isTooSimilarToTitle(part, title)) continue;
+    if (description && normalizeKeywordRaw(part) === normalizeKeywordRaw(description)) continue;
+
+    accepted.push(part);
+
+    if (accepted.length >= 2) break;
+  }
+
+  if (accepted.length > 0) {
+    return accepted.join(" ").slice(0, maxLength).trim();
+  }
+
+  const fallbackParts = sentenceParts.filter(
+    (part) => !description || normalizeKeywordRaw(part) !== normalizeKeywordRaw(description)
+  );
+
+  if (fallbackParts.length > 0) {
+    return fallbackParts.slice(0, 2).join(" ").slice(0, maxLength).trim();
   }
 
   return cleaned.slice(0, maxLength).trim();
@@ -578,21 +620,27 @@ if (!mainText || mainText.length < 120) {
   mainText = cleanExtractedText(bodyEl.text());
 }
 
-const excerptRaw = extractFirstMeaningfulSnippet(mainText, 260);
-const excerpt = excerptRaw || "";
-
 const descriptionRaw =
   metaDesc ||
-  extractFirstMeaningfulSnippet(mainText, 400) ||
-  excerpt ||
+  extractFirstMeaningfulSnippet(mainText, 400, title, "") ||
   cleanTitle(title);
 
 const description = `${descriptionRaw}`.slice(0, 400).trim();
 
+const excerptRaw =
+  extractFirstMeaningfulSnippet(mainText, 260, title, description) ||
+  "";
+
+const excerpt = excerptRaw || "";
+
 return {
   title,
   description: description || cleanTitle(title),
-  excerpt: excerpt || extractFirstMeaningfulSnippet(mainText, 220) || cleanTitle(title),
+  excerpt:
+    excerpt ||
+    extractFirstMeaningfulSnippet(mainText, 220, title, description) ||
+    description ||
+    cleanTitle(title),
   rawText: mainText
 };
 }
