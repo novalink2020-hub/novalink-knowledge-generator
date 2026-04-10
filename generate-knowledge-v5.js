@@ -44,6 +44,82 @@ const NAV_TRASH_PATTERNS = [
   /الرئيسيةالمدوناتخدماتنامن نحنإشترك الآن/g
 ];
 
+const CONTENT_CANDIDATE_SELECTORS = [
+  "article",
+  "[itemprop='articleBody']",
+  ".blog-post",
+  ".post-content",
+  ".post-body",
+  ".article-content",
+  ".entry-content",
+  ".blog-content",
+  ".rich-text",
+  ".magazine-section",
+  ".magazine-text",
+  ".article-shell",
+  "main article",
+  "main .content-block",
+  "main .narrow"
+];
+
+const NOISE_SELECTORS = [
+  "script",
+  "style",
+  "nav",
+  "footer",
+  "header",
+  "noscript",
+  "aside",
+  "form",
+  "iframe",
+  "svg",
+  ".site-header",
+  ".site-footer",
+  ".menu",
+  ".breadcrumbs",
+  ".footer",
+  ".header",
+  ".nav",
+  ".sidebar",
+  ".newsletter",
+  ".subscribe",
+  ".subscription",
+  ".share-buttons",
+  ".social-share",
+  ".related-posts",
+  ".related-articles",
+  ".recommended-posts",
+  ".comments",
+  ".comment-form",
+  ".author-box",
+  ".cookie-banner",
+  ".popup",
+  ".modal",
+  ".lightbox",
+  ".references-section",
+  ".show-more-wrapper",
+  ".accordion",
+  ".scroll-indicator",
+  "[aria-hidden='true']",
+  "[hidden]",
+  "[data-novalink-seo='editor-only']"
+];
+
+const LINE_NOISE_PATTERNS = [
+  /سياسة الخصوصية/i,
+  /شروط الاستخدام/i,
+  /privacy policy/i,
+  /terms of service/i,
+  /اشترك الآن/i,
+  /اشترك في النشرة/i,
+  /جميع الحقوق محفوظة/i,
+  /contact@/i,
+  /تابعنا/i,
+  /روابط مهمة/i,
+  /اقرأ المزيد/i,
+  /عرض المزيد/i
+];
+
 function stripArabicDiacritics(str = "") {
   return str.replace(ARABIC_DIACRITICS_RE, "");
 }
@@ -56,6 +132,52 @@ function normalizeKeywordRaw(str = "") {
       .replace(MULTISPACE_RE, " ")
       .trim()
   );
+}
+
+function cleanExtractedText(str = "") {
+  let text = `${str}`
+    .replace(/\u00a0/g, " ")
+    .replace(MULTISPACE_RE, " ")
+    .trim();
+
+  for (const re of NAV_TRASH_PATTERNS) {
+    text = text.replace(re, " ");
+  }
+
+  const cleanedLines = text
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => {
+      return !LINE_NOISE_PATTERNS.some((pattern) => pattern.test(line));
+    });
+
+  return cleanedLines.join(" ").replace(MULTISPACE_RE, " ").trim();
+}
+
+function getBestContentBlock($) {
+  let bestText = "";
+  let bestLength = 0;
+
+  for (const selector of CONTENT_CANDIDATE_SELECTORS) {
+    $(selector).each((_, el) => {
+      const cloned = $(el).clone();
+
+      NOISE_SELECTORS.forEach((noiseSelector) => {
+        cloned.find(noiseSelector).remove();
+      });
+
+      const text = cleanExtractedText(cloned.text());
+      const len = text.length;
+
+      if (len > bestLength) {
+        bestLength = len;
+        bestText = text;
+      }
+    });
+  }
+
+  return bestText;
 }
 
 function cleanTitle(str = "") {
@@ -394,29 +516,49 @@ function extractPageContent(html, url) {
     "";
   metaDesc = metaDesc.trim();
 
-  // إزالة العناصر المزعجة قبل استخراج النص
-  $("script, style, nav, footer, header, noscript").remove();
-  $(".site-header, .site-footer, .menu, .breadcrumbs, .footer, .header, .nav, .sidebar").remove();
+// إزالة العناصر المزعجة العامة أولاً
+NOISE_SELECTORS.forEach((selector) => {
+  $(selector).remove();
+});
 
-  let mainText = "";
+let mainText = getBestContentBlock($);
 
-  const mainEl = $("main");
+// fallback إذا لم نجد كتلة واضحة
+if (!mainText || mainText.length < 250) {
+  const mainEl = $("main").clone();
+
   if (mainEl.length) {
-    mainText = mainEl.text();
-  } else if ($("article").length) {
-    mainText = $("article").text();
-  } else {
-    mainText = $("body").text();
+    NOISE_SELECTORS.forEach((selector) => {
+      mainEl.find(selector).remove();
+    });
+
+    mainText = cleanExtractedText(mainEl.text());
   }
+}
 
-  mainText = mainText.replace(/\u00a0/g, " ");
+// fallback إضافي إلى article
+if (!mainText || mainText.length < 180) {
+  const articleEl = $("article").clone();
 
-  // إزالة النصوص المكررة المزعجة (مثل شريط القائمة)
-  for (const re of NAV_TRASH_PATTERNS) {
-    mainText = mainText.replace(re, " ");
+  if (articleEl.length) {
+    NOISE_SELECTORS.forEach((selector) => {
+      articleEl.find(selector).remove();
+    });
+
+    mainText = cleanExtractedText(articleEl.text());
   }
+}
 
-  mainText = mainText.replace(MULTISPACE_RE, " ").trim();
+// آخر fallback إلى body
+if (!mainText || mainText.length < 120) {
+  const bodyEl = $("body").clone();
+
+  NOISE_SELECTORS.forEach((selector) => {
+    bodyEl.find(selector).remove();
+  });
+
+  mainText = cleanExtractedText(bodyEl.text());
+}
 
   const excerpt = mainText.slice(0, 260);
 
