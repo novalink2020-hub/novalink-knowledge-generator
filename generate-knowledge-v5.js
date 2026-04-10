@@ -180,6 +180,24 @@ function getBestContentBlock($) {
   return bestText;
 }
 
+function extractFirstMeaningfulSnippet(text = "", maxLength = 260) {
+  const cleaned = cleanExtractedText(text);
+  if (!cleaned) return "";
+
+  const sentenceParts = cleaned
+    .split(/(?<=[.!؟?])\s+|[。]\s*|\n+/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .filter((part) => part.length >= 40);
+
+  if (sentenceParts.length > 0) {
+    const joined = sentenceParts.slice(0, 2).join(" ").trim();
+    return joined.slice(0, maxLength).trim();
+  }
+
+  return cleaned.slice(0, maxLength).trim();
+}
+
 function cleanTitle(str = "") {
   return str
     .replace(/\s+/g, " ")
@@ -560,19 +578,23 @@ if (!mainText || mainText.length < 120) {
   mainText = cleanExtractedText(bodyEl.text());
 }
 
-  const excerpt = mainText.slice(0, 260);
+const excerptRaw = extractFirstMeaningfulSnippet(mainText, 260);
+const excerpt = excerptRaw || "";
 
-  const descriptionRaw =
-    metaDesc || (excerpt.length ? excerpt : mainText.slice(0, 260));
+const descriptionRaw =
+  metaDesc ||
+  extractFirstMeaningfulSnippet(mainText, 400) ||
+  excerpt ||
+  cleanTitle(title);
 
-  const description = descriptionRaw.slice(0, 400).trim();
+const description = `${descriptionRaw}`.slice(0, 400).trim();
 
-  return {
-    title,
-    description,
-    excerpt,
-    rawText: mainText
-  };
+return {
+  title,
+  description: description || cleanTitle(title),
+  excerpt: excerpt || extractFirstMeaningfulSnippet(mainText, 220) || cleanTitle(title),
+  rawText: mainText
+};
 }
 
 /* ============ توليد عنصر المعرفة لصفحة واحدة ============ */
@@ -595,15 +617,17 @@ async function buildKnowledgeItem(url) {
     });
   }
 
-  const summary =
-    llmSummary?.summary?.trim() ||
-    description ||
-    excerpt ||
-    rawText.slice(0, 260);
+const summary =
+  llmSummary?.summary?.trim() ||
+  description ||
+  excerpt ||
+  extractFirstMeaningfulSnippet(rawText, 260) ||
+  title_clean;
 
-  const summary_short =
-    llmSummary?.summary_short?.trim() ||
-    summary.slice(0, 140);
+const summary_short =
+  llmSummary?.summary_short?.trim() ||
+  extractFirstMeaningfulSnippet(summary, 140) ||
+  title_clean;
 
   const summary_long = summary;
 
