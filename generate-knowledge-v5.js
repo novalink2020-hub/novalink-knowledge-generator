@@ -293,7 +293,16 @@ function extractNovaLinkKnowledge($, html = "") {
   try {
     const decodedHtml = cheerio.load(`<textarea>${html}</textarea>`)("textarea").text();
 
-    const escapedScriptMatch = decodedHtml.match(
+    const normalizedHtml = decodedHtml
+      .replace(/\\&quot;/g, '"')
+      .replace(/\\&lt;/g, "<")
+      .replace(/\\&gt;/g, ">")
+      .replace(/\\&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&amp;/g, "&");
+    const escapedScriptMatch = normalizedHtml.match(
       /<script[^>]*id=["']novalink-knowledge["'][^>]*>([\s\S]*?)<\/script>/i
     );
 
