@@ -251,6 +251,42 @@ function nowISO() {
   return new Date().toISOString();
 }
 
+function extractNovaLinkKnowledge($) {
+  const raw = $("#novalink-knowledge").html()?.trim();
+
+  if (!raw) return null;
+
+  try {
+    const parsed = JSON.parse(raw);
+
+    return {
+      article_title: `${parsed.article_title || ""}`.trim(),
+      article_description: `${parsed.article_description || ""}`.trim(),
+      article_slug: `${parsed.article_slug || ""}`.trim(),
+      primary_topic: `${parsed.primary_topic || ""}`.trim(),
+      search_intent: `${parsed.search_intent || ""}`.trim(),
+      entities: Array.isArray(parsed.entities)
+        ? parsed.entities.map((x) => `${x}`.trim()).filter(Boolean)
+        : [],
+      aliases: Array.isArray(parsed.aliases)
+        ? parsed.aliases.map((x) => `${x}`.trim()).filter(Boolean)
+        : [],
+      misspellings: Array.isArray(parsed.misspellings)
+        ? parsed.misspellings.map((x) => `${x}`.trim()).filter(Boolean)
+        : [],
+      faq_queries_human: Array.isArray(parsed.faq_queries_human)
+        ? parsed.faq_queries_human.map((x) => `${x}`.trim()).filter(Boolean)
+        : [],
+      answer_scope: Array.isArray(parsed.answer_scope)
+        ? parsed.answer_scope.map((x) => `${x}`.trim()).filter(Boolean)
+        : []
+    };
+  } catch (error) {
+    console.error("❌ Failed to parse #novalink-knowledge JSON:", error);
+    return null;
+  }
+}
+
 /* ============ قائمة الكلمات العامة المراد حذفها ============ */
 
 const STOP_KEYWORDS = new Set(
@@ -561,6 +597,7 @@ function shouldIncludeUrl(url) {
 
 function extractPageContent(html, url) {
   const $ = cheerio.load(html);
+  const novalinkKnowledge = extractNovaLinkKnowledge($);
 
   // العنوان من الميتا أو <title>
   let title =
@@ -641,7 +678,8 @@ return {
     extractFirstMeaningfulSnippet(mainText, 220, title, description) ||
     description ||
     cleanTitle(title),
-  rawText: mainText
+  rawText: mainText,
+  novalinkKnowledge
 };
 }
 
@@ -651,7 +689,8 @@ async function buildKnowledgeItem(url) {
   console.log(`📝 Processing: ${url}`);
 
   const html = await fetchText(url);
-  const { title, description, excerpt, rawText } = extractPageContent(html, url);
+  const { title, description, excerpt, rawText, novalinkKnowledge } =
+  extractPageContent(html, url);
 
   const title_clean = cleanTitle(title);
   const { category, subcategory, intent_hint } = classifyPage(url, title);
@@ -733,9 +772,29 @@ const summary_short =
     source: "sitemap+scraper+gemini-v5.2"
   };
 
+  if (novalinkKnowledge) {
+    item.novalink_knowledge = novalinkKnowledge;
+
+    if (
+      novalinkKnowledge.article_slug &&
+      !novalinkKnowledge.article_slug.includes("{{")
+    ) {
+      item.article_slug = novalinkKnowledge.article_slug;
+    }
+
+    if (novalinkKnowledge.search_intent) {
+      item.search_intent = novalinkKnowledge.search_intent;
+    }
+
+    item.entities = novalinkKnowledge.entities || [];
+    item.aliases = novalinkKnowledge.aliases || [];
+    item.misspellings = novalinkKnowledge.misspellings || [];
+    item.faq_queries_human = novalinkKnowledge.faq_queries_human || [];
+    item.answer_scope = novalinkKnowledge.answer_scope || [];
+  }
+
   return item;
 }
-
 /* ============ تنظيف وتوحيد الكلمات المفتاحية لجميع العناصر ============ */
 /**
  * المنهج هنا:
