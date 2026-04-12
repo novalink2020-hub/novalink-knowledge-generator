@@ -689,6 +689,12 @@ async function buildKnowledgeItem(url) {
   console.log(`📝 Processing: ${url}`);
 
   const html = await fetchText(url);
+    console.log("🔎 novalink-knowledge probe:", {
+    url,
+    hasScriptId: html.includes('id="novalink-knowledge"'),
+    hasFaqQueriesHuman: html.includes("faq_queries_human"),
+    hasApplicationJson: html.includes('type="application/json"')
+  });
   const { title, description, excerpt, rawText, novalinkKnowledge } =
   extractPageContent(html, url);
 
