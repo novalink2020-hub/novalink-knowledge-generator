@@ -225,7 +225,7 @@
     "updated_at": "2026-04-12T14:47:10.109Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
-  {
+{
     "title": "Microsoft 365 Copilot    أين تظهر قيمته فعلًا داخل سير العمل اليومي؟ | NOVALINK Ai",
     "title_clean": "Microsoft 365 Copilot أين تظهر قيمته فعلًا داخل سير العمل اليومي؟",
     "url": "https://novalink-ai.com/microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy",
@@ -233,6 +233,8 @@
     "category": "blog",
     "subcategory": "ai_business_article",
     "intent_hint": "ai_business",
+    "search_intent": "informational",
+    "article_slug": "microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy",
     "description": "اكتشف أين تظهر قيمة مايكروسوفت كوبايلوت داخل سير العمل اليومي، وكيف يدعم البريد والاجتماعات والمستندات والبيانات لتقليل الهدر وتسريع التنفيذ بوضوح أكبر.",
     "excerpt": "اكتشف أين تظهر قيمة مايكروسوفت كوبايلوت داخل سير العمل اليومي، وكيف يدعم البريد والاجتماعات والمستندات والبيانات لتقليل الهدر وتسريع التنفيذ بوضوح أكبر.",
     "summary": "تستعرض الصفحة قيمة مايكروسوفت كوبايلوت في تحسين سير العمل اليومي للمستخدمين. يركز المحتوى على كيفية دعم الأداة للبريد الإلكتروني، والاجتماعات، وإدارة المستندات، وتحليل البيانات. الهدف هو تقليل الهدر في الوقت وتسريع وتيرة إنجاز المهام بفعالية.",
@@ -278,6 +280,117 @@
       "الاجتماعات"
     ],
     "embedding_text": "Microsoft 365 Copilot أين تظهر قيمته فعلًا داخل سير العمل اليومي؟ | توضح الصفحة كيف يحسن مايكروسوفت كوبايلوت سير العمل اليومي من خلال دعم البريد والاجتماعات والمستندات والبيانات. | اكتشف أين تظهر قيمة مايكروسوفت كوبايلوت داخل سير العمل اليومي، وكيف يدعم البريد والاجتماعات والمستندات والبيانات لتقليل الهدر وتسريع التنفيذ بوضوح أكبر. | مايكروسوفت كوبايلوت microsoft 365 copilot سير العمل اليومي تحسين الإنتاجية إدارة المستندات تحليل البيانات البريد الإلكتروني الاجتماعات | https://novalink-ai.com/microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy",
+    "entities": [
+      "Microsoft 365 Copilot",
+      "Copilot",
+      "Microsoft 365",
+      "Outlook",
+      "Teams",
+      "Word",
+      "Excel",
+      "PowerPoint",
+      "Whiteboard",
+      "Loop",
+      "OneNote",
+      "SharePoint",
+      "OneDrive"
+    ],
+    "aliases": [
+      "Microsoft 365 Copilot",
+      "Microsoft Copilot",
+      "مايكروسوفت 365 كوبايلوت",
+      "مايكروسوفت كوبايلوت",
+      "كوبايلوت",
+      "Microsoft 365 كوبايلوت"
+    ],
+    "misspellings": [
+      "Microsoft 365 Copliot",
+      "Microsft 365 Copilot",
+      "Microsof 365 Copilot",
+      "كو بايلوت",
+      "كوبايلت",
+      "مايكروسوفت 365 كوبايلوت"
+    ],
+    "faq_queries_human": [
+      "اين تظهر قيمة كوبايلوت فعلا داخل سير العمل اليومي",
+      "كيف يساعد كوبايلوت في البريد والاجتماعات",
+      "كيف يفيد كوبايلوت في Outlook",
+      "كيف يفيد كوبايلوت في Teams",
+      "هل كوبايلوت يختصر وقت كتابة المسودات",
+      "كيف يساعد كوبايلوت في Excel",
+      "كيف يساعد كوبايلوت في PowerPoint",
+      "لماذا يبدو كوبايلوت جزءا من Microsoft 365",
+      "ما معنى ان كوبايلوت طبقة تشغيلية",
+      "كيف يقلل كوبايلوت الهدر في يوم العمل",
+      "copilot في سير العمل اليومي",
+      "Microsoft 365 Copilot in Outlook and Teams"
+    ],
+    "answer_scope": [
+      "القيمة العملية داخل يوم العمل",
+      "دور Copilot في البريد والاجتماعات",
+      "تسريع المسودات والتحليل والعروض",
+      "استمرارية السياق عبر Microsoft 365",
+      "أثر Copilot على الوضوح والمتابعة"
+    ],
+    "novalink_knowledge": {
+      "article_title": "أين تظهر قيمته فعلًا داخل سير العمل اليومي؟ Microsoft 365 Copilot",
+      "article_description": "تستكشف هذه التدوينة أين تظهر القيمة العملية لـ Microsoft 365 Copilot داخل سير العمل اليومي، من البريد والاجتماعات إلى المستندات والبيانات والعروض، وكيف يساهم في تقليل الهدر وتسريع البداية وتحسين وضوح المتابعة داخل منظومة Microsoft 365.",
+      "article_slug": "microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy",
+      "primary_topic": "Microsoft 365 Copilot",
+      "search_intent": "informational",
+      "entities": [
+        "Microsoft 365 Copilot",
+        "Copilot",
+        "Microsoft 365",
+        "Outlook",
+        "Teams",
+        "Word",
+        "Excel",
+        "PowerPoint",
+        "Whiteboard",
+        "Loop",
+        "OneNote",
+        "SharePoint",
+        "OneDrive"
+      ],
+      "aliases": [
+        "Microsoft 365 Copilot",
+        "Microsoft Copilot",
+        "مايكروسوفت 365 كوبايلوت",
+        "مايكروسوفت كوبايلوت",
+        "كوبايلوت",
+        "Microsoft 365 كوبايلوت"
+      ],
+      "misspellings": [
+        "Microsoft 365 Copliot",
+        "Microsft 365 Copilot",
+        "Microsof 365 Copilot",
+        "كو بايلوت",
+        "كوبايلت",
+        "مايكروسوفت 365 كوبايلوت"
+      ],
+      "faq_queries_human": [
+        "اين تظهر قيمة كوبايلوت فعلا داخل سير العمل اليومي",
+        "كيف يساعد كوبايلوت في البريد والاجتماعات",
+        "كيف يفيد كوبايلوت في Outlook",
+        "كيف يفيد كوبايلوت في Teams",
+        "هل كوبايلوت يختصر وقت كتابة المسودات",
+        "كيف يساعد كوبايلوت في Excel",
+        "كيف يساعد كوبايلوت في PowerPoint",
+        "لماذا يبدو كوبايلوت جزءا من Microsoft 365",
+        "ما معنى ان كوبايلوت طبقة تشغيلية",
+        "كيف يقلل كوبايلوت الهدر في يوم العمل",
+        "copilot في سير العمل اليومي",
+        "Microsoft 365 Copilot in Outlook and Teams"
+      ],
+      "answer_scope": [
+        "القيمة العملية داخل يوم العمل",
+        "دور Copilot في البريد والاجتماعات",
+        "تسريع المسودات والتحليل والعروض",
+        "استمرارية السياق عبر Microsoft 365",
+        "أثر Copilot على الوضوح والمتابعة"
+      ]
+    },
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
@@ -285,7 +398,7 @@
     "weight_final": 1,
     "updated_at": "2026-04-12T14:47:12.815Z",
     "source": "sitemap+scraper+gemini-v5.2"
-  },
+  }
   {
     "title": "Copy.ai:  ثورة الذكاء الاصطناعي في صناعة المحتوى العربي | NOVALINK Ai",
     "title_clean": "Copy.ai: ثورة الذكاء الاصطناعي في صناعة المحتوى العربي",
