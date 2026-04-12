@@ -251,14 +251,8 @@ function nowISO() {
   return new Date().toISOString();
 }
 
-function extractNovaLinkKnowledge($) {
-  const raw = $("#novalink-knowledge").html()?.trim();
-
-  if (!raw) return null;
-
-  try {
-    const parsed = JSON.parse(raw);
-
+function extractNovaLinkKnowledge($, html = "") {
+  const parseNovaLinkKnowledgeObject = (parsed) => {
     return {
       article_title: `${parsed.article_title || ""}`.trim(),
       article_description: `${parsed.article_description || ""}`.trim(),
@@ -281,8 +275,38 @@ function extractNovaLinkKnowledge($) {
         ? parsed.answer_scope.map((x) => `${x}`.trim()).filter(Boolean)
         : []
     };
+  };
+
+  const raw = $("#novalink-knowledge").html()?.trim();
+
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      return parseNovaLinkKnowledgeObject(parsed);
+    } catch (error) {
+      console.error("❌ Failed to parse direct #novalink-knowledge JSON:", error);
+    }
+  }
+
+  if (!html) return null;
+
+  try {
+    const decodedHtml = cheerio.load(`<textarea>${html}</textarea>`)("textarea").text();
+
+    const escapedScriptMatch = decodedHtml.match(
+      /<script[^>]*id=["']novalink-knowledge["'][^>]*>([\s\S]*?)<\/script>/i
+    );
+
+    if (!escapedScriptMatch?.[1]) {
+      return null;
+    }
+
+    const escapedRaw = escapedScriptMatch[1].trim();
+    const parsed = JSON.parse(escapedRaw);
+
+    return parseNovaLinkKnowledgeObject(parsed);
   } catch (error) {
-    console.error("❌ Failed to parse #novalink-knowledge JSON:", error);
+    console.error("❌ Failed to parse escaped novalink-knowledge JSON:", error);
     return null;
   }
 }
@@ -597,7 +621,7 @@ function shouldIncludeUrl(url) {
 
 function extractPageContent(html, url) {
   const $ = cheerio.load(html);
-  const novalinkKnowledge = extractNovaLinkKnowledge($);
+  const novalinkKnowledge = extractNovaLinkKnowledge($, html);
 
   // العنوان من الميتا أو <title>
   let title =
