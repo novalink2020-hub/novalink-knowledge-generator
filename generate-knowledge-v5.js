@@ -695,6 +695,20 @@ async function buildKnowledgeItem(url) {
     hasFaqQueriesHuman: html.includes("faq_queries_human"),
     hasApplicationJson: html.includes('type="application/json"')
   });
+  if (
+    url.includes("microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy") &&
+    html.includes("faq_queries_human")
+  ) {
+    const probeIndex = html.indexOf("faq_queries_human");
+    const snippetStart = Math.max(0, probeIndex - 500);
+    const snippetEnd = Math.min(html.length, probeIndex + 1500);
+
+    console.log(
+      "🧩 novalink-knowledge raw snippet:",
+      html.slice(snippetStart, snippetEnd)
+    );
+  }
+  
   const { title, description, excerpt, rawText, novalinkKnowledge } =
   extractPageContent(html, url);
 
