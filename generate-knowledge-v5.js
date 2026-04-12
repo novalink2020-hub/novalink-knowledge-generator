@@ -311,6 +311,29 @@ function extractNovaLinkKnowledge($, html = "") {
   }
 }
 
+  if (!html) return null;
+
+  try {
+    const decodedHtml = cheerio.load(`<textarea>${html}</textarea>`)("textarea").text();
+
+    const escapedScriptMatch = decodedHtml.match(
+      /<script[^>]*id=["']novalink-knowledge["'][^>]*>([\s\S]*?)<\/script>/i
+    );
+
+    if (!escapedScriptMatch?.[1]) {
+      return null;
+    }
+
+    const escapedRaw = escapedScriptMatch[1].trim();
+    const parsed = JSON.parse(escapedRaw);
+
+    return parseNovaLinkKnowledgeObject(parsed);
+  } catch (error) {
+    console.error("❌ Failed to parse escaped novalink-knowledge JSON:", error);
+    return null;
+  }
+}
+
 /* ============ قائمة الكلمات العامة المراد حذفها ============ */
 
 const STOP_KEYWORDS = new Set(
