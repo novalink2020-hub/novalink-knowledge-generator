@@ -306,14 +306,26 @@ function extractNovaLinkKnowledge($, html = "") {
       /<script[^>]*id=["']novalink-knowledge["'][^>]*>([\s\S]*?)<\/script>/i
     );
 
-    if (!escapedScriptMatch?.[1]) {
-      return null;
+    if (escapedScriptMatch?.[1]) {
+      const escapedRaw = escapedScriptMatch[1].trim();
+      const parsed = JSON.parse(escapedRaw);
+      return parseNovaLinkKnowledgeObject(parsed);
     }
 
-    const escapedRaw = escapedScriptMatch[1].trim();
-    const parsed = JSON.parse(escapedRaw);
+    const faqIndex = normalizedHtml.indexOf('"faq_queries_human"');
 
-    return parseNovaLinkKnowledgeObject(parsed);
+    if (faqIndex !== -1) {
+      const objectStart = normalizedHtml.lastIndexOf("{", faqIndex);
+      const scriptEnd = normalizedHtml.indexOf("</script>", faqIndex);
+
+      if (objectStart !== -1 && scriptEnd !== -1) {
+        const rawObject = normalizedHtml.slice(objectStart, scriptEnd).trim();
+        const parsed = JSON.parse(rawObject);
+        return parseNovaLinkKnowledgeObject(parsed);
+      }
+    }
+
+    return null;
   } catch (error) {
     console.error("❌ Failed to parse escaped novalink-knowledge JSON:", error);
     return null;
