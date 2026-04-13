@@ -1194,14 +1194,20 @@ async function buildKnowledgeItem(url) {
     { max: 8 }
   );
 
+  const embeddingParts = dedupeRetrievalList(
+    [
+      title_clean,
+      summary_short,
+      finalizedRetrieval.entities.join(" "),
+      keywords_extended.join(" "),
+      topic_keywords.slice(0, 6).join(" "),
+      finalizedRetrieval.faq_queries_human.slice(0, 2).join(" ")
+    ].filter(Boolean),
+    { max: 6 }
+  );
+
   const embedding_text = [
-    title_clean,
-    summary_short,
-    description,
-    finalizedRetrieval.entities.join(" "),
-    finalizedRetrieval.aliases.join(" "),
-    finalizedRetrieval.faq_queries_human.slice(0, 4).join(" "),
-    topic_keywords.slice(0, 10).join(" "),
+    ...embeddingParts,
     url
   ]
     .filter(Boolean)
