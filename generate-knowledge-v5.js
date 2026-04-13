@@ -1269,92 +1269,59 @@ function extractFallbackKeywords(item) {
 }
 
 function postProcessKeywords(items) {
-  // 1) تطبيع الكلمات لكل عنصر + بناء عدّاد عالمي
-  const normalizedKeywordsPerItem = [];
-  const globalCounts = new Map();
-
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const rawList = Array.isArray(item.keywords) ? item.keywords : [];
-
-    const normSet = new Set();
-
-    for (const kwRaw of rawList) {
-      const norm = normalizeKeywordRaw(kwRaw);
-      if (!norm) continue;
-      if (STOP_KEYWORDS.has(norm)) continue;
-      normSet.add(norm);
-    }
-
-    const normList = Array.from(normSet);
-    normalizedKeywordsPerItem[i] = normList;
-
-    for (const kw of normList) {
-      globalCounts.set(kw, (globalCounts.get(kw) || 0) + 1);
-    }
-  }
-
   const finalItems = [];
 
-  // 2) تطبيق منطق "التميّز" خاصة للتدوينات
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    let normList = normalizedKeywordsPerItem[i] || [];
+  for (const item of items) {
+    const cleanKeywords = dedupeRetrievalList(
+      (Array.isArray(item.keywords) ? item.keywords : []).filter((kw) => {
+        const norm = normalizeKeywordRaw(kw);
+        return norm && !STOP_KEYWORDS.has(norm);
+      }),
+      { max: 6 }
+    );
 
-if (item.category === "blog") {
-  // نحتفظ أولاً بالكلمات الفريدة فعلاً
-  const uniqueKeywords = normList.filter(
-    (kw) => (globalCounts.get(kw) || 0) === 1
-  );
+    const cleanKeywordsExtended = dedupeRetrievalList(
+      (Array.isArray(item.keywords_extended) ? item.keywords_extended : []).filter((kw) => {
+        const norm = normalizeKeywordRaw(kw);
+        return norm && !STOP_KEYWORDS.has(norm);
+      }),
+      { max: 8 }
+    );
 
-  if (uniqueKeywords.length > 0) {
-    normList = uniqueKeywords;
-  } else {
-    // fallback: لا نحذف التدوينة، بل نولد كلمات داعمة من العنوان/الوصف/الملخص القصير
-    const fallbackKeywords = extractFallbackKeywords(item);
+    const cleanTopicKeywords = dedupeRetrievalList(
+      (Array.isArray(item.topic_keywords) ? item.topic_keywords : []).filter((kw) => {
+        const norm = normalizeKeywordRaw(kw);
+        return norm && !STOP_KEYWORDS.has(norm);
+      }),
+      { max: 8 }
+    );
 
-    if (fallbackKeywords.length > 0) {
-      normList = fallbackKeywords;
-      console.warn(
-        "⚠️ Blog item kept with fallback keywords instead of unique-only:",
-        item.url
-      );
-    } else {
-      // آخر خط دفاع: احتفظ بالتدوينة بعنوانها المنظف بدل حذفها
-      const safeTitle = normalizeKeywordRaw(item.title_clean || "");
+    item.keywords = cleanKeywords;
+    item.keywords_extended =
+      cleanKeywordsExtended.length > 0 ? cleanKeywordsExtended : [...cleanKeywords];
+    item.topic_keywords =
+      cleanTopicKeywords.length > 0 ? cleanTopicKeywords : [...cleanKeywords];
 
-      normList = safeTitle && !STOP_KEYWORDS.has(safeTitle)
-        ? [safeTitle]
-        : [];
-
-      console.warn(
-        "⚠️ Blog item kept with minimal title fallback:",
-        item.url
-      );
-    }
-  }
-}
-
-item.keywords = normList;
-item.keywords_extended = [...normList];
-item.topic_keywords = normList.slice(0, 8);
-
-// إعادة بناء embedding_text بعد التنظيف النهائي للكلمات
-item.embedding_text = [
-  item.title_clean,
-  item.summary_short,
-  item.description,
-  item.topic_keywords.join(" "),
-  item.url
-]
-  .filter(Boolean)
-  .join(" | ");
+    item.embedding_text = [
+      item.title_clean,
+      item.summary_short,
+      item.description,
+      Array.isArray(item.entities) ? item.entities.join(" ") : "",
+      Array.isArray(item.aliases) ? item.aliases.join(" ") : "",
+      Array.isArray(item.faq_queries_human)
+        ? item.faq_queries_human.slice(0, 4).join(" ")
+        : "",
+      item.topic_keywords.join(" "),
+      item.url
+    ]
+      .filter(Boolean)
+      .join(" | ");
 
     finalItems.push(item);
   }
 
   console.log(
-    `✅ postProcessKeywords: kept ${finalItems.length} / ${items.length} items after uniqueness filtering`
+    `✅ postProcessKeywords: kept ${finalItems.length} / ${items.length} items after conservative cleanup`
   );
 
   return finalItems;
