@@ -1015,27 +1015,41 @@ async function buildKnowledgeItem(url) {
 
   const summary_long = summary;
 
-  // كلمات مفتاحية أولية من Retrieval Layer إن وُجدت، وإلا fallback من العنوان/الوصف
-  let initialKeywords = [];
-  if (llmRetrieval?.entities?.length) {
-    initialKeywords = llmRetrieval.entities;
-  } else if (llmRetrieval?.aliases?.length) {
-    initialKeywords = llmRetrieval.aliases;
-  } else {
+  const finalizedRetrieval = finalizeRetrievalFields({
+    title_clean,
+    category,
+    subcategory,
+    entities: Array.isArray(llmRetrieval?.entities) ? llmRetrieval.entities : [],
+    aliases: Array.isArray(llmRetrieval?.aliases) ? llmRetrieval.aliases : [],
+    misspellings: Array.isArray(llmRetrieval?.misspellings) ? llmRetrieval.misspellings : [],
+    faq_queries_human: Array.isArray(llmRetrieval?.faq_queries_human)
+      ? llmRetrieval.faq_queries_human
+      : [],
+    answer_scope: typeof llmRetrieval?.answer_scope === "string"
+      ? llmRetrieval.answer_scope
+      : ""
+  });
+
+  let initialKeywords = Array.isArray(finalizedRetrieval.retrieval_keywords)
+    ? finalizedRetrieval.retrieval_keywords
+    : [];
+
+  if (!initialKeywords.length) {
     const base = `${title_clean} ${description}`.split(/[،,.]/);
     initialKeywords = base
-      .map((p) => p.trim())
+      .map((p) => normalizeRetrievalText(p))
       .filter((p) => p.split(" ").length <= 6 && p.length > 2);
   }
 
-  // topic_keywords مبدئياً نسخة من initialKeywords (سيتم تنظيفها لاحقاً)
   const topic_keywords = [...initialKeywords];
 
-  // embedding_text: نجمع أكثر شيء يفيد في الـ semantic
   const embedding_text = [
     title_clean,
     summary_short,
     description,
+    finalizedRetrieval.entities.join(" "),
+    finalizedRetrieval.aliases.join(" "),
+    finalizedRetrieval.faq_queries_human.slice(0, 4).join(" "),
     topic_keywords.slice(0, 10).join(" "),
     url
   ]
@@ -1062,21 +1076,11 @@ async function buildKnowledgeItem(url) {
     keywords_extended: initialKeywords,
     topic_keywords,
     embedding_text,
-    entities: Array.isArray(llmRetrieval?.entities)
-      ? llmRetrieval.entities
-      : [],
-    aliases: Array.isArray(llmRetrieval?.aliases)
-      ? llmRetrieval.aliases
-      : [],
-    misspellings: Array.isArray(llmRetrieval?.misspellings)
-      ? llmRetrieval.misspellings
-      : [],
-    faq_queries_human: Array.isArray(llmRetrieval?.faq_queries_human)
-      ? llmRetrieval.faq_queries_human
-      : [],
-    answer_scope: typeof llmRetrieval?.answer_scope === "string"
-      ? llmRetrieval.answer_scope
-      : "",
+    entities: finalizedRetrieval.entities,
+    aliases: finalizedRetrieval.aliases,
+    misspellings: finalizedRetrieval.misspellings,
+    faq_queries_human: finalizedRetrieval.faq_queries_human,
+    answer_scope: finalizedRetrieval.answer_scope,
     weight_title: 1,
     weight_summary: 0.9,
     weight_keywords: 0.8,
