@@ -1143,13 +1143,23 @@ async function buildKnowledgeItem(url) {
       .filter((p) => p.split(" ").length <= 6 && p.length > 2);
   }
 
-  const shortKeywords = dedupeRetrievalList(
+  const shortKeywordsRaw = dedupeRetrievalList(
     retrievalBase.filter((item) => {
       const cleaned = normalizeRetrievalText(item);
       const words = cleaned.split(" ").filter(Boolean);
       return words.length >= 1 && words.length <= 4;
     }),
+    { max: 10 }
+  );
+
+  const arabicShortKeywords = dedupeRetrievalList(
+    shortKeywordsRaw.filter((item) => containsArabic(item)),
     { max: 6 }
+  );
+
+  const nonArabicShortKeywords = dedupeRetrievalList(
+    shortKeywordsRaw.filter((item) => !containsArabic(item)),
+    { max: 4, preferArabic: false }
   );
 
   const intentTopicKeywords = dedupeRetrievalList(
@@ -1161,15 +1171,26 @@ async function buildKnowledgeItem(url) {
     { max: 3 }
   );
 
-  const keywords = [...shortKeywords];
+  const keywords = dedupeRetrievalList(
+    [
+      ...arabicShortKeywords,
+      ...nonArabicShortKeywords.filter((item) => {
+        const normalized = normalizeRetrievalKey(item);
+        return !arabicShortKeywords.some(
+          (arabicItem) => normalizeRetrievalKey(arabicItem) === normalized
+        );
+      }).slice(0, 1)
+    ],
+    { max: 6 }
+  );
 
   const keywords_extended = dedupeRetrievalList(
-    [...shortKeywords, ...finalizedRetrieval.aliases],
+    [...arabicShortKeywords, ...nonArabicShortKeywords, ...finalizedRetrieval.aliases],
     { max: 8 }
   );
 
   const topic_keywords = dedupeRetrievalList(
-    [...shortKeywords, ...intentTopicKeywords],
+    [...keywords, ...intentTopicKeywords],
     { max: 8 }
   );
 
