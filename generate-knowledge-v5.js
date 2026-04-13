@@ -584,11 +584,23 @@ function filterGenericRetrievalTerms(list = [], { max = 10 } = {}) {
 }
 
 function cleanMisspellingsList(list = [], protectedTerms = []) {
+  const protectedNormalized = dedupeRetrievalList(protectedTerms, { max: 50 });
   const protectedKeys = new Set(
-    dedupeRetrievalList(protectedTerms, { max: 50 }).map((item) =>
-      normalizeRetrievalKey(item)
-    )
+    protectedNormalized.map((item) => normalizeRetrievalKey(item))
   );
+
+  const protectedArabicWords = new Set();
+
+  for (const item of protectedNormalized) {
+    const normalized = normalizeRetrievalKey(item);
+    const words = normalized.split(" ").filter(Boolean);
+
+    for (const word of words) {
+      if (containsArabic(word) && word.length >= 3) {
+        protectedArabicWords.add(word);
+      }
+    }
+  }
 
   const result = [];
   const seen = new Set();
@@ -600,10 +612,37 @@ function cleanMisspellingsList(list = [], protectedTerms = []) {
     if (!cleaned || !key) continue;
     if (seen.has(key)) continue;
     if (protectedKeys.has(key)) continue;
+    if (RETRIEVAL_GENERIC_TERMS.has(key)) continue;
 
     const words = key.split(" ").filter(Boolean);
-    if (words.length === 0 || words.length > 4) continue;
+    if (words.length === 0 || words.length > 3) continue;
     if (key.length < 3) continue;
+
+    const isArabic = containsArabic(cleaned);
+    const isLatin = /[a-z]/i.test(cleaned);
+
+    if (isLatin && !isArabic) {
+      continue;
+    }
+
+    if (words.length === 1) {
+      const word = words[0];
+
+      if (protectedArabicWords.has(word)) continue;
+      if (word.length < 4) continue;
+
+      const repeatedChars = /(.)\1{2,}/.test(word);
+      if (repeatedChars) continue;
+    }
+
+    if (
+      key.includes("الذكاء الاصطناعي") ||
+      key.includes("الاعمال") ||
+      key.includes("الأعمال") ||
+      key.includes("الشركات")
+    ) {
+      continue;
+    }
 
     seen.add(key);
     result.push(cleaned);
