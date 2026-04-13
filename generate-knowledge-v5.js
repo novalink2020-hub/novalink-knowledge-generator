@@ -770,6 +770,21 @@ async function buildKnowledgeItem(url) {
     keywords_extended: initialKeywords,
     topic_keywords,
     embedding_text,
+    entities: Array.isArray(llmRetrieval?.entities)
+      ? llmRetrieval.entities
+      : [],
+    aliases: Array.isArray(llmRetrieval?.aliases)
+      ? llmRetrieval.aliases
+      : [],
+    misspellings: Array.isArray(llmRetrieval?.misspellings)
+      ? llmRetrieval.misspellings
+      : [],
+    faq_queries_human: Array.isArray(llmRetrieval?.faq_queries_human)
+      ? llmRetrieval.faq_queries_human
+      : [],
+    answer_scope: typeof llmRetrieval?.answer_scope === "string"
+      ? llmRetrieval.answer_scope
+      : "",
     weight_title: 1,
     weight_summary: 0.9,
     weight_keywords: 0.8,
