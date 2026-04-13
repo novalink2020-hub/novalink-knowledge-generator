@@ -28,7 +28,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:06:40.931Z",
+    "updated_at": "2026-04-13T21:14:32.574Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -66,7 +66,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:06:43.404Z",
+    "updated_at": "2026-04-13T21:14:35.142Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -107,7 +107,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:06:46.015Z",
+    "updated_at": "2026-04-13T21:14:38.077Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -126,23 +126,26 @@
     "facts": [],
     "keywords": [
       "منصات الذكاء الاصطناعي",
-      "أكواد خصم"
+      "أكواد خصم",
+      "رحلة رقمية"
     ],
     "keywords_extended": [
       "منصات الذكاء الاصطناعي",
-      "أكواد خصم"
+      "أكواد خصم",
+      "رحلة رقمية"
     ],
     "topic_keywords": [
       "منصات الذكاء الاصطناعي",
-      "أكواد خصم"
+      "أكواد خصم",
+      "رحلة رقمية"
     ],
-    "embedding_text": "رحلة فردية في عالم الذكاء الاصطناعي: هكذا بدأت نوفا لينك | .نوفا لينك هي منصة عربية تهدف إلى تمكين الأفراد من اكتشاف واستخدام أدوات الذكاء الاصطناعي لتطوير أعمالهم ومشاريعهم. نقدم في نوفا لينك تدوينا | .نوفا لينك هي منصة عربية تهدف إلى تمكين الأفراد من اكتشاف واستخدام أدوات الذكاء الاصطناعي لتطوير أعمالهم ومشاريعهم. نقدم في نوفا لينك تدوينات وشروحات مبسطة لأحدث التقنيات، إلى جانب توفير أكواد خصم من منصات عالمية، لنرافقك خطوة بخطوة في رحلتك الرقمية بكل دعم واحترافية. | منصات الذكاء الاصطناعي أكواد خصم | https://novalink-ai.com/rhlh-frdyh-fy-aalm-althkaa-alastnaay-hktha-bdat-nwfa-lynk",
+    "embedding_text": "رحلة فردية في عالم الذكاء الاصطناعي: هكذا بدأت نوفا لينك | .نوفا لينك هي منصة عربية تهدف إلى تمكين الأفراد من اكتشاف واستخدام أدوات الذكاء الاصطناعي لتطوير أعمالهم ومشاريعهم. نقدم في نوفا لينك تدوينا | .نوفا لينك هي منصة عربية تهدف إلى تمكين الأفراد من اكتشاف واستخدام أدوات الذكاء الاصطناعي لتطوير أعمالهم ومشاريعهم. نقدم في نوفا لينك تدوينات وشروحات مبسطة لأحدث التقنيات، إلى جانب توفير أكواد خصم من منصات عالمية، لنرافقك خطوة بخطوة في رحلتك الرقمية بكل دعم واحترافية. | منصات الذكاء الاصطناعي أكواد خصم رحلة رقمية | https://novalink-ai.com/rhlh-frdyh-fy-aalm-althkaa-alastnaay-hktha-bdat-nwfa-lynk",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:06:48.527Z",
+    "updated_at": "2026-04-13T21:14:40.834Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -192,7 +195,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:06:51.312Z",
+    "updated_at": "2026-04-13T21:14:43.905Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -242,7 +245,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:06:54.116Z",
+    "updated_at": "2026-04-13T21:14:47.842Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -289,7 +292,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:06:57.483Z",
+    "updated_at": "2026-04-13T21:14:51.401Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -309,28 +312,25 @@
     "keywords": [
       "سوق العمل",
       "الوظائف",
-      "المهن",
-      "مهارات"
+      "المهن"
     ],
     "keywords_extended": [
       "سوق العمل",
       "الوظائف",
-      "المهن",
-      "مهارات"
+      "المهن"
     ],
     "topic_keywords": [
       "سوق العمل",
       "الوظائف",
-      "المهن",
-      "مهارات"
+      "المهن"
     ],
-    "embedding_text": "الذكاء الاصطناعي يُعيد تشكيل المستقبل :هل وظيفتك في أمان؟ | اكتشف تأثير الذكاء الاصطناعي على 7 مهن رئيسية، وتعلّم كيف تدمج مهاراتك مع أدوات الذكاء الاصطناعي لتتفوق في سوق العمل الجديد! | اكتشف تأثير الذكاء الاصطناعي على 7 مهن رئيسية، وتعلّم كيف تدمج مهاراتك مع أدوات الذكاء الاصطناعي لتتفوق في سوق العمل الجديد! | سوق العمل الوظائف المهن مهارات | https://novalink-ai.com/althkaa-alastnaay-yuayd-tshkyl-almstqbl-hl-wzyftk-fy-aman",
+    "embedding_text": "الذكاء الاصطناعي يُعيد تشكيل المستقبل :هل وظيفتك في أمان؟ | اكتشف تأثير الذكاء الاصطناعي على 7 مهن رئيسية، وتعلّم كيف تدمج مهاراتك مع أدوات الذكاء الاصطناعي لتتفوق في سوق العمل الجديد! | اكتشف تأثير الذكاء الاصطناعي على 7 مهن رئيسية، وتعلّم كيف تدمج مهاراتك مع أدوات الذكاء الاصطناعي لتتفوق في سوق العمل الجديد! | سوق العمل الوظائف المهن | https://novalink-ai.com/althkaa-alastnaay-yuayd-tshkyl-almstqbl-hl-wzyftk-fy-aman",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:07:00.288Z",
+    "updated_at": "2026-04-13T21:14:54.225Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -365,7 +365,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:07:02.876Z",
+    "updated_at": "2026-04-13T21:14:56.965Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -403,7 +403,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-13T21:07:05.485Z",
+    "updated_at": "2026-04-13T21:14:59.664Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
