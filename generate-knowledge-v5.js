@@ -251,87 +251,6 @@ function nowISO() {
   return new Date().toISOString();
 }
 
-function extractNovaLinkKnowledge($, html = "") {
-  const parseNovaLinkKnowledgeObject = (parsed) => {
-    return {
-      article_title: `${parsed.article_title || ""}`.trim(),
-      article_description: `${parsed.article_description || ""}`.trim(),
-      article_slug: `${parsed.article_slug || ""}`.trim(),
-      primary_topic: `${parsed.primary_topic || ""}`.trim(),
-      search_intent: `${parsed.search_intent || ""}`.trim(),
-      entities: Array.isArray(parsed.entities)
-        ? parsed.entities.map((x) => `${x}`.trim()).filter(Boolean)
-        : [],
-      aliases: Array.isArray(parsed.aliases)
-        ? parsed.aliases.map((x) => `${x}`.trim()).filter(Boolean)
-        : [],
-      misspellings: Array.isArray(parsed.misspellings)
-        ? parsed.misspellings.map((x) => `${x}`.trim()).filter(Boolean)
-        : [],
-      faq_queries_human: Array.isArray(parsed.faq_queries_human)
-        ? parsed.faq_queries_human.map((x) => `${x}`.trim()).filter(Boolean)
-        : [],
-      answer_scope: Array.isArray(parsed.answer_scope)
-        ? parsed.answer_scope.map((x) => `${x}`.trim()).filter(Boolean)
-        : []
-    };
-  };
-
-  const raw = $("#novalink-knowledge").html()?.trim();
-
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw);
-      return parseNovaLinkKnowledgeObject(parsed);
-    } catch (error) {
-      console.error("❌ Failed to parse direct #novalink-knowledge JSON:", error);
-    }
-  }
-
-  if (!html) return null;
-
-  try {
-    const decodedHtml = cheerio.load(`<textarea>${html}</textarea>`)("textarea").text();
-
-    const normalizedHtml = decodedHtml
-      .replace(/\\&quot;/g, '"')
-      .replace(/\\&lt;/g, "<")
-      .replace(/\\&gt;/g, ">")
-      .replace(/\\&amp;/g, "&")
-      .replace(/&quot;/g, '"')
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&amp;/g, "&");
-    const escapedScriptMatch = normalizedHtml.match(
-      /<script[^>]*id=["']novalink-knowledge["'][^>]*>([\s\S]*?)<\/script>/i
-    );
-
-    if (escapedScriptMatch?.[1]) {
-      const escapedRaw = escapedScriptMatch[1].trim();
-      const parsed = JSON.parse(escapedRaw);
-      return parseNovaLinkKnowledgeObject(parsed);
-    }
-
-    const faqIndex = normalizedHtml.indexOf('"faq_queries_human"');
-
-    if (faqIndex !== -1) {
-      const objectStart = normalizedHtml.lastIndexOf("{", faqIndex);
-      const scriptEnd = normalizedHtml.indexOf("</script>", faqIndex);
-
-      if (objectStart !== -1 && scriptEnd !== -1) {
-        const rawObject = normalizedHtml.slice(objectStart, scriptEnd).trim();
-        const parsed = JSON.parse(rawObject);
-        return parseNovaLinkKnowledgeObject(parsed);
-      }
-    }
-
-    return null;
-  } catch (error) {
-    console.error("❌ Failed to parse escaped novalink-knowledge JSON:", error);
-    return null;
-  }
-}
-
 /* ============ قائمة الكلمات العامة المراد حذفها ============ */
 
 const STOP_KEYWORDS = new Set(
@@ -642,7 +561,6 @@ function shouldIncludeUrl(url) {
 
 function extractPageContent(html, url) {
   const $ = cheerio.load(html);
-  const novalinkKnowledge = extractNovaLinkKnowledge($, html);
 
   // العنوان من الميتا أو <title>
   let title =
@@ -723,8 +641,7 @@ return {
     extractFirstMeaningfulSnippet(mainText, 220, title, description) ||
     description ||
     cleanTitle(title),
-  rawText: mainText,
-  novalinkKnowledge
+  rawText: mainText
 };
 }
 
@@ -734,28 +651,7 @@ async function buildKnowledgeItem(url) {
   console.log(`📝 Processing: ${url}`);
 
   const html = await fetchText(url);
-    console.log("🔎 novalink-knowledge probe:", {
-    url,
-    hasScriptId: html.includes('id="novalink-knowledge"'),
-    hasFaqQueriesHuman: html.includes("faq_queries_human"),
-    hasApplicationJson: html.includes('type="application/json"')
-  });
-  if (
-    url.includes("microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy") &&
-    html.includes("faq_queries_human")
-  ) {
-    const probeIndex = html.indexOf("faq_queries_human");
-    const snippetStart = Math.max(0, probeIndex - 500);
-    const snippetEnd = Math.min(html.length, probeIndex + 1500);
-
-    console.log(
-      "🧩 novalink-knowledge raw snippet:",
-      html.slice(snippetStart, snippetEnd)
-    );
-  }
-  
-  const { title, description, excerpt, rawText, novalinkKnowledge } =
-  extractPageContent(html, url);
+  const { title, description, excerpt, rawText } = extractPageContent(html, url);
 
   const title_clean = cleanTitle(title);
   const { category, subcategory, intent_hint } = classifyPage(url, title);
@@ -837,29 +733,9 @@ const summary_short =
     source: "sitemap+scraper+gemini-v5.2"
   };
 
-  if (novalinkKnowledge) {
-    item.novalink_knowledge = novalinkKnowledge;
-
-    if (
-      novalinkKnowledge.article_slug &&
-      !novalinkKnowledge.article_slug.includes("{{")
-    ) {
-      item.article_slug = novalinkKnowledge.article_slug;
-    }
-
-    if (novalinkKnowledge.search_intent) {
-      item.search_intent = novalinkKnowledge.search_intent;
-    }
-
-    item.entities = novalinkKnowledge.entities || [];
-    item.aliases = novalinkKnowledge.aliases || [];
-    item.misspellings = novalinkKnowledge.misspellings || [];
-    item.faq_queries_human = novalinkKnowledge.faq_queries_human || [];
-    item.answer_scope = novalinkKnowledge.answer_scope || [];
-  }
-
   return item;
 }
+
 /* ============ تنظيف وتوحيد الكلمات المفتاحية لجميع العناصر ============ */
 /**
  * المنهج هنا:
