@@ -774,7 +774,20 @@ function finalizeRetrievalFields({
   answer_scope = ""
 }) {
   const cleanEntities = filterGenericRetrievalTerms(entities, { max: 6 });
-  const cleanAliases = filterGenericRetrievalTerms(aliases, { max: 8 });
+
+  const rawAliases = filterGenericRetrievalTerms(aliases, { max: 12 });
+  const arabicAliases = dedupeRetrievalList(
+    rawAliases.filter((item) => containsArabic(item)),
+    { max: 6 }
+  );
+  const nonArabicAliases = dedupeRetrievalList(
+    rawAliases.filter((item) => !containsArabic(item)),
+    { max: 2, preferArabic: false }
+  );
+  const cleanAliases = dedupeRetrievalList(
+    [...arabicAliases, ...nonArabicAliases],
+    { max: 8 }
+  );
 
   const protectedTerms = [
     title_clean,
@@ -783,7 +796,21 @@ function finalizeRetrievalFields({
   ];
 
   const cleanMisspellings = cleanMisspellingsList(misspellings, protectedTerms);
-  const cleanFaq = cleanFaqQueriesHuman(faq_queries_human, protectedTerms);
+
+  const rawFaq = cleanFaqQueriesHuman(faq_queries_human, protectedTerms);
+  const arabicFaq = dedupeRetrievalList(
+    rawFaq.filter((item) => containsArabic(item)),
+    { max: 8 }
+  );
+  const nonArabicFaq = dedupeRetrievalList(
+    rawFaq.filter((item) => !containsArabic(item)),
+    { max: 1, preferArabic: false }
+  );
+  const cleanFaq = dedupeRetrievalList(
+    [...arabicFaq, ...nonArabicFaq],
+    { max: 9 }
+  );
+
   const retrievalKeywords = buildRetrievalKeywords({
     entities: cleanEntities,
     aliases: cleanAliases,
