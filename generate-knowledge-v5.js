@@ -652,40 +652,76 @@ function buildRetrievalKeywords({
   category = "",
   subcategory = ""
 }) {
-  const boosted = [];
+  const shortKeywords = [];
+  const intentPhrases = [];
 
   const coreEntities = filterGenericRetrievalTerms(entities, { max: 6 });
-  const coreAliases = filterGenericRetrievalTerms(aliases, { max: 6 });
+  const coreAliases = filterGenericRetrievalTerms(aliases, { max: 8 });
+  const cleanFaq = cleanFaqQueriesHuman(faq_queries_human, [...coreEntities, ...coreAliases]);
 
-  boosted.push(...coreEntities);
-  boosted.push(...coreAliases);
+  for (const item of [...coreEntities, ...coreAliases]) {
+    const cleaned = normalizeRetrievalText(item);
+    const words = cleaned.split(" ").filter(Boolean);
 
-  for (const q of cleanFaqQueriesHuman(faq_queries_human, [...coreEntities, ...coreAliases])) {
-    const qKey = normalizeRetrievalKey(q);
-    const words = qKey.split(" ").filter(Boolean);
+    if (words.length >= 1 && words.length <= 4) {
+      shortKeywords.push(cleaned);
+    }
+  }
 
-    if (words.length >= 2 && words.length <= 6) {
-      boosted.push(q);
+  for (const q of cleanFaq) {
+    const cleaned = normalizeRetrievalText(q);
+    const words = cleaned.split(" ").filter(Boolean);
+
+    if (words.length >= 3 && words.length <= 7) {
+      intentPhrases.push(cleaned);
     }
   }
 
   if (category === "home") {
-    boosted.unshift("نوفا لينك", "منصة ذكاء اصطناعي للاعمال");
+    shortKeywords.unshift("نوفا لينك", "منصة ذكاء اصطناعي للاعمال");
   }
 
   if (subcategory === "about_us") {
-    boosted.unshift("من نحن", "عن نوفا لينك");
+    shortKeywords.unshift("من نحن", "عن نوفا لينك");
   }
 
   if (subcategory === "founder_story") {
-    boosted.unshift("قصة نوفا لينك", "بداية نوفا لينك");
+    shortKeywords.unshift("قصة نوفا لينك", "بداية نوفا لينك");
   }
 
   if (title_clean) {
-    boosted.push(title_clean);
+    const titleNormalized = normalizeRetrievalText(title_clean);
+    const titleWords = titleNormalized.split(" ").filter(Boolean);
+
+    if (titleWords.length >= 2 && titleWords.length <= 5) {
+      shortKeywords.push(titleNormalized);
+    }
   }
 
-  return dedupeRetrievalList(boosted, { max: 8 });
+  const arabicShort = dedupeRetrievalList(
+    shortKeywords.filter((item) => containsArabic(item)),
+    { max: 8 }
+  );
+
+  const nonArabicShort = dedupeRetrievalList(
+    shortKeywords.filter((item) => !containsArabic(item)),
+    { max: 4, preferArabic: false }
+  );
+
+  const shortFinal = dedupeRetrievalList(
+    [...arabicShort, ...nonArabicShort],
+    { max: 6 }
+  );
+
+  const intentFinal = dedupeRetrievalList(
+    intentPhrases.filter((item) => containsArabic(item)),
+    { max: 2 }
+  );
+
+  return dedupeRetrievalList(
+    [...shortFinal, ...intentFinal],
+    { max: 8 }
+  );
 }
 
 function finalizeRetrievalFields({
