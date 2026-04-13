@@ -1329,20 +1329,9 @@ function postProcessKeywords(items) {
     item.topic_keywords =
       cleanTopicKeywords.length > 0 ? cleanTopicKeywords : [...cleanKeywords];
 
-    item.embedding_text = [
-      item.title_clean,
-      item.summary_short,
-      item.description,
-      Array.isArray(item.entities) ? item.entities.join(" ") : "",
-      Array.isArray(item.aliases) ? item.aliases.join(" ") : "",
-      Array.isArray(item.faq_queries_human)
-        ? item.faq_queries_human.slice(0, 4).join(" ")
-        : "",
-      item.topic_keywords.join(" "),
-      item.url
-    ]
-      .filter(Boolean)
-      .join(" | ");
+    item.embedding_text = typeof item.embedding_text === "string"
+      ? item.embedding_text.trim()
+      : "";
 
     finalItems.push(item);
   }
