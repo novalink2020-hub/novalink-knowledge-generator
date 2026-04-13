@@ -314,33 +314,64 @@ const STOP_KEYWORDS = new Set(
 
 /* ============ استدعاء Gemini (اختياري) ============ */
 
-async function callGeminiForPage({ title, text }) {
+async function callGeminiForPage({
+  title,
+  description,
+  excerpt,
+  rawText,
+  category,
+  subcategory,
+  intent_hint
+}) {
   if (!GOOGLE_API_KEY) {
-    return null; // لا يوجد مفتاح → نعتمد على التلخيص اليدوي
+    return null;
   }
 
   const prompt = `
-أنت مساعد لتحليل صفحة من موقع نوفا لينك حول الذكاء الاصطناعي للأعمال.
+أنت مهندس Retrieval Layer لمشروع NovaLink.
+مهمتك ليست كتابة محتوى، ولا تلخيص المقال بأسلوب تحريري، ولا تحسين SEO.
 
-أعد لي JSON فقط بالشكل التالي بدون أي نص خارجه:
+اعتمد فقط على البيانات التالية القادمة من الصفحة:
+- title
+- description
+- excerpt
+- rawText
+- category
+- subcategory
+- intent_hint
+
+أعد JSON فقط، بدون أي شرح خارجي، وبهذا الشكل حرفيًا:
 {
-  "summary": "ملخص فقرة واحدة بالعربية عن محتوى الصفحة (3-4 جمل).",
-  "summary_short": "ملخص قصير جداً (سطر واحد).",
-  "keywords": ["كلمة مفتاحية 1", "عبارة متخصصة 2", "..."]
+  "entities": ["..."],
+  "aliases": ["..."],
+  "misspellings": ["..."],
+  "faq_queries_human": ["..."],
+  "answer_scope": "..."
 }
 
-الشروط:
-- لا تستخدم تعبيرات عامة جداً مثل: "الذكاء الاصطناعي" وحدها أو "AI" وحدها.
-- ركّز على الكلمات والعبارات التي تميز هذه الصفحة عن بقية الصفحات.
-- لا تضع تشكيل على الكلمات العربية.
-- لا تذكر "نوفا لينك" أو "NOVALINK Ai" ضمن الكلمات المفتاحية.
-- اجعل عدد الكلمات المفتاحية بين 8 و 15 كلمة/عبارة.
+القواعد الإلزامية:
+- الهدف هو تحسين الاسترجاع وربط سؤال المستخدم بهذه الصفحة لاحقًا.
+- لا تؤلف معلومات غير موجودة ضمن المعطيات.
+- استخرج entities حقيقية مرتبطة بالموضوع أو الأداة أو المفهوم أو الجهة أو بيئة العمل المذكورة.
+- aliases يجب أن تشمل الصيغ العربية والإنجليزية والبدائل الشائعة عند الحاجة.
+- misspellings يجب أن تكون قليلة ومدروسة وواقعية فقط، وليست عشوائية.
+- faq_queries_human يجب أن تكون طبيعية جدًا، شبيهة بما يكتبه المستخدم في البحث أو الدردشة.
+- answer_scope يجب أن يصف باختصار: ما الذي تجيب عنه هذه الصفحة تحديدًا، وما حدودها.
+- لا تذكر NovaLink ككيان استرجاعي إلا إذا كان جزءًا فعليًا من موضوع الصفحة.
+- لا تكرر نفس العنصر بصيغ متعددة بلا داع.
+- اجعل الناتج عمليًا ومضغوطًا.
+- جميع القوائم يجب أن تكون صالحة للاسترجاع، لا للزينة.
 
-العنوان:
-${title}
+بيانات الصفحة:
+title: ${title || ""}
+description: ${description || ""}
+excerpt: ${excerpt || ""}
+category: ${category || ""}
+subcategory: ${subcategory || ""}
+intent_hint: ${intent_hint || ""}
 
-محتوى مختصر للصفحة:
-${text.slice(0, 1800)}
+rawText:
+${(rawText || "").slice(0, 6000)}
 `;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GOOGLE_API_KEY}`;
@@ -352,8 +383,8 @@ ${text.slice(0, 1800)}
       }
     ],
     generationConfig: {
-      temperature: 0.3,
-      maxOutputTokens: 512
+      temperature: 0.2,
+      maxOutputTokens: 700
     }
   };
 
@@ -379,16 +410,23 @@ ${text.slice(0, 1800)}
       return null;
     }
 
-    const jsonString = textPart.slice(start, end + 1);
-    const parsed = JSON.parse(jsonString);
+    const parsed = JSON.parse(textPart.slice(start, end + 1));
 
-    const summary = (parsed.summary || "").trim();
-    const summary_short = (parsed.summary_short || "").trim();
-    const keywords = Array.isArray(parsed.keywords)
-      ? parsed.keywords.map((k) => `${k}`.trim()).filter(Boolean)
-      : [];
-
-    return { summary, summary_short, keywords };
+    return {
+      entities: Array.isArray(parsed.entities)
+        ? parsed.entities.map((v) => `${v}`.trim()).filter(Boolean)
+        : [],
+      aliases: Array.isArray(parsed.aliases)
+        ? parsed.aliases.map((v) => `${v}`.trim()).filter(Boolean)
+        : [],
+      misspellings: Array.isArray(parsed.misspellings)
+        ? parsed.misspellings.map((v) => `${v}`.trim()).filter(Boolean)
+        : [],
+      faq_queries_human: Array.isArray(parsed.faq_queries_human)
+        ? parsed.faq_queries_human.map((v) => `${v}`.trim()).filter(Boolean)
+        : [],
+      answer_scope: `${parsed.answer_scope || ""}`.trim()
+    };
   } catch (err) {
     console.error("❌ Gemini parse/error:", err);
     return null;
