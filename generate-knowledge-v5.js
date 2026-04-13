@@ -484,6 +484,250 @@ ${(rawText || "").slice(0, 6000)}
   }
 }
 
+const RETRIEVAL_GENERIC_TERMS = new Set(
+  [
+    "novalink ai",
+    "novalink",
+    "نوفا لينك",
+    "نوفالينك",
+    "الذكاء الاصطناعي",
+    "الذكاء الاصطناعي في الاعمال",
+    "الذكاء الاصطناعي في الشركات",
+    "الاعمال",
+    "الأعمال",
+    "الشركات",
+    "الشركة",
+    "المحتوى",
+    "الخدمات",
+    "خدمات",
+    "البيانات",
+    "المستندات",
+    "الاجتماعات",
+    "البريد",
+    "منصة عربية",
+    "منصة الذكاء الاصطناعي",
+    "منصة ai عربية"
+  ].map(normalizeKeywordRaw)
+);
+
+function containsArabic(str = "") {
+  return /[\u0600-\u06FF]/.test(str);
+}
+
+function normalizeRetrievalText(str = "") {
+  return stripArabicDiacritics(
+    `${str}`
+      .replace(/\u00a0/g, " ")
+      .replace(/[؟?]+/g, "")
+      .replace(/[،؛;!]+/g, " ")
+      .replace(/[“”"«»]/g, "")
+      .replace(/[(){}\[\]]/g, " ")
+      .replace(/[^\p{L}\p{N}\s./+-]/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
+}
+
+function normalizeRetrievalKey(str = "") {
+  return normalizeKeywordRaw(
+    `${str}`
+      .replace(/[؟?]+/g, "")
+      .replace(/[،؛;!]+/g, " ")
+      .trim()
+  );
+}
+
+function dedupeRetrievalList(list = [], { max = 10, preferArabic = true } = {}) {
+  const bucket = new Map();
+
+  for (const raw of Array.isArray(list) ? list : []) {
+    const cleaned = normalizeRetrievalText(raw);
+    const key = normalizeRetrievalKey(cleaned);
+
+    if (!cleaned || !key) continue;
+
+    const prev = bucket.get(key);
+    if (!prev) {
+      bucket.set(key, cleaned);
+      continue;
+    }
+
+    if (preferArabic) {
+      const prevArabic = containsArabic(prev);
+      const nextArabic = containsArabic(cleaned);
+
+      if (!prevArabic && nextArabic) {
+        bucket.set(key, cleaned);
+        continue;
+      }
+    }
+
+    if (cleaned.length < prev.length) {
+      bucket.set(key, cleaned);
+    }
+  }
+
+  return Array.from(bucket.values()).slice(0, max);
+}
+
+function filterGenericRetrievalTerms(list = [], { max = 10 } = {}) {
+  return dedupeRetrievalList(list, { max: max * 2 }).filter((item) => {
+    const key = normalizeRetrievalKey(item);
+    if (!key) return false;
+    if (RETRIEVAL_GENERIC_TERMS.has(key)) return false;
+
+    const words = key.split(" ").filter(Boolean);
+    if (words.length === 1 && words[0].length <= 3) return false;
+
+    return true;
+  }).slice(0, max);
+}
+
+function cleanMisspellingsList(list = [], protectedTerms = []) {
+  const protectedKeys = new Set(
+    dedupeRetrievalList(protectedTerms, { max: 50 }).map((item) =>
+      normalizeRetrievalKey(item)
+    )
+  );
+
+  const result = [];
+  const seen = new Set();
+
+  for (const raw of Array.isArray(list) ? list : []) {
+    const cleaned = normalizeRetrievalText(raw);
+    const key = normalizeRetrievalKey(cleaned);
+
+    if (!cleaned || !key) continue;
+    if (seen.has(key)) continue;
+    if (protectedKeys.has(key)) continue;
+
+    const words = key.split(" ").filter(Boolean);
+    if (words.length === 0 || words.length > 4) continue;
+    if (key.length < 3) continue;
+
+    seen.add(key);
+    result.push(cleaned);
+
+    if (result.length >= 5) break;
+  }
+
+  return result;
+}
+
+function cleanFaqQueriesHuman(list = [], primaryTerms = []) {
+  const protectedKeys = new Set(
+    dedupeRetrievalList(primaryTerms, { max: 50 }).map((item) =>
+      normalizeRetrievalKey(item)
+    )
+  );
+
+  const result = [];
+  const seen = new Set();
+
+  for (const raw of Array.isArray(list) ? list : []) {
+    const cleaned = normalizeRetrievalText(raw);
+    const key = normalizeRetrievalKey(cleaned);
+
+    if (!cleaned || !key) continue;
+    if (seen.has(key)) continue;
+    if (protectedKeys.has(key)) continue;
+
+    const words = cleaned.split(" ").filter(Boolean);
+    if (words.length < 3 || words.length > 12) continue;
+
+    seen.add(key);
+    result.push(cleaned);
+
+    if (result.length >= 10) break;
+  }
+
+  return result;
+}
+
+function buildRetrievalKeywords({
+  entities = [],
+  aliases = [],
+  faq_queries_human = [],
+  title_clean = "",
+  category = "",
+  subcategory = ""
+}) {
+  const boosted = [];
+
+  const coreEntities = filterGenericRetrievalTerms(entities, { max: 6 });
+  const coreAliases = filterGenericRetrievalTerms(aliases, { max: 6 });
+
+  boosted.push(...coreEntities);
+  boosted.push(...coreAliases);
+
+  for (const q of cleanFaqQueriesHuman(faq_queries_human, [...coreEntities, ...coreAliases])) {
+    const qKey = normalizeRetrievalKey(q);
+    const words = qKey.split(" ").filter(Boolean);
+
+    if (words.length >= 2 && words.length <= 6) {
+      boosted.push(q);
+    }
+  }
+
+  if (category === "home") {
+    boosted.unshift("نوفا لينك", "منصة ذكاء اصطناعي للاعمال");
+  }
+
+  if (subcategory === "about_us") {
+    boosted.unshift("من نحن", "عن نوفا لينك");
+  }
+
+  if (subcategory === "founder_story") {
+    boosted.unshift("قصة نوفا لينك", "بداية نوفا لينك");
+  }
+
+  if (title_clean) {
+    boosted.push(title_clean);
+  }
+
+  return dedupeRetrievalList(boosted, { max: 8 });
+}
+
+function finalizeRetrievalFields({
+  title_clean = "",
+  category = "",
+  subcategory = "",
+  entities = [],
+  aliases = [],
+  misspellings = [],
+  faq_queries_human = [],
+  answer_scope = ""
+}) {
+  const cleanEntities = filterGenericRetrievalTerms(entities, { max: 6 });
+  const cleanAliases = filterGenericRetrievalTerms(aliases, { max: 8 });
+
+  const protectedTerms = [
+    title_clean,
+    ...cleanEntities,
+    ...cleanAliases
+  ];
+
+  const cleanMisspellings = cleanMisspellingsList(misspellings, protectedTerms);
+  const cleanFaq = cleanFaqQueriesHuman(faq_queries_human, protectedTerms);
+  const retrievalKeywords = buildRetrievalKeywords({
+    entities: cleanEntities,
+    aliases: cleanAliases,
+    faq_queries_human: cleanFaq,
+    title_clean,
+    category,
+    subcategory
+  });
+
+  return {
+    entities: cleanEntities,
+    aliases: cleanAliases,
+    misspellings: cleanMisspellings,
+    faq_queries_human: cleanFaq,
+    answer_scope: normalizeRetrievalText(answer_scope),
+    retrieval_keywords: retrievalKeywords
+  };
+}
+
 /* ============ جلب الـ Sitemap واستخراج الروابط ============ */
 
 async function fetchText(url) {
