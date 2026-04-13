@@ -694,33 +694,38 @@ async function buildKnowledgeItem(url) {
   const title_clean = cleanTitle(title);
   const { category, subcategory, intent_hint } = classifyPage(url, title);
 
-  // استدعاء Gemini لاشتقاق ملخص وكلمات مفتاحية (إن أمكن)
-  let llmSummary = null;
+  // استدعاء Gemini لاشتقاق Retrieval Layer (إن أمكن)
+  let llmRetrieval = null;
   if (GOOGLE_API_KEY) {
-    llmSummary = await callGeminiForPage({
+    llmRetrieval = await callGeminiForPage({
       title,
-      text: rawText || description || excerpt
+      description,
+      excerpt,
+      rawText,
+      category,
+      subcategory,
+      intent_hint
     });
   }
 
-const summary =
-  llmSummary?.summary?.trim() ||
-  description ||
-  excerpt ||
-  extractFirstMeaningfulSnippet(rawText, 260) ||
-  title_clean;
+  const summary =
+    description ||
+    excerpt ||
+    extractFirstMeaningfulSnippet(rawText, 260) ||
+    title_clean;
 
-const summary_short =
-  llmSummary?.summary_short?.trim() ||
-  extractFirstMeaningfulSnippet(summary, 140) ||
-  title_clean;
+  const summary_short =
+    extractFirstMeaningfulSnippet(summary, 140) ||
+    title_clean;
 
   const summary_long = summary;
 
-  // كلمات مفتاحية أولية من Gemini إن وُجدت، وإلا من العنوان + الوصف
+  // كلمات مفتاحية أولية من Retrieval Layer إن وُجدت، وإلا fallback من العنوان/الوصف
   let initialKeywords = [];
-  if (llmSummary?.keywords?.length) {
-    initialKeywords = llmSummary.keywords;
+  if (llmRetrieval?.entities?.length) {
+    initialKeywords = llmRetrieval.entities;
+  } else if (llmRetrieval?.aliases?.length) {
+    initialKeywords = llmRetrieval.aliases;
   } else {
     const base = `${title_clean} ${description}`.split(/[،,.]/);
     initialKeywords = base
