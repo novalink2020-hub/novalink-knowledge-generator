@@ -24,10 +24,7 @@ const OUTPUT_PATH =
   process.env.OUTPUT_PATH || path.join(__dirname, "knowledge.v5.json");
 
 const GOOGLE_API_KEY =
-  process.env.GEMINI_API_KEY ||
-  process.env.GOOGLE_API_KEY ||
-  process.env.NOVALINK_GEMINI_KEY ||
-  "";
+  process.env.GOOGLE_API_KEY || process.env.NOVALINK_GEMINI_KEY || "";
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
 
