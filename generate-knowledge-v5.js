@@ -1105,18 +1105,46 @@ async function buildKnowledgeItem(url) {
       : ""
   });
 
-  let initialKeywords = Array.isArray(finalizedRetrieval.retrieval_keywords)
+  let retrievalBase = Array.isArray(finalizedRetrieval.retrieval_keywords)
     ? finalizedRetrieval.retrieval_keywords
     : [];
 
-  if (!initialKeywords.length) {
+  if (!retrievalBase.length) {
     const base = `${title_clean} ${description}`.split(/[،,.]/);
-    initialKeywords = base
+    retrievalBase = base
       .map((p) => normalizeRetrievalText(p))
       .filter((p) => p.split(" ").length <= 6 && p.length > 2);
   }
 
-  const topic_keywords = [...initialKeywords];
+  const shortKeywords = dedupeRetrievalList(
+    retrievalBase.filter((item) => {
+      const cleaned = normalizeRetrievalText(item);
+      const words = cleaned.split(" ").filter(Boolean);
+      return words.length >= 1 && words.length <= 4;
+    }),
+    { max: 6 }
+  );
+
+  const intentTopicKeywords = dedupeRetrievalList(
+    finalizedRetrieval.faq_queries_human.filter((item) => {
+      const cleaned = normalizeRetrievalText(item);
+      const words = cleaned.split(" ").filter(Boolean);
+      return words.length >= 4 && words.length <= 8;
+    }),
+    { max: 3 }
+  );
+
+  const keywords = [...shortKeywords];
+
+  const keywords_extended = dedupeRetrievalList(
+    [...shortKeywords, ...finalizedRetrieval.aliases],
+    { max: 8 }
+  );
+
+  const topic_keywords = dedupeRetrievalList(
+    [...shortKeywords, ...intentTopicKeywords],
+    { max: 8 }
+  );
 
   const embedding_text = [
     title_clean,
@@ -1147,8 +1175,8 @@ async function buildKnowledgeItem(url) {
     summary_short,
     summary_long,
     facts: [],
-    keywords: initialKeywords,
-    keywords_extended: initialKeywords,
+    keywords,
+    keywords_extended,
     topic_keywords,
     embedding_text,
     entities: finalizedRetrieval.entities,
