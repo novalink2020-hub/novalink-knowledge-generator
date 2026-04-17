@@ -1236,10 +1236,38 @@ async function buildKnowledgeItem(url) {
     { max: 8 }
   );
 
-  const topic_keywords = dedupeRetrievalList(
+  let topic_keywords = dedupeRetrievalList(
     [...keywords, ...intentTopicKeywords],
     { max: 8 }
   );
+
+  // المقالات العامة جدًا يجب أن تحتفظ بإشارات موضوعية عامة
+  // لكن دون intent phrases واسعة تجعلها تنافس المقالات المتخصصة
+  if (subcategory === "broad_ai_overview") {
+    topic_keywords = dedupeRetrievalList(
+      topic_keywords.filter((item) => {
+        const key = normalizeRetrievalKey(item);
+
+        if (
+          key.includes("في عملي") ||
+          key.includes("في شغلي") ||
+          key.includes("لتطوير عملي") ||
+          key.includes("في مجال عملي") ||
+          key.includes("لشركتي") ||
+          key.includes("في الشركات") ||
+          key.includes("كيف يساعد") ||
+          key.includes("كيف يمكنني") ||
+          key.includes("اريد استخدام") ||
+          key.includes("أريد استخدام")
+        ) {
+          return false;
+        }
+
+        return true;
+      }),
+      { max: 4 }
+    );
+  }
 
   const embeddingParts = dedupeRetrievalList(
     [
