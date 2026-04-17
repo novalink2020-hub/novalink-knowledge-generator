@@ -806,10 +806,38 @@ function finalizeRetrievalFields({
     rawFaq.filter((item) => !containsArabic(item)),
     { max: 1, preferArabic: false }
   );
-  const cleanFaq = dedupeRetrievalList(
+  let cleanFaq = dedupeRetrievalList(
     [...arabicFaq, ...nonArabicFaq],
     { max: 9 }
   );
+
+  // المقالات العامة جدًا يجب أن تظل مفيدة، لكن دون surface area واسعة
+  // تمنحها القدرة على سرقة أسئلة من المقالات المتخصصة
+  if (subcategory === "broad_ai_overview") {
+    cleanFaq = cleanFaq.filter((item) => {
+      const key = normalizeRetrievalKey(item);
+
+      // نمنع الصياغات التي تصلح لعشرات المقالات الأخرى
+      if (
+        key.includes("في عملي") ||
+        key.includes("في شغلي") ||
+        key.includes("لشركتي") ||
+        key.includes("في الشركات") ||
+        key.includes("كيف ابدا") ||
+        key.includes("كيف ابدأ") ||
+        key.includes("امثلة") ||
+        key.includes("أمثلة") ||
+        key.includes("what ai tools") ||
+        key.includes("help my business")
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+
+    cleanFaq = dedupeRetrievalList(cleanFaq, { max: 4 });
+  }
 
   const retrievalKeywords = buildRetrievalKeywords({
     entities: cleanEntities,
