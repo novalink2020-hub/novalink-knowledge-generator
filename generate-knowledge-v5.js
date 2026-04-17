@@ -997,6 +997,110 @@ function classifyPage(url, title) {
   };
 }
 
+function getRetrievalProfile({ category = "", subcategory = "" }) {
+  if (subcategory === "broad_ai_overview") {
+    return {
+      profile: "broad_ai_overview",
+      faqMax: 3,
+      topicMax: 3,
+      extendedMax: 3,
+      embeddingFaqMax: 1,
+      embeddingTopicMax: 3,
+      strictFaq: true,
+      strictTopic: true
+    };
+  }
+
+  if (subcategory === "ai_copywriting" || subcategory === "ai_voiceover") {
+    return {
+      profile: "tool_specific",
+      faqMax: 8,
+      topicMax: 8,
+      extendedMax: 8,
+      embeddingFaqMax: 2,
+      embeddingTopicMax: 6,
+      strictFaq: false,
+      strictTopic: false
+    };
+  }
+
+  if (subcategory === "ai_jobs_future") {
+    return {
+      profile: "jobs_future",
+      faqMax: 7,
+      topicMax: 8,
+      extendedMax: 8,
+      embeddingFaqMax: 2,
+      embeddingTopicMax: 6,
+      strictFaq: false,
+      strictTopic: false
+    };
+  }
+
+  if (subcategory === "founder_story") {
+    return {
+      profile: "founder_story",
+      faqMax: 7,
+      topicMax: 8,
+      extendedMax: 7,
+      embeddingFaqMax: 2,
+      embeddingTopicMax: 5,
+      strictFaq: false,
+      strictTopic: false
+    };
+  }
+
+  if (category === "services") {
+    return {
+      profile: "services_page",
+      faqMax: 8,
+      topicMax: 7,
+      extendedMax: 8,
+      embeddingFaqMax: 2,
+      embeddingTopicMax: 5,
+      strictFaq: false,
+      strictTopic: false
+    };
+  }
+
+  if (category === "about") {
+    return {
+      profile: "about_page",
+      faqMax: 7,
+      topicMax: 7,
+      extendedMax: 7,
+      embeddingFaqMax: 2,
+      embeddingTopicMax: 5,
+      strictFaq: false,
+      strictTopic: false
+    };
+  }
+
+  if (category === "home") {
+    return {
+      profile: "home_page",
+      faqMax: 8,
+      topicMax: 7,
+      extendedMax: 7,
+      embeddingFaqMax: 2,
+      embeddingTopicMax: 5,
+      strictFaq: false,
+      strictTopic: false
+    };
+  }
+
+  return {
+    profile: "general_ai_article",
+    faqMax: 6,
+    topicMax: 6,
+    extendedMax: 6,
+    embeddingFaqMax: 2,
+    embeddingTopicMax: 5,
+    strictFaq: false,
+    strictTopic: false
+  };
+}
+
 /* ============ تحديد الصفحات المسموحة في ملف المعرفة ============ */
 
 function shouldIncludeUrl(url) {
