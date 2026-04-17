@@ -942,7 +942,26 @@ function classifyPage(url, title) {
     };
   }
 
-  // أي شيء آخر نعدّه تدوينة / محتوى معرفي عام
+  // المقالات العامة جدًا عن "الذكاء الاصطناعي للأعمال" يجب فصلها
+  // عن المقالات الأخرى حتى نستطيع تضييق surface area الخاصة بها لاحقًا
+  if (
+    lowerUrl.includes("blog-post") ||
+    lowerTitle.includes("ثورة في عالم الأعمال") ||
+    lowerTitle.includes("ادوات الذكاء الاصطناعي") ||
+    lowerTitle.includes("أدوات الذكاء الاصطناعي") ||
+    lowerTitle.includes("ai tools") ||
+    lowerTitle.includes("tools for business") ||
+    lowerTitle.includes("تطبيقات الذكاء الاصطناعي") ||
+    lowerTitle.includes("الذكاء الاصطناعي في عالم الأعمال")
+  ) {
+    return {
+      category: "blog",
+      subcategory: "broad_ai_overview",
+      intent_hint: "ai_business"
+    };
+  }
+
+  // أي شيء آخر نعدّه تدوينة / محتوى معرفي عام لكن ليس broad overview
   return {
     category: "blog",
     subcategory: "ai_business_article",
