@@ -839,6 +839,10 @@ function finalizeRetrievalFields({
     cleanFaq = dedupeRetrievalList(cleanFaq, { max: 4 });
   }
 
+  if (subcategory === "broad_ai_overview") {
+    cleanFaq = [];
+  }
+
   const retrievalKeywords = buildRetrievalKeywords({
     entities: cleanEntities,
     aliases: cleanAliases,
@@ -851,7 +855,7 @@ function finalizeRetrievalFields({
   return {
     entities: cleanEntities,
     aliases: cleanAliases,
-    misspellings: cleanMisspellings,
+    misspellings: subcategory === "broad_ai_overview" ? [] : cleanMisspellings,
     faq_queries_human: cleanFaq,
     answer_scope: normalizeRetrievalText(answer_scope),
     retrieval_keywords: retrievalKeywords
