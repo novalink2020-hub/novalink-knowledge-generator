@@ -13,39 +13,21 @@
     "summary_short": "كيف تُحدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال",
     "summary_long": "كيف تُحدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال",
     "facts": [],
-    "keywords": [
-      "أدوات الذكاء الاصطناعي",
-      "ادوات AI",
-      "تطبيقات الذكاء الاصطناعي"
-    ],
-    "keywords_extended": [
-      "أدوات الذكاء الاصطناعي",
-      "ادوات AI",
-      "تطبيقات الذكاء الاصطناعي"
-    ],
-    "topic_keywords": [
-      "أدوات الذكاء الاصطناعي",
-      "ادوات AI",
-      "تطبيقات الذكاء الاصطناعي"
-    ],
-    "embedding_text": "كيف ت حدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال | أدوات الذكاء الاصطناعي | أدوات الذكاء الاصطناعي ادوات AI تطبيقات الذكاء الاصطناعي AI tools | https://novalink-ai.com/blog-post",
-    "entities": [
-      "أدوات الذكاء الاصطناعي"
-    ],
-    "aliases": [
-      "ادوات AI",
-      "تطبيقات الذكاء الاصطناعي",
-      "AI tools"
-    ],
+    "keywords": [],
+    "keywords_extended": [],
+    "topic_keywords": [],
+    "embedding_text": "كيف ت حدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال | https://novalink-ai.com/blog-post",
+    "entities": [],
+    "aliases": [],
     "misspellings": [],
     "faq_queries_human": [],
-    "answer_scope": "نظرة عامة على تأثير أدوات الذكاء الاصطناعي واستخداماتها في تطوير الأعمال والشركات.",
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:07.419Z",
+    "updated_at": "2026-04-21T13:15:12.659Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -62,55 +44,21 @@
     "summary_short": "Microsoft 365 Copilot في بيئة العمل",
     "summary_long": "Microsoft 365 Copilot في بيئة العمل",
     "facts": [],
-    "keywords": [
-      "بيئة العمل",
-      "Copilot في العمل",
-      "Microsoft 365 Copilot"
-    ],
-    "keywords_extended": [
-      "بيئة العمل",
-      "Copilot في العمل",
-      "Microsoft 365 Copilot",
-      "Copilot 365",
-      "Microsoft Copilot"
-    ],
-    "topic_keywords": [
-      "بيئة العمل",
-      "Copilot في العمل",
-      "Microsoft 365 Copilot",
-      "ما هو Microsoft 365 Copilot",
-      "كيف يمكن استخدام Copilot في العمل",
-      "تفعيل Copilot في الشركة"
-    ],
-    "embedding_text": "Microsoft 365 Copilot في بيئة العمل | Microsoft 365 Copilot بيئة العمل | بيئة العمل Copilot في العمل Microsoft 365 Copilot Copilot 365 Microsoft Copilot | بيئة العمل Copilot في العمل Microsoft 365 Copilot ما هو Microsoft 365 Copilot كيف يمكن استخدام Copilot في العمل تفعيل Copilot في الشركة | ما هو Microsoft 365 Copilot كيف يمكن استخدام Copilot في العمل | https://novalink-ai.com/microsoft-365-copilot-fy-byeh-alaml",
-    "entities": [
-      "Microsoft 365 Copilot",
-      "بيئة العمل"
-    ],
-    "aliases": [
-      "Copilot في العمل",
-      "Copilot 365",
-      "Microsoft Copilot"
-    ],
+    "keywords": [],
+    "keywords_extended": [],
+    "topic_keywords": [],
+    "embedding_text": "Microsoft 365 Copilot في بيئة العمل | https://novalink-ai.com/microsoft-365-copilot-fy-byeh-alaml",
+    "entities": [],
+    "aliases": [],
     "misspellings": [],
-    "faq_queries_human": [
-      "ما هو Microsoft 365 Copilot",
-      "كيف يمكن استخدام Copilot في العمل",
-      "Copilot بيئة العمل",
-      "تفعيل Copilot في الشركة",
-      "فوائد Copilot 365",
-      "Microsoft 365 Copilot شرح",
-      "هل Copilot متاح باللغة العربية",
-      "كيف يساعد Copilot في انجاز المهام",
-      "Copilot in workplace"
-    ],
-    "answer_scope": "شرح استخدامات Microsoft 365 Copilot في تحسين بيئة العمل.",
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:10.043Z",
+    "updated_at": "2026-04-21T13:15:13.533Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -128,49 +76,26 @@
     "summary_long": "مسارات نوفا لينك",
     "facts": [],
     "keywords": [
-      "مسارات نوفا لينك",
-      "مسارات novalink",
-      "ماهي مسارات novalink"
+      "مسارات نوفا لينك"
     ],
     "keywords_extended": [
-      "مسارات نوفا لينك",
-      "مسارات novalink",
-      "ماهي مسارات novalink"
+      "مسارات نوفا لينك"
     ],
     "topic_keywords": [
-      "مسارات نوفا لينك",
-      "مسارات novalink",
-      "ماهي مسارات novalink",
-      "ما هي مسارات نوفا لينك",
-      "ما هي استخدامات نوفا لينك",
-      "كيف استخدم نوفا لينك"
+      "مسارات نوفا لينك"
     ],
-    "embedding_text": "مسارات نوفا لينك | مسارات نوفا لينك مسارات novalink ماهي مسارات novalink | مسارات نوفا لينك مسارات novalink ماهي مسارات novalink ما هي مسارات نوفا لينك ما هي استخدامات نوفا لينك كيف استخدم نوفا لينك | ما هي مسارات نوفا لينك ماهي مسارات novalink | https://novalink-ai.com/msarat-nwfa-lynk",
+    "embedding_text": "مسارات نوفا لينك | https://novalink-ai.com/msarat-nwfa-lynk",
     "entities": [],
-    "aliases": [
-      "مسارات نوفا لينك",
-      "مسارات novalink"
-    ],
-    "misspellings": [
-      "نوفالنك",
-      "نوفا لنك"
-    ],
-    "faq_queries_human": [
-      "ما هي مسارات نوفا لينك",
-      "ماهي مسارات novalink",
-      "ما هي استخدامات نوفا لينك",
-      "كيف استخدم نوفا لينك",
-      "ما هي مميزات نوفا لينك",
-      "تطبيق نوفا لينك",
-      "novalink ai paths"
-    ],
-    "answer_scope": "شرح عام حول مسارات و استخدامات نوفا لينك.",
+    "aliases": [],
+    "misspellings": [],
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:13.639Z",
+    "updated_at": "2026-04-21T13:15:14.386Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -188,55 +113,29 @@
     "summary_long": "اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مكّن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مهاراتهم، رفع كفاءة فرقهم، واتخاذ قرارات أكثر ذكاءً وفعالية.",
     "facts": [],
     "keywords": [
-      "الذكاء الاصطناعي في الأعمال",
-      "تطبيقات الذكاء الاصطناعي",
-      "مساعد الذكاء الاصطناعي",
-      "AI في الشركات"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
     "keywords_extended": [
-      "الذكاء الاصطناعي في الأعمال",
-      "تطبيقات الذكاء الاصطناعي",
-      "مساعد الذكاء الاصطناعي",
-      "AI في الشركات"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
     "topic_keywords": [
-      "الذكاء الاصطناعي في الأعمال",
-      "تطبيقات الذكاء الاصطناعي",
-      "مساعد الذكاء الاصطناعي",
-      "AI في الشركات",
-      "كيف يساعد الذكاء الاصطناعي الشركات",
-      "ما هي استخدامات الذكاء الاصطناعي في مجال الاعمال",
-      "تطبيقات الذكاء الاصطناعي للشركات الصغيرة"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
-    "embedding_text": "تطو ر الذكاء الاصطناعي ... الموظف الجديد الذي لا ينام | اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مك ن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مه | الذكاء الاصطناعي في الأعمال | الذكاء الاصطناعي في الأعمال تطبيقات الذكاء الاصطناعي مساعد الذكاء الاصطناعي AI في الشركات AI business | الذكاء الاصطناعي في الأعمال تطبيقات الذكاء الاصطناعي مساعد الذكاء الاصطناعي AI في الشركات AI business كيف يساعد الذكاء الاصطناعي الشركات | كيف يساعد الذكاء الاصطناعي الشركات ما هي استخدامات الذكاء الاصطناعي في مجال الاعمال | https://novalink-ai.com/ttwr-althkaa-alastnaay-almwzf-aljdyd-althy-la-ynam",
-    "entities": [
-      "الذكاء الاصطناعي في الأعمال"
-    ],
-    "aliases": [
-      "تطبيقات الذكاء الاصطناعي",
-      "مساعد الذكاء الاصطناعي",
-      "AI في الشركات",
-      "AI business"
-    ],
+    "embedding_text": "تطو ر الذكاء الاصطناعي ... الموظف الجديد الذي لا ينام | اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مك ن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مه | تطو ر الذكاء الاصطناعي رفع كفاءة فرقهم | https://novalink-ai.com/ttwr-althkaa-alastnaay-almwzf-aljdyd-althy-la-ynam",
+    "entities": [],
+    "aliases": [],
     "misspellings": [],
-    "faq_queries_human": [
-      "كيف يساعد الذكاء الاصطناعي الشركات",
-      "ما هي استخدامات الذكاء الاصطناعي في مجال الاعمال",
-      "تطبيقات الذكاء الاصطناعي للشركات الصغيرة",
-      "كيف احسن اداء فريقي بالذكاء الاصطناعي",
-      "هل الذكاء الاصطناعي مفيد للموظفين",
-      "أريد رفع كفاءة فريقي",
-      "كيف اتخذ قرارات افضل بمساعدة الذكاء الاصطناعي",
-      "أريد حلول ذكاء اصطناعي لشركتي",
-      "what is the role of AI in business"
-    ],
-    "answer_scope": "نظرة عامة على تطور الذكاء الاصطناعي ودوره الحالي في تحسين أداء الموظفين والمديرين والشركات.",
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:17.029Z",
+    "updated_at": "2026-04-21T13:15:15.403Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -255,60 +154,28 @@
     "facts": [],
     "keywords": [
       "قصة نوفا لينك",
-      "بداية نوفا لينك",
-      "منصة نوفا لينك",
-      "تاسيس نوفا لينك",
-      "عن نوفا لينك",
-      "ما هي نوفا لينك"
+      "بداية نوفا لينك"
     ],
     "keywords_extended": [
       "قصة نوفا لينك",
-      "بداية نوفا لينك",
-      "منصة نوفا لينك",
-      "تاسيس نوفا لينك",
-      "عن نوفا لينك",
-      "ما هي نوفا لينك"
+      "بداية نوفا لينك"
     ],
     "topic_keywords": [
       "قصة نوفا لينك",
-      "بداية نوفا لينك",
-      "منصة نوفا لينك",
-      "تاسيس نوفا لينك",
-      "عن نوفا لينك",
-      "ما هي نوفا لينك",
-      "من هم مؤسسي نوفا لينك",
-      "كيف بدات نوفا لينك"
+      "بداية نوفا لينك"
     ],
-    "embedding_text": "رحلة فردية في عالم الذكاء الاصطناعي هكذا بدأت نوفا لينك | .نوفا لينك هي منصة عربية تهدف إلى تمكين الأفراد من اكتشاف واستخدام أدوات الذكاء الاصطناعي لتطوير أعمالهم ومشاريعهم. نقدم في نوفا لينك تدوينا | منصة نوفا لينك | قصة نوفا لينك بداية نوفا لينك منصة نوفا لينك تاسيس نوفا لينك عن نوفا لينك ما هي نوفا لينك | ما هي نوفا لينك من هم مؤسسي نوفا لينك | https://novalink-ai.com/rhlh-frdyh-fy-aalm-althkaa-alastnaay-hktha-bdat-nwfa-lynk",
-    "entities": [
-      "منصة نوفا لينك"
-    ],
-    "aliases": [
-      "بداية نوفا لينك",
-      "تاسيس نوفا لينك",
-      "قصة نوفا لينك",
-      "عن نوفا لينك"
-    ],
-    "misspellings": [
-      "نوفا لنك"
-    ],
-    "faq_queries_human": [
-      "ما هي نوفا لينك",
-      "من هم مؤسسي نوفا لينك",
-      "كيف بدات نوفا لينك",
-      "ما قصة نوفا لينك",
-      "ما هدف نوفا لينك",
-      "ماهي رؤية نوفا لينك",
-      "من وراء نوفا لينك",
-      "Novalink founder story"
-    ],
-    "answer_scope": "معلومات عن نشأة ورؤية ومن يقف وراء منصة نوفا لينك.",
+    "embedding_text": "رحلة فردية في عالم الذكاء الاصطناعي هكذا بدأت نوفا لينك | .نوفا لينك هي منصة عربية تهدف إلى تمكين الأفراد من اكتشاف واستخدام أدوات الذكاء الاصطناعي لتطوير أعمالهم ومشاريعهم. نقدم في نوفا لينك تدوينا | قصة نوفا لينك بداية نوفا لينك | https://novalink-ai.com/rhlh-frdyh-fy-aalm-althkaa-alastnaay-hktha-bdat-nwfa-lynk",
+    "entities": [],
+    "aliases": [],
+    "misspellings": [],
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:19.553Z",
+    "updated_at": "2026-04-21T13:15:16.295Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -339,7 +206,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:20.432Z",
+    "updated_at": "2026-04-21T13:15:17.284Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -370,7 +237,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:21.320Z",
+    "updated_at": "2026-04-21T13:15:18.159Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -422,7 +289,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:22.373Z",
+    "updated_at": "2026-04-21T13:15:19.261Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -465,7 +332,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:23.292Z",
+    "updated_at": "2026-04-21T13:15:20.293Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -496,7 +363,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:24.332Z",
+    "updated_at": "2026-04-21T13:15:21.466Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -536,7 +403,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:25.287Z",
+    "updated_at": "2026-04-21T13:15:22.509Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -573,7 +440,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T02:07:26.259Z",
+    "updated_at": "2026-04-21T13:15:23.498Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
