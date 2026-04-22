@@ -13,21 +13,39 @@
     "summary_short": "كيف تُحدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال",
     "summary_long": "كيف تُحدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال",
     "facts": [],
-    "keywords": [],
-    "keywords_extended": [],
-    "topic_keywords": [],
-    "embedding_text": "كيف ت حدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال | https://novalink-ai.com/blog-post",
-    "entities": [],
-    "aliases": [],
+    "keywords": [
+      "أدوات الذكاء الاصطناعي",
+      "ادوات AI",
+      "تطبيقات الذكاء الاصطناعي"
+    ],
+    "keywords_extended": [
+      "أدوات الذكاء الاصطناعي",
+      "ادوات AI",
+      "تطبيقات الذكاء الاصطناعي"
+    ],
+    "topic_keywords": [
+      "أدوات الذكاء الاصطناعي",
+      "ادوات AI",
+      "تطبيقات الذكاء الاصطناعي"
+    ],
+    "embedding_text": "كيف ت حدث أدوات الذكاء الاصطناعي ثورة في عالم الأعمال | أدوات الذكاء الاصطناعي | أدوات الذكاء الاصطناعي ادوات AI تطبيقات الذكاء الاصطناعي AI tools | https://novalink-ai.com/blog-post",
+    "entities": [
+      "أدوات الذكاء الاصطناعي"
+    ],
+    "aliases": [
+      "ادوات AI",
+      "تطبيقات الذكاء الاصطناعي",
+      "AI tools"
+    ],
     "misspellings": [],
     "faq_queries_human": [],
-    "answer_scope": "",
+    "answer_scope": "نظرة عامة على تأثير أدوات الذكاء الاصطناعي واستخداماتها في تطوير الأعمال.",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:12.659Z",
+    "updated_at": "2026-04-22T02:05:32.065Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -58,7 +76,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:13.533Z",
+    "updated_at": "2026-04-22T02:05:32.788Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -76,26 +94,50 @@
     "summary_long": "مسارات نوفا لينك",
     "facts": [],
     "keywords": [
-      "مسارات نوفا لينك"
+      "مسارات نوفا لينك",
+      "مسارات الذكاء الاصطناعي",
+      "تخصصات نوفا لينك"
     ],
     "keywords_extended": [
-      "مسارات نوفا لينك"
+      "مسارات نوفا لينك",
+      "مسارات الذكاء الاصطناعي",
+      "تخصصات نوفا لينك"
     ],
     "topic_keywords": [
-      "مسارات نوفا لينك"
+      "مسارات نوفا لينك",
+      "مسارات الذكاء الاصطناعي",
+      "تخصصات نوفا لينك",
+      "ما هي مسارات نوفا لينك",
+      "ما هي خدمات نوفا لينك",
+      "ما الذي تقدمه نوفا لينك"
     ],
-    "embedding_text": "مسارات نوفا لينك | https://novalink-ai.com/msarat-nwfa-lynk",
+    "embedding_text": "مسارات نوفا لينك | مسارات نوفا لينك مسارات الذكاء الاصطناعي تخصصات نوفا لينك | مسارات نوفا لينك مسارات الذكاء الاصطناعي تخصصات نوفا لينك ما هي مسارات نوفا لينك ما هي خدمات نوفا لينك ما الذي تقدمه نوفا لينك | ما هي مسارات نوفا لينك تخصصات نوفا لينك | https://novalink-ai.com/msarat-nwfa-lynk",
     "entities": [],
-    "aliases": [],
-    "misspellings": [],
-    "faq_queries_human": [],
-    "answer_scope": "",
+    "aliases": [
+      "مسارات نوفا لينك",
+      "مسارات الذكاء الاصطناعي"
+    ],
+    "misspellings": [
+      "نوفالنك",
+      "نوفا لنك"
+    ],
+    "faq_queries_human": [
+      "ما هي مسارات نوفا لينك",
+      "تخصصات نوفا لينك",
+      "ما هي خدمات نوفا لينك",
+      "ما الذي تقدمه نوفا لينك",
+      "ما هي مسارات الذكاء الاصطناعي في نوفا لينك",
+      "كيف تساعد نوفا لينك الشركات",
+      "ما هي حلول نوفا لينك للشركات",
+      "novalink ai paths"
+    ],
+    "answer_scope": "نظرة عامة على مسارات وخدمات نوفا لينك في مجال الذكاء الاصطناعي للشركات.",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:14.386Z",
+    "updated_at": "2026-04-22T02:05:35.379Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -135,7 +177,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:15.403Z",
+    "updated_at": "2026-04-22T02:05:36.234Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -175,7 +217,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:16.295Z",
+    "updated_at": "2026-04-22T02:05:36.979Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -192,21 +234,57 @@
     "summary_short": "اكتشف أين تظهر قيمة مايكروسوفت كوبايلوت داخل سير العمل اليومي، وكيف يدعم البريد والاجتماعات والمستندات والبيانات لتقليل الهدر وتسريع التنفيذ",
     "summary_long": "اكتشف أين تظهر قيمة مايكروسوفت كوبايلوت داخل سير العمل اليومي، وكيف يدعم البريد والاجتماعات والمستندات والبيانات لتقليل الهدر وتسريع التنفيذ بوضوح أكبر.",
     "facts": [],
-    "keywords": [],
-    "keywords_extended": [],
-    "topic_keywords": [],
-    "embedding_text": "Microsoft 365 Copilot أين تظهر قيمته فعل ا داخل سير العمل اليومي | اكتشف أين تظهر قيمة مايكروسوفت كوبايلوت داخل سير العمل اليومي وكيف يدعم البريد والاجتماعات والمستندات والبيانات لتقليل الهدر وتسريع التنفيذ | https://novalink-ai.com/microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy",
-    "entities": [],
-    "aliases": [],
-    "misspellings": [],
-    "faq_queries_human": [],
-    "answer_scope": "",
+    "keywords": [
+      "كوبايلوت",
+      "Microsoft 365 Copilot"
+    ],
+    "keywords_extended": [
+      "كوبايلوت",
+      "Microsoft 365 Copilot",
+      "Microsoft Teams",
+      "Outlook",
+      "Copilot 365",
+      "Microsoft Copilot"
+    ],
+    "topic_keywords": [
+      "كوبايلوت",
+      "Microsoft 365 Copilot",
+      "كيف يساعد كوبايلوت في العمل اليومي",
+      "أين يظهر تأثير كوبايلوت في سير العمل",
+      "ما هي استخدامات كوبايلوت في مايكروسوفت تيمز"
+    ],
+    "embedding_text": "Microsoft 365 Copilot أين تظهر قيمته فعل ا داخل سير العمل اليومي | اكتشف أين تظهر قيمة مايكروسوفت كوبايلوت داخل سير العمل اليومي وكيف يدعم البريد والاجتماعات والمستندات والبيانات لتقليل الهدر وتسريع التنفيذ | Microsoft 365 Copilot Microsoft Teams Outlook | كوبايلوت Microsoft 365 Copilot Microsoft Teams Outlook Copilot 365 Microsoft Copilot | كوبايلوت Microsoft 365 Copilot كيف يساعد كوبايلوت في العمل اليومي أين يظهر تأثير كوبايلوت في سير العمل ما هي استخدامات كوبايلوت في مايكروسوفت تيمز | كيف يساعد كوبايلوت في العمل اليومي أين يظهر تأثير كوبايلوت في سير العمل | https://novalink-ai.com/microsoft-365-copilot-ayn-tzhr-qymth-falana-dakhl-syr-alaml-alywmy",
+    "entities": [
+      "Microsoft 365 Copilot",
+      "Microsoft Teams",
+      "Outlook"
+    ],
+    "aliases": [
+      "كوبايلوت",
+      "Copilot 365",
+      "Microsoft Copilot"
+    ],
+    "misspellings": [
+      "كوبيلوت",
+      "كوبايلوت ٣٦٥"
+    ],
+    "faq_queries_human": [
+      "كيف يساعد كوبايلوت في العمل اليومي",
+      "أين يظهر تأثير كوبايلوت في سير العمل",
+      "ما هي استخدامات كوبايلوت في مايكروسوفت تيمز",
+      "كيف يمكن لكوبايلوت تحسين إنتاجية العمل",
+      "هل كوبايلوت مفيد في تنظيم الايميلات",
+      "كيف يقلل كوبايلوت من الهدر في العمل",
+      "ما هي فوائد استخدام كوبايلوت في الاجتماعات",
+      "Copilot in daily workflow"
+    ],
+    "answer_scope": "استعراض حالات استخدام Microsoft 365 Copilot في تحسين سير العمل اليومي خاصة في البريد الإلكتروني والاجتماعات والمستندات.",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:17.284Z",
+    "updated_at": "2026-04-22T02:05:39.901Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -223,21 +301,62 @@
     "summary_short": "تحليل عملي ، كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة، من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التف",
     "summary_long": "تحليل عملي ، كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة، من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التفسير، إلى الحوكمة والتحسين المستمر للإجراءات.",
     "facts": [],
-    "keywords": [],
-    "keywords_extended": [],
-    "topic_keywords": [],
-    "embedding_text": "كيف يدعم فهم الإجراءات ويقلل تفاوت التنفيذ Microsoft 365 Copilot | تحليل عملي كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التف | https://novalink-ai.com/kyf-ydam-fhm-alijraaat-wyqll-tfawt-altnfyth-microsoft-365-copilot",
-    "entities": [],
-    "aliases": [],
-    "misspellings": [],
-    "faq_queries_human": [],
-    "answer_scope": "",
+    "keywords": [
+      "فهم الاجراءات",
+      "الامتثال للسياسات",
+      "تبسيط العمليات",
+      "Microsoft 365 Copilot"
+    ],
+    "keywords_extended": [
+      "فهم الاجراءات",
+      "الامتثال للسياسات",
+      "تبسيط العمليات",
+      "Microsoft 365 Copilot",
+      "Action understanding",
+      "Policy compliance",
+      "Copilot for Microsoft 365"
+    ],
+    "topic_keywords": [
+      "فهم الاجراءات",
+      "الامتثال للسياسات",
+      "تبسيط العمليات",
+      "Microsoft 365 Copilot",
+      "كيف يساعد كوبايلوت في فهم سياسات الشركة",
+      "ما فائدة Copilot في توحيد تفسير الاجراءات",
+      "كيف يقلل كوبايلوت من تفاوت التنفيذ"
+    ],
+    "embedding_text": "كيف يدعم فهم الإجراءات ويقلل تفاوت التنفيذ Microsoft 365 Copilot | تحليل عملي كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التف | Microsoft 365 Copilot Action understanding Policy compliance | فهم الاجراءات الامتثال للسياسات تبسيط العمليات Microsoft 365 Copilot Action understanding Policy compliance Copilot for Microsoft 365 | فهم الاجراءات الامتثال للسياسات تبسيط العمليات Microsoft 365 Copilot كيف يساعد كوبايلوت في فهم سياسات الشركة ما فائدة Copilot في توحيد تفسير الاجراءات | كيف يساعد كوبايلوت في فهم سياسات الشركة ما فائدة Copilot في توحيد تفسير الاجراءات | https://novalink-ai.com/kyf-ydam-fhm-alijraaat-wyqll-tfawt-altnfyth-microsoft-365-copilot",
+    "entities": [
+      "Microsoft 365 Copilot",
+      "Action understanding",
+      "Policy compliance"
+    ],
+    "aliases": [
+      "فهم الاجراءات",
+      "الامتثال للسياسات",
+      "تبسيط العمليات",
+      "Copilot for Microsoft 365"
+    ],
+    "misspellings": [
+      "كوبيلوت",
+      "كوبايلوت"
+    ],
+    "faq_queries_human": [
+      "كيف يساعد كوبايلوت في فهم سياسات الشركة",
+      "ما فائدة Copilot في توحيد تفسير الاجراءات",
+      "كيف يقلل كوبايلوت من تفاوت التنفيذ",
+      "اريد تسريع الوصول للمرجع الصحيح",
+      "ابحث عن حل لتبسيط العمليات",
+      "كيف يمكن تحسين الحوكمة باستخدام Copilot",
+      "Microsoft Copilot action understanding benefits"
+    ],
+    "answer_scope": "شرح كيف يساعد Microsoft 365 Copilot في فهم الإجراءات والسياسات داخل المؤسسة وتقليل تفاوت التنفيذ.",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:18.159Z",
+    "updated_at": "2026-04-22T02:05:42.956Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -289,7 +408,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:19.261Z",
+    "updated_at": "2026-04-22T02:05:43.818Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -332,7 +451,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:20.293Z",
+    "updated_at": "2026-04-22T02:05:44.580Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -363,7 +482,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:21.466Z",
+    "updated_at": "2026-04-22T02:05:45.396Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -403,7 +522,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:22.509Z",
+    "updated_at": "2026-04-22T02:05:46.239Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -421,26 +540,58 @@
     "summary_long": "اكتشف نوفا لينك: منصة عربية انطلقت من شغف فردي، تهدف إلى تبسيط أدوات الذكاء الاصطناعي للأعمال، وتقديم محتوى عربي ملهم، عملي، ويمكّن رواد الأعمال والمهنيين من النجاح في العصر الرقمي.",
     "facts": [],
     "keywords": [
-      "منصة ذكاء اصطناعي للاعمال"
+      "منصة ذكاء اصطناعي للاعمال",
+      "أدوات الذكاء الاصطناعي للأعمال",
+      "دليل الذكاء الاصطناعي",
+      "ادوات AI بالعربي",
+      "ما هي نوفا لينك"
     ],
     "keywords_extended": [
-      "منصة ذكاء اصطناعي للاعمال"
+      "منصة ذكاء اصطناعي للاعمال",
+      "أدوات الذكاء الاصطناعي للأعمال",
+      "دليل الذكاء الاصطناعي",
+      "ادوات AI بالعربي",
+      "ما هي نوفا لينك"
     ],
     "topic_keywords": [
-      "منصة ذكاء اصطناعي للاعمال"
+      "منصة ذكاء اصطناعي للاعمال",
+      "أدوات الذكاء الاصطناعي للأعمال",
+      "دليل الذكاء الاصطناعي",
+      "ادوات AI بالعربي",
+      "ما هي نوفا لينك",
+      "ما هي مهمة نوفا لينك",
+      "ما الذي تقدمه نوفا لينك"
     ],
-    "embedding_text": "NOVALINK Ai دليلك العربي لأدوات الذكاء الاصطناعي للأعمال | اكتشف نوفا لينك منصة عربية انطلقت من شغف فردي تهدف إلى تبسيط أدوات الذكاء الاصطناعي للأعمال وتقديم محتوى عربي ملهم عملي ويمك ن رواد الأ | نوفا لينك منصة ذكاء اصطناعي للاعمال | https://novalink-ai.com",
-    "entities": [],
-    "aliases": [],
-    "misspellings": [],
-    "faq_queries_human": [],
-    "answer_scope": "",
+    "embedding_text": "NOVALINK Ai دليلك العربي لأدوات الذكاء الاصطناعي للأعمال | اكتشف نوفا لينك منصة عربية انطلقت من شغف فردي تهدف إلى تبسيط أدوات الذكاء الاصطناعي للأعمال وتقديم محتوى عربي ملهم عملي ويمك ن رواد الأ | أدوات الذكاء الاصطناعي للأعمال | نوفا لينك منصة ذكاء اصطناعي للاعمال أدوات الذكاء الاصطناعي للأعمال دليل الذكاء الاصطناعي ادوات AI بالعربي ما هي نوفا لينك | ما هي نوفا لينك ما هي مهمة نوفا لينك | https://novalink-ai.com",
+    "entities": [
+      "أدوات الذكاء الاصطناعي للأعمال"
+    ],
+    "aliases": [
+      "دليل الذكاء الاصطناعي",
+      "ادوات AI بالعربي"
+    ],
+    "misspellings": [
+      "نوفالنك",
+      "نوفا لنك",
+      "نوفا لينكك"
+    ],
+    "faq_queries_human": [
+      "ما هي نوفا لينك",
+      "ما هي مهمة نوفا لينك",
+      "ما الذي تقدمه نوفا لينك",
+      "ما هي أهداف نوفا لينك",
+      "كيف تساعد نوفا لينك رواد الأعمال",
+      "ما هي Novalink Ai",
+      "ابحث عن ادوات ذكاء اصطناعي",
+      "أريد أدوات ai للاعمال"
+    ],
+    "answer_scope": "تعريف بمنصة نوفا لينك العربية ورسالتها في تبسيط أدوات الذكاء الاصطناعي لرواد الأعمال والمهنيين.",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-21T13:15:23.498Z",
+    "updated_at": "2026-04-22T02:05:49.795Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
