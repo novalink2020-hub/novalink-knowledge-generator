@@ -27,7 +27,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:32.750Z",
+    "updated_at": "2026-04-24T02:09:46.662Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -44,56 +44,21 @@
     "summary_short": "Microsoft 365 Copilot في بيئة العمل",
     "summary_long": "Microsoft 365 Copilot في بيئة العمل",
     "facts": [],
-    "keywords": [
-      "بيئة العمل",
-      "Copilot في العمل",
-      "Microsoft 365 Copilot"
-    ],
-    "keywords_extended": [
-      "بيئة العمل",
-      "Copilot في العمل",
-      "Microsoft 365 Copilot",
-      "Copilot 365",
-      "Microsoft Copilot"
-    ],
-    "topic_keywords": [
-      "بيئة العمل",
-      "Copilot في العمل",
-      "Microsoft 365 Copilot",
-      "ما هو Microsoft 365 Copilot",
-      "كيف يمكن استخدام Copilot في العمل",
-      "تفعيل Copilot في بيئة العمل"
-    ],
-    "embedding_text": "Microsoft 365 Copilot في بيئة العمل | Microsoft 365 Copilot بيئة العمل | بيئة العمل Copilot في العمل Microsoft 365 Copilot Copilot 365 Microsoft Copilot | بيئة العمل Copilot في العمل Microsoft 365 Copilot ما هو Microsoft 365 Copilot كيف يمكن استخدام Copilot في العمل تفعيل Copilot في بيئة العمل | ما هو Microsoft 365 Copilot كيف يمكن استخدام Copilot في العمل | https://novalink-ai.com/microsoft-365-copilot-fy-byeh-alaml",
-    "entities": [
-      "Microsoft 365 Copilot",
-      "بيئة العمل"
-    ],
-    "aliases": [
-      "Copilot في العمل",
-      "Copilot 365",
-      "Microsoft Copilot"
-    ],
-    "misspellings": [
-      "كوبايلوت"
-    ],
-    "faq_queries_human": [
-      "ما هو Microsoft 365 Copilot",
-      "كيف يمكن استخدام Copilot في العمل",
-      "تفعيل Copilot في بيئة العمل",
-      "Microsoft 365 Copilot شرح",
-      "هل Copilot متاح للشركات",
-      "كيف يساعد Copilot في انجاز المهام",
-      "تأثير Copilot على انتاجية الموظفين",
-      "Copilot 365 benefits"
-    ],
-    "answer_scope": "شرح استخدامات Microsoft 365 Copilot وتأثيره في بيئة العمل.",
+    "keywords": [],
+    "keywords_extended": [],
+    "topic_keywords": [],
+    "embedding_text": "Microsoft 365 Copilot في بيئة العمل | https://novalink-ai.com/microsoft-365-copilot-fy-byeh-alaml",
+    "entities": [],
+    "aliases": [],
+    "misspellings": [],
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:35.351Z",
+    "updated_at": "2026-04-24T02:09:47.607Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -130,7 +95,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:36.012Z",
+    "updated_at": "2026-04-24T02:09:48.451Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -148,57 +113,29 @@
     "summary_long": "اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مكّن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مهاراتهم، رفع كفاءة فرقهم، واتخاذ قرارات أكثر ذكاءً وفعالية.",
     "facts": [],
     "keywords": [
-      "تطور الذكاء الاصطناعي",
-      "AI في الشركات",
-      "توظيف الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "استخدامات الذكاء الاصطناعي"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
     "keywords_extended": [
-      "تطور الذكاء الاصطناعي",
-      "AI في الشركات",
-      "توظيف الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "استخدامات الذكاء الاصطناعي"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
     "topic_keywords": [
-      "تطور الذكاء الاصطناعي",
-      "AI في الشركات",
-      "توظيف الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "استخدامات الذكاء الاصطناعي",
-      "كيف يساعد الذكاء الاصطناعي الشركات",
-      "ما هو دور الذكاء الاصطناعي في تطوير الاعمال"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
-    "embedding_text": "تطو ر الذكاء الاصطناعي ... الموظف الجديد الذي لا ينام | اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مك ن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مه | تطور الذكاء الاصطناعي | تطور الذكاء الاصطناعي AI في الشركات توظيف الذكاء الاصطناعي مستقبل الذكاء الاصطناعي استخدامات الذكاء الاصطناعي AI business | كيف يساعد الذكاء الاصطناعي الشركات ما هو دور الذكاء الاصطناعي في تطوير الاعمال | https://novalink-ai.com/ttwr-althkaa-alastnaay-almwzf-aljdyd-althy-la-ynam",
-    "entities": [
-      "تطور الذكاء الاصطناعي"
-    ],
-    "aliases": [
-      "AI في الشركات",
-      "توظيف الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "استخدامات الذكاء الاصطناعي",
-      "AI business"
-    ],
+    "embedding_text": "تطو ر الذكاء الاصطناعي ... الموظف الجديد الذي لا ينام | اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مك ن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مه | تطو ر الذكاء الاصطناعي رفع كفاءة فرقهم | https://novalink-ai.com/ttwr-althkaa-alastnaay-almwzf-aljdyd-althy-la-ynam",
+    "entities": [],
+    "aliases": [],
     "misspellings": [],
-    "faq_queries_human": [
-      "كيف يساعد الذكاء الاصطناعي الشركات",
-      "ما هو دور الذكاء الاصطناعي في تطوير الاعمال",
-      "هل الذكاء الاصطناعي يحل محل الموظفين",
-      "كيف يمكن الاستفادة من الذكاء الاصطناعي في العمل",
-      "تطبيقات الذكاء الاصطناعي في مجال الاعمال",
-      "أريد أن أعرف المزيد عن الذكاء الاصطناعي",
-      "تأثير الذكاء الاصطناعي على الشركات",
-      "what is the role of AI in business"
-    ],
-    "answer_scope": "نظرة عامة على تطور الذكاء الاصطناعي وتأثيره على بيئة العمل وكيف يمكن للشركات والموظفين الاستفادة منه.",
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:39.193Z",
+    "updated_at": "2026-04-24T02:09:49.461Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -238,7 +175,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:39.882Z",
+    "updated_at": "2026-04-24T02:09:50.382Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -269,7 +206,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:40.591Z",
+    "updated_at": "2026-04-24T02:09:51.450Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -286,64 +223,21 @@
     "summary_short": "تحليل عملي ، كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة، من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التف",
     "summary_long": "تحليل عملي ، كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة، من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التفسير، إلى الحوكمة والتحسين المستمر للإجراءات.",
     "facts": [],
-    "keywords": [
-      "حوكمة الإجراءات",
-      "تفاوت التنفيذ",
-      "مايكروسوفت كوبايلوت",
-      "تبسيط الإجراءات",
-      "توحيد تفسير السياسات",
-      "Microsoft 365 Copilot"
-    ],
-    "keywords_extended": [
-      "حوكمة الإجراءات",
-      "تفاوت التنفيذ",
-      "مايكروسوفت كوبايلوت",
-      "تبسيط الإجراءات",
-      "توحيد تفسير السياسات",
-      "Microsoft 365 Copilot",
-      "Copilot 365"
-    ],
-    "topic_keywords": [
-      "حوكمة الإجراءات",
-      "تفاوت التنفيذ",
-      "مايكروسوفت كوبايلوت",
-      "تبسيط الإجراءات",
-      "توحيد تفسير السياسات",
-      "Microsoft 365 Copilot",
-      "كيف يساعد كوبايلوت في فهم سياسات الشركة",
-      "ما فائدة Copilot في توحيد الإجراءات"
-    ],
-    "embedding_text": "Microsoft 365 Copilotكيف يدعم فهم الإجراءات ويقلل تفاوت التنفيذ | تحليل عملي كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التف | Microsoft 365 Copilot حوكمة الإجراءات تفاوت التنفيذ | حوكمة الإجراءات تفاوت التنفيذ مايكروسوفت كوبايلوت تبسيط الإجراءات توحيد تفسير السياسات Microsoft 365 Copilot Copilot 365 | حوكمة الإجراءات تفاوت التنفيذ مايكروسوفت كوبايلوت تبسيط الإجراءات توحيد تفسير السياسات Microsoft 365 Copilot | كيف يساعد كوبايلوت في فهم سياسات الشركة ما فائدة Copilot في توحيد الإجراءات | https://novalink-ai.com/microsoft-365-copilotkyf-ydam-fhm-alijraaat-wyqll-tfawt-altnfyth",
-    "entities": [
-      "Microsoft 365 Copilot",
-      "حوكمة الإجراءات",
-      "تفاوت التنفيذ"
-    ],
-    "aliases": [
-      "مايكروسوفت كوبايلوت",
-      "تبسيط الإجراءات",
-      "توحيد تفسير السياسات",
-      "Copilot 365"
-    ],
-    "misspellings": [
-      "كوبيلوت"
-    ],
-    "faq_queries_human": [
-      "كيف يساعد كوبايلوت في فهم سياسات الشركة",
-      "ما فائدة Copilot في توحيد الإجراءات",
-      "أريد تسريع الوصول للمعلومات الصحيحة في العمل",
-      "كيف يقلل Copilot من الأخطاء في تنفيذ المهام",
-      "ابحث عن حل لتقليل تفاوت تفسير النماذج",
-      "كيف يمكن تحسين حوكمة الإجراءات باستخدام الذكاء الاصطناعي",
-      "what is the benefit of using copilot for action governance"
-    ],
-    "answer_scope": "شرح كيف يساعد Microsoft 365 Copilot في فهم وتنفيذ الإجراءات والسياسات داخل المؤسسة وتقليل التفاوت في تفسيرها.",
+    "keywords": [],
+    "keywords_extended": [],
+    "topic_keywords": [],
+    "embedding_text": "Microsoft 365 Copilotكيف يدعم فهم الإجراءات ويقلل تفاوت التنفيذ | تحليل عملي كيف يدعم مايكروسوفت كوبايلوت فهم الإجراءات والسياسات والنماذج داخل المؤسسة من تسريع الوصول إلى المرجع الصحيح وتقليل تفاوت التف | https://novalink-ai.com/microsoft-365-copilotkyf-ydam-fhm-alijraaat-wyqll-tfawt-altnfyth",
+    "entities": [],
+    "aliases": [],
+    "misspellings": [],
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:43.675Z",
+    "updated_at": "2026-04-24T02:09:52.349Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -395,7 +289,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:44.590Z",
+    "updated_at": "2026-04-24T02:09:53.445Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -438,7 +332,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:45.326Z",
+    "updated_at": "2026-04-24T02:09:54.437Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -469,7 +363,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:46.126Z",
+    "updated_at": "2026-04-24T02:09:55.498Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -509,7 +403,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:46.906Z",
+    "updated_at": "2026-04-24T02:09:56.519Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -546,7 +440,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-23T13:17:47.715Z",
+    "updated_at": "2026-04-24T02:09:57.604Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
