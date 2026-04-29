@@ -27,7 +27,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:26.816Z",
+    "updated_at": "2026-04-29T02:31:40.697Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -58,7 +58,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:27.476Z",
+    "updated_at": "2026-04-29T02:31:41.548Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -95,7 +95,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:28.133Z",
+    "updated_at": "2026-04-29T02:31:42.365Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -113,48 +113,29 @@
     "summary_long": "اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مكّن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مهاراتهم، رفع كفاءة فرقهم، واتخاذ قرارات أكثر ذكاءً وفعالية.",
     "facts": [],
     "keywords": [
-      "تطور الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "Novaliink AI"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
     "keywords_extended": [
-      "تطور الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "Novaliink AI"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
     "topic_keywords": [
-      "تطور الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "Novaliink AI",
-      "كيف يساعد الذكاء الاصطناعي الشركات",
-      "ما هو دور الذكاء الاصطناعي في الاعمال",
-      "تطور الذكاء الاصطناعي واستخدامه"
+      "تطو ر الذكاء الاصطناعي",
+      "رفع كفاءة فرقهم"
     ],
-    "embedding_text": "تطو ر الذكاء الاصطناعي ... الموظف الجديد الذي لا ينام | اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مك ن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مه | تطور الذكاء الاصطناعي مستقبل الذكاء الاصطناعي Novaliink AI | تطور الذكاء الاصطناعي مستقبل الذكاء الاصطناعي Novaliink AI كيف يساعد الذكاء الاصطناعي الشركات ما هو دور الذكاء الاصطناعي في الاعمال تطور الذكاء الاصطناعي واستخدامه | كيف يساعد الذكاء الاصطناعي الشركات ما هو دور الذكاء الاصطناعي في الاعمال | https://novalink-ai.com/ttwr-althkaa-alastnaay-almwzf-aljdyd-althy-la-ynam",
+    "embedding_text": "تطو ر الذكاء الاصطناعي ... الموظف الجديد الذي لا ينام | اكتشف رحلة الذكاء الاصطناعي من بداياته إلى دوره الحالي في الأعمال. اكتشف كيف مك ن الذكاء الاصطناعي الموظف والمدير وأصحاب الشركات من تعزيز مه | تطو ر الذكاء الاصطناعي رفع كفاءة فرقهم | https://novalink-ai.com/ttwr-althkaa-alastnaay-almwzf-aljdyd-althy-la-ynam",
     "entities": [],
-    "aliases": [
-      "تطور الذكاء الاصطناعي",
-      "مستقبل الذكاء الاصطناعي",
-      "Novaliink AI"
-    ],
+    "aliases": [],
     "misspellings": [],
-    "faq_queries_human": [
-      "كيف يساعد الذكاء الاصطناعي الشركات",
-      "ما هو دور الذكاء الاصطناعي في الاعمال",
-      "تطور الذكاء الاصطناعي واستخدامه",
-      "كيف يمكن للذكاء الاصطناعي ان يرفع كفاءة الموظفين",
-      "الذكاء الاصطناعي للمدراء",
-      "هل الذكاء الاصطناعي مفيد للشركات الصغيرة",
-      "فوائد الذكاء الاصطناعي في العمل",
-      "AI in business"
-    ],
-    "answer_scope": "نظرة عامة على تطور الذكاء الاصطناعي ودوره في تحسين أداء الموظفين والمدراء والشركات.",
+    "faq_queries_human": [],
+    "answer_scope": "",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:30.864Z",
+    "updated_at": "2026-04-29T02:31:43.407Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -194,7 +175,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:31.609Z",
+    "updated_at": "2026-04-29T02:31:44.255Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -225,7 +206,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:32.268Z",
+    "updated_at": "2026-04-29T02:31:45.179Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -256,7 +237,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:32.973Z",
+    "updated_at": "2026-04-29T02:31:46.071Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -308,7 +289,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:33.811Z",
+    "updated_at": "2026-04-29T02:31:47.162Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -351,7 +332,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:34.514Z",
+    "updated_at": "2026-04-29T02:31:48.099Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -382,7 +363,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:35.354Z",
+    "updated_at": "2026-04-29T02:31:48.356Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -422,7 +403,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:36.149Z",
+    "updated_at": "2026-04-29T02:31:48.609Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -459,7 +440,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-28T02:31:36.945Z",
+    "updated_at": "2026-04-29T02:31:48.893Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
