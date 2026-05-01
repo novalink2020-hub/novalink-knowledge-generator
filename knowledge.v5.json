@@ -27,7 +27,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:32.233Z",
+    "updated_at": "2026-05-01T02:38:00.846Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -64,7 +64,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:33.013Z",
+    "updated_at": "2026-05-01T02:38:01.548Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -101,7 +101,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:33.211Z",
+    "updated_at": "2026-05-01T02:38:02.308Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -141,7 +141,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:34.202Z",
+    "updated_at": "2026-05-01T02:38:03.135Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -181,7 +181,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:34.909Z",
+    "updated_at": "2026-05-01T02:38:03.914Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -212,7 +212,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:35.638Z",
+    "updated_at": "2026-05-01T02:38:04.663Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -243,7 +243,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:36.368Z",
+    "updated_at": "2026-05-01T02:38:05.402Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -295,7 +295,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:37.209Z",
+    "updated_at": "2026-05-01T02:38:06.334Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -338,7 +338,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:37.979Z",
+    "updated_at": "2026-05-01T02:38:07.159Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -369,7 +369,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:38.840Z",
+    "updated_at": "2026-05-01T02:38:08.003Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -409,7 +409,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:39.635Z",
+    "updated_at": "2026-05-01T02:38:08.802Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -427,26 +427,61 @@
     "summary_long": "اكتشف في NovaLink AI محتوى عربيًا عمليًا حول الذكاء الاصطناعي للأعمال والإنتاجية، يساعدك على اختيار الأدوات المناسبة، تحسين القرارات، وتطوير حضورك الرقمي بذكاء.",
     "facts": [],
     "keywords": [
-      "منصة ذكاء اصطناعي للاعمال"
+      "منصة ذكاء اصطناعي للاعمال",
+      "الذكاء الاصطناعي للأعمال",
+      "أدوات الذكاء الاصطناعي",
+      "نوفا لنك",
+      "ما هو NovaLink AI"
     ],
     "keywords_extended": [
-      "منصة ذكاء اصطناعي للاعمال"
+      "منصة ذكاء اصطناعي للاعمال",
+      "الذكاء الاصطناعي للأعمال",
+      "أدوات الذكاء الاصطناعي",
+      "نوفا لنك",
+      "ما هو NovaLink AI",
+      "AI for business"
     ],
     "topic_keywords": [
-      "منصة ذكاء اصطناعي للاعمال"
+      "منصة ذكاء اصطناعي للاعمال",
+      "الذكاء الاصطناعي للأعمال",
+      "أدوات الذكاء الاصطناعي",
+      "نوفا لنك",
+      "ما هو NovaLink AI",
+      "ما الذي تقدمه NovaLink AI",
+      "كيف يساعد NovaLink AI في تطوير الاعمال"
     ],
-    "embedding_text": "NovaLink AI | اكتشف في NovaLink AI محتوى عربي ا عملي ا حول الذكاء الاصطناعي للأعمال والإنتاجية يساعدك على اختيار الأدوات المناسبة تحسين القرارات وتطوير | نوفا لينك منصة ذكاء اصطناعي للاعمال NovaLink AI | https://novalink-ai.com",
-    "entities": [],
-    "aliases": [],
-    "misspellings": [],
-    "faq_queries_human": [],
-    "answer_scope": "",
+    "embedding_text": "NovaLink AI | اكتشف في NovaLink AI محتوى عربي ا عملي ا حول الذكاء الاصطناعي للأعمال والإنتاجية يساعدك على اختيار الأدوات المناسبة تحسين القرارات وتطوير | الذكاء الاصطناعي للأعمال أدوات الذكاء الاصطناعي | نوفا لينك منصة ذكاء اصطناعي للاعمال الذكاء الاصطناعي للأعمال أدوات الذكاء الاصطناعي نوفا لنك ما هو NovaLink AI AI tools AI for business | نوفا لينك منصة ذكاء اصطناعي للاعمال الذكاء الاصطناعي للأعمال أدوات الذكاء الاصطناعي نوفا لنك ما هو NovaLink AI | ما هو NovaLink AI ما الذي تقدمه NovaLink AI | https://novalink-ai.com",
+    "entities": [
+      "الذكاء الاصطناعي للأعمال",
+      "أدوات الذكاء الاصطناعي"
+    ],
+    "aliases": [
+      "نوفا لنك",
+      "AI tools",
+      "AI for business"
+    ],
+    "misspellings": [
+      "نوفالنك",
+      "نوفا لنكك"
+    ],
+    "faq_queries_human": [
+      "ما هو NovaLink AI",
+      "ما الذي تقدمه NovaLink AI",
+      "كيف يساعد NovaLink AI في تطوير الاعمال",
+      "أريد معلومات عن NovaLink AI",
+      "ما هي خدمات NovaLink AI",
+      "كيف يمكنني استخدام NovaLink AI",
+      "ما هي استخدامات الذكاء الاصطناعي في NovaLink",
+      "هل NovaLink AI مجاني",
+      "NovaLink AI pricing"
+    ],
+    "answer_scope": "نظرة عامة على NovaLink AI كمصدر للمحتوى العربي حول الذكاء الاصطناعي للأعمال والإنتاجية مع التركيز على الأدوات والتحسينات.",
     "weight_title": 1,
     "weight_summary": 0.9,
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-04-30T13:44:39.854Z",
+    "updated_at": "2026-05-01T02:38:11.028Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
