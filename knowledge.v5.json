@@ -27,7 +27,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:52.924Z",
+    "updated_at": "2026-08-02T02:13:26.575Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -64,7 +64,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:53.673Z",
+    "updated_at": "2026-08-02T02:13:27.199Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -101,7 +101,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:54.313Z",
+    "updated_at": "2026-08-02T02:13:27.821Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -141,7 +141,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:55.109Z",
+    "updated_at": "2026-08-02T02:13:28.554Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -181,7 +181,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:55.250Z",
+    "updated_at": "2026-08-02T02:13:29.227Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -227,7 +227,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:56.127Z",
+    "updated_at": "2026-08-02T02:13:29.934Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -258,7 +258,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:56.818Z",
+    "updated_at": "2026-08-02T02:13:30.577Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -295,7 +295,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:57.497Z",
+    "updated_at": "2026-08-02T02:13:31.274Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -332,7 +332,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:58.287Z",
+    "updated_at": "2026-08-02T02:13:31.935Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -384,7 +384,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:59.162Z",
+    "updated_at": "2026-08-02T02:13:32.692Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -427,7 +427,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:06:59.970Z",
+    "updated_at": "2026-08-02T02:13:33.378Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -458,7 +458,44 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:07:00.707Z",
+    "updated_at": "2026-08-02T02:13:34.121Z",
+    "source": "sitemap+scraper+gemini-v5.2"
+  },
+  {
+    "title": "profile | NOVALINK Ai",
+    "title_clean": "profile",
+    "url": "https://novalink-ai.com/profile",
+    "domain": "https://novalink-ai.com",
+    "category": "blog",
+    "subcategory": "ai_business_article",
+    "intent_hint": "ai_business",
+    "description": "profile",
+    "excerpt": "profile",
+    "summary": "profile",
+    "summary_short": "profile",
+    "summary_long": "profile",
+    "facts": [],
+    "keywords": [
+      "profile profile"
+    ],
+    "keywords_extended": [
+      "profile profile"
+    ],
+    "topic_keywords": [
+      "profile profile"
+    ],
+    "embedding_text": "profile | profile profile | https://novalink-ai.com/profile",
+    "entities": [],
+    "aliases": [],
+    "misspellings": [],
+    "faq_queries_human": [],
+    "answer_scope": "",
+    "weight_title": 1,
+    "weight_summary": 0.9,
+    "weight_keywords": 0.8,
+    "weight_semantic": 1,
+    "weight_final": 1,
+    "updated_at": "2026-08-02T02:13:34.746Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -498,7 +535,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:07:01.431Z",
+    "updated_at": "2026-08-02T02:13:35.455Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -535,7 +572,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-01T13:07:02.204Z",
+    "updated_at": "2026-08-02T02:13:36.228Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
