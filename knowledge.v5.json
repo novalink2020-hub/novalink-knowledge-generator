@@ -27,7 +27,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:54.910Z",
+    "updated_at": "2026-08-03T14:27:09.567Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -64,7 +64,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:55.654Z",
+    "updated_at": "2026-08-03T14:27:10.450Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -101,7 +101,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:56.258Z",
+    "updated_at": "2026-08-03T14:27:11.278Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -141,7 +141,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:57.003Z",
+    "updated_at": "2026-08-03T14:27:12.346Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -181,7 +181,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:57.733Z",
+    "updated_at": "2026-08-03T14:27:13.250Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -227,7 +227,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:58.349Z",
+    "updated_at": "2026-08-03T14:27:14.202Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -258,7 +258,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:59.041Z",
+    "updated_at": "2026-08-03T14:27:15.162Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -295,7 +295,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:08:59.793Z",
+    "updated_at": "2026-08-03T14:27:16.050Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -332,7 +332,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:09:00.575Z",
+    "updated_at": "2026-08-03T14:27:17.077Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -384,7 +384,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:09:01.439Z",
+    "updated_at": "2026-08-03T14:27:18.225Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -427,7 +427,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:09:02.224Z",
+    "updated_at": "2026-08-03T14:27:19.290Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -458,33 +458,33 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:09:02.997Z",
+    "updated_at": "2026-08-03T14:27:20.370Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
-    "title": "profile | NOVALINK Ai",
-    "title_clean": "profile",
-    "url": "https://novalink-ai.com/profile",
+    "title": "Mohammed Abu Snaina | Banking Operations & Customer Experience Leader | NOVALINK Ai",
+    "title_clean": "Mohammed Abu Snaina",
+    "url": "https://novalink-ai.com/mohammed-abu-snaina",
     "domain": "https://novalink-ai.com",
     "category": "blog",
     "subcategory": "ai_business_article",
     "intent_hint": "ai_business",
-    "description": "profile",
-    "excerpt": "profile",
-    "summary": "profile",
-    "summary_short": "profile",
-    "summary_long": "profile",
+    "description": "Professional profile of Mohammed Abu Snaina, a banking operations and customer experience leader with experience in operational controls, service quality, process improvement, and operations analytics.",
+    "excerpt": "Professional profile of Mohammed Abu Snaina, a banking operations and customer experience leader with experience in operational controls, service quality, process improvement, and operations analytics.",
+    "summary": "Professional profile of Mohammed Abu Snaina, a banking operations and customer experience leader with experience in operational controls, service quality, process improvement, and operations analytics.",
+    "summary_short": "Professional profile of Mohammed Abu Snaina, a banking operations and customer experience leader with experience in operational controls, se",
+    "summary_long": "Professional profile of Mohammed Abu Snaina, a banking operations and customer experience leader with experience in operational controls, service quality, process improvement, and operations analytics.",
     "facts": [],
     "keywords": [
-      "profile profile"
+      "Mohammed Abu Snaina"
     ],
     "keywords_extended": [
-      "profile profile"
+      "Mohammed Abu Snaina"
     ],
     "topic_keywords": [
-      "profile profile"
+      "Mohammed Abu Snaina"
     ],
-    "embedding_text": "profile | profile profile | https://novalink-ai.com/profile",
+    "embedding_text": "Mohammed Abu Snaina | Professional profile of Mohammed Abu Snaina a banking operations and customer experience leader with experience in operational controls se | https://novalink-ai.com/mohammed-abu-snaina",
     "entities": [],
     "aliases": [],
     "misspellings": [],
@@ -495,7 +495,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:09:03.627Z",
+    "updated_at": "2026-08-03T14:27:21.255Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -535,7 +535,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:09:04.392Z",
+    "updated_at": "2026-08-03T14:27:22.239Z",
     "source": "sitemap+scraper+gemini-v5.2"
   },
   {
@@ -572,7 +572,7 @@
     "weight_keywords": 0.8,
     "weight_semantic": 1,
     "weight_final": 1,
-    "updated_at": "2026-08-02T13:09:05.181Z",
+    "updated_at": "2026-08-03T14:27:22.428Z",
     "source": "sitemap+scraper+gemini-v5.2"
   }
 ]
